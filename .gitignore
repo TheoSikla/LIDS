@@ -39,3 +39,5 @@ lib/
 # Application bundle for Mac OS
 *.app/
 
+# custom
+bvs
