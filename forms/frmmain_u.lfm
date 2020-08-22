@@ -1,0 +1,24 @@
+object frmMain: TfrmMain
+  Left = 580
+  Height = 308
+  Top = 312
+  Width = 959
+  Caption = 'BVS'
+  ClientHeight = 308
+  ClientWidth = 959
+  Position = poScreenCenter
+  LCLVersion = '2.0.6.0'
+  object btnImport: TButton
+    Left = 416
+    Height = 57
+    Top = 96
+    Width = 128
+    Caption = 'Import'
+    OnClick = btnImportClick
+    TabOrder = 0
+  end
+  object btnImportDialog: TOpenDialog
+    left = 32
+    top = 8
+  end
+end
