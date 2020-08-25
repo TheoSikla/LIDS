@@ -11,7 +11,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   { Classes }
   clNode_u,
   { Utilities }
-  utlFile_u { you can add units after this };
+  utlFile_u,
+  utlArray_u;
 
 {$R *.res}
 

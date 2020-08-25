@@ -5,7 +5,10 @@ unit utlFile_u;
 interface
 
 uses
-  Classes, SysUtils, RegExpr, Dialogs;
+  Classes, SysUtils, RegExpr, Dialogs, clNode_u, utlArray_u;
+
+type
+  TAppenderType = specialize TAppender<TNode>;
 
 { Publicly accessible functions }
 Function LoadGRATISAdjacencyMaxtrixFile(filename: String): Boolean;
@@ -16,8 +19,12 @@ implementation
   var
     tfIn: TextFile;
     s: String;
+    i: Integer;
     lineLength: Integer;
     RegexObj: TRegExpr;
+    nodes: Array of TNode;
+    appender: TAppenderType;
+    obj: TNode;
   begin
     // Set the name of the file that will be read
     AssignFile(tfIn, filename);
@@ -26,6 +33,10 @@ implementation
     RegexObj := TRegExpr.Create;
     RegexObj.Expression := '^[0-1]*$';
 
+    SetLength(nodes, 0);              // Initialize list
+    appender := TAppenderType.Create; // Initialize instance
+
+    i := 0;
     try
       {
         Embed the file handling in a try/except block to handle
@@ -40,6 +51,9 @@ implementation
            begin
              readln(tfIn, s);
              lineLength := Length(s);
+             obj := TNode.Create(i, s);
+             Inc(i);
+             appender.Append(nodes, obj);
            end;
 
         // Keep reading lines until the end of the file is reached
@@ -54,7 +68,9 @@ implementation
                Break; // Jump to the 'finally' block
              end;
 
-          writeln(s);
+          obj := TNode.Create(i, s);
+          Inc(i);
+          appender.Append(nodes, obj);
         end;
 
       except
@@ -63,8 +79,10 @@ implementation
       end;
 
     finally
-      CloseFile(tfIn); // Close the file
-      RegexObj.Free;   // Free the regex object
+      CloseFile(tfIn);      // Close the file
+      RegexObj.Free;        // Free the regex object
+      FreeAndNil(appender); // Free the generic appender instance
+
       result := true;
     end;
 
