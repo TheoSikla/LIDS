@@ -8,16 +8,21 @@ uses
   Classes, SysUtils;
 
 type
+  ArrayOfBoolean = Array of Boolean;
+type
   TNode = class(TObject)
     private
       FId: Word;
       FIsSusceptible: Boolean;
       FIsInfected: Boolean;
       FIsRecovered: Boolean;
+      FNeighbors: ArrayOfBoolean;
     protected
       { protected declarations here }
     public
-      constructor Create(AId: Word;
+      constructor Create(
+        AId: Word;
+        ANeighbors: String;
         AIsSusceptible: Boolean = false;
         AIsInfected: Boolean = false;
         AIsRecovered: Boolean = false);
@@ -26,6 +31,7 @@ type
 
       { Getters }
       function GetId(): Word;
+      function GetNeighbors(): ArrayOfBoolean;
       function GetIsSusceptible(): Boolean;
       function GetIsInfected(): Boolean;
       function GetIsRecovered(): Boolean;
@@ -34,20 +40,33 @@ type
       procedure SetIsSusceptible(AValue: Boolean);
       procedure SetIsInfected(AValue: Boolean);
       procedure SetIsRecovered(AValue: Boolean);
+
     published
       { published declarations here }
   end;
 
 implementation
-  constructor TNode.Create(AId: Word;
+  constructor TNode.Create(
+    AId: Word;
+    ANeighbors: String;
     AIsSusceptible: Boolean = false;
     AIsInfected: Boolean = false;
     AIsRecovered: Boolean = false);
+  var
+    c: Char;
+    i: Word;
   begin
      Fid := AId;
      FIsSusceptible := AIsSusceptible;
      FIsInfected := AIsInfected;
      FIsRecovered := AIsRecovered;
+
+     SetLength(FNeighbors, Length(ANeighbors));
+     i := 0;
+     for c in ANeighbors do begin
+       FNeighbors[i] := StrToBool(c);
+       Inc(i);
+     end;
   end;
 
   destructor TNode.Destroy;
@@ -74,6 +93,11 @@ implementation
   function TNode.GetIsRecovered: Boolean;
     begin
       result := FIsRecovered;
+    end;
+
+  function TNode.GetNeighbors: ArrayOfBoolean;
+    begin
+      result := FNeighbors;
     end;
 
   { Setters }
