@@ -27,6 +27,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   Forms,
   { Forms }
   frmMain_u,
+  frmSimulation_u,
   { Classes }
   clNode_u,
   { Utilities }
@@ -40,6 +41,7 @@ begin
   Application.Scaled := True;
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmSimulation, frmSimulation);
   Application.Run;
 end.
 

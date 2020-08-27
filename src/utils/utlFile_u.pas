@@ -28,20 +28,21 @@ uses
 
 type
   TAppenderType = specialize TAppender<TNode>;
+  ArrayOfTNodeType = Array of TNode;
 
 { Publicly accessible functions }
-Function LoadGRATISAdjacencyMaxtrixFile(filename: String): Boolean;
+Function LoadGRATISAdjacencyMaxtrixFile(filename: String): ArrayOfTNodeType;
 
 implementation
 
-  Function LoadGRATISAdjacencyMaxtrixFile(filename: String): Boolean;
+  Function LoadGRATISAdjacencyMaxtrixFile(filename: String): ArrayOfTNodeType;
   var
     tfIn: TextFile;
     s: String;
     i: Integer;
     lineLength: Integer;
     RegexObj: TRegExpr;
-    nodes: Array of TNode;
+    Nodes: ArrayOfTNodeType;
     appender: TAppenderType;
     obj: TNode;
   begin
@@ -52,7 +53,7 @@ implementation
     RegexObj := TRegExpr.Create;
     RegexObj.Expression := '^[0-1]*$';
 
-    SetLength(nodes, 0);              // Initialize list
+    SetLength(Nodes, 0);              // Initialize list
     appender := TAppenderType.Create; // Initialize instance
 
     i := 0;
@@ -72,7 +73,7 @@ implementation
              lineLength := Length(s);
              obj := TNode.Create(i, s);
              Inc(i);
-             appender.Append(nodes, obj);
+             appender.Append(Nodes, obj);
            end;
 
         // Keep reading lines until the end of the file is reached
@@ -89,7 +90,7 @@ implementation
 
           obj := TNode.Create(i, s);
           Inc(i);
-          appender.Append(nodes, obj);
+          appender.Append(Nodes, obj);
         end;
 
       except
@@ -102,7 +103,7 @@ implementation
       RegexObj.Free;        // Free the regex object
       FreeAndNil(appender); // Free the generic appender instance
 
-      result := true;
+      result := Nodes;
     end;
 
   end;

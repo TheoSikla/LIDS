@@ -24,10 +24,12 @@ unit clNode_u;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, ExtCtrls;
 
 type
   ArrayOfBoolean = Array of Boolean;
+  PtrOfTShape = ^TShape;
+
 type
   TNode = class(TObject)
     private
@@ -36,6 +38,7 @@ type
       FIsInfected: Boolean;
       FIsRecovered: Boolean;
       FNeighbors: ArrayOfBoolean;
+      FPtrShape: PtrOfTShape;
     protected
       { protected declarations here }
     public
@@ -54,11 +57,16 @@ type
       function GetIsSusceptible(): Boolean;
       function GetIsInfected(): Boolean;
       function GetIsRecovered(): Boolean;
+      function GetShape(): PtrOfTShape;
 
       { Setters }
       procedure SetIsSusceptible(AValue: Boolean);
       procedure SetIsInfected(AValue: Boolean);
       procedure SetIsRecovered(AValue: Boolean);
+      procedure SetShape(AShape: PtrOfTShape);
+
+      { Misc }
+      procedure FreeShape;
 
     published
       { published declarations here }
@@ -119,6 +127,11 @@ implementation
       result := FNeighbors;
     end;
 
+  function TNode.GetShape: PtrOfTShape;
+    begin
+      result := FPtrShape;
+    end;
+
   { Setters }
   procedure TNode.SetIsSusceptible(AValue: Boolean);
     begin
@@ -134,6 +147,17 @@ implementation
     begin
       FIsRecovered := AValue;
     end;
+
+  procedure TNode.SetShape(AShape: PtrOfTShape);
+    begin
+      FPtrShape := AShape;
+    end;
+
+  { Misc }
+  procedure TNode.FreeShape;
+  begin
+    FreeAndNil(FPtrShape^);
+  end;
 
 end.
 

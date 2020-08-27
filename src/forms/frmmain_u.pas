@@ -24,7 +24,13 @@ unit frmMain_u;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, utlFile_u;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  { Forms }
+  frmSimulation_u,
+  { Classes }
+  clNode_u,
+  { Utilities }
+  utlFile_u;
 
 type
 
@@ -33,10 +39,14 @@ type
   TfrmMain = class(TForm)
     btnImport: TButton;
     btnImportDialog: TOpenDialog;
+    btnSimulate: TButton;
     procedure btnImportClick(Sender: TObject);
+    procedure btnSimulateClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
 
   public
+    Nodes: Array of TNode;
 
   end;
 
@@ -52,12 +62,34 @@ implementation
 procedure TfrmMain.btnImportClick(Sender: TObject);
 var
   filename: string;
+  i: Integer;
 begin
+  if Length(Nodes) > 0 then
+  begin
+    for i:=0 to Length(Nodes) - 1 do begin
+      Nodes[i].FreeShape;
+      FreeAndNil(Nodes[i]);
+    end;
+  end;
+
+  SetLength(Nodes, 0);
+
   if btnImportDialog.Execute then
   begin
     filename := btnImportDialog.Filename;
   end;
-  LoadGRATISAdjacencyMaxtrixFile(filename);
+
+  Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
+end;
+
+procedure TfrmMain.btnSimulateClick(Sender: TObject);
+begin
+  frmSimulation.Show;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+  SetLength(Nodes, 0);
 end;
 
 end.

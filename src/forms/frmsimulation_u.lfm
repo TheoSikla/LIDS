@@ -1,0 +1,10 @@
+object frmSimulation: TfrmSimulation
+  Left = 320
+  Height = 1000
+  Top = 43
+  Width = 1000
+  Caption = 'Simulation'
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.0.6.0'
+end
