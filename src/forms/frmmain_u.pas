@@ -67,7 +67,6 @@ begin
   if Length(Nodes) > 0 then
   begin
     for i:=0 to Length(Nodes) - 1 do begin
-      Nodes[i].FreeShape;
       FreeAndNil(Nodes[i]);
     end;
   end;
