@@ -65,9 +65,6 @@ type
       procedure SetIsRecovered(AValue: Boolean);
       procedure SetShape(AShape: PtrOfTShape);
 
-      { Misc }
-      procedure FreeShape;
-
     published
       { published declarations here }
   end;
@@ -152,12 +149,5 @@ implementation
     begin
       FPtrShape := AShape;
     end;
-
-  { Misc }
-  procedure TNode.FreeShape;
-  begin
-    FreeAndNil(FPtrShape^);
-  end;
-
 end.
 
