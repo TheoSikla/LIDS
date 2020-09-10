@@ -24,10 +24,10 @@ unit clNode_u;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls;
+  Classes, SysUtils, ExtCtrls, Graphics;
 
 type
-  ArrayOfBoolean = Array of Boolean;
+  ArrayOfWord = Array of Word;
   PtrOfTShape = ^TShape;
 
 type
@@ -37,7 +37,8 @@ type
       FIsSusceptible: Boolean;
       FIsInfected: Boolean;
       FIsRecovered: Boolean;
-      FNeighbors: ArrayOfBoolean;
+      FInfectedByNode: Word;
+      FNeighbors: ArrayOfWord;
       FPtrShape: PtrOfTShape;
     protected
       { protected declarations here }
@@ -53,17 +54,23 @@ type
 
       { Getters }
       function GetId(): Word;
-      function GetNeighbors(): ArrayOfBoolean;
+      function GetNeighbors(): ArrayOfWord;
       function GetIsSusceptible(): Boolean;
       function GetIsInfected(): Boolean;
       function GetIsRecovered(): Boolean;
       function GetShape(): PtrOfTShape;
+      function GetInfectedByNode(): Word;
 
       { Setters }
       procedure SetIsSusceptible(AValue: Boolean);
       procedure SetIsInfected(AValue: Boolean);
       procedure SetIsRecovered(AValue: Boolean);
       procedure SetShape(AShape: PtrOfTShape);
+      procedure SetInfectedByNode(AValue: Word);
+
+      property InfectedByNode: Word read GetInfectedByNode write SetInfectedByNode;
+
+      procedure Infect(InfectorNode: Word);
 
     published
       { published declarations here }
@@ -79,6 +86,7 @@ implementation
   var
     c: Char;
     i: Word;
+    index: Word;
   begin
      Fid := AId;
      FIsSusceptible := AIsSusceptible;
@@ -87,9 +95,13 @@ implementation
 
      SetLength(FNeighbors, Length(ANeighbors));
      i := 0;
+     index := 0;
      for c in ANeighbors do begin
-       FNeighbors[i] := StrToBool(c);
-       Inc(i);
+       if c = '1' then begin
+         FNeighbors[i] := index;
+         Inc(i);
+       end;
+       Inc(index);
      end;
   end;
 
@@ -119,7 +131,7 @@ implementation
       result := FIsRecovered;
     end;
 
-  function TNode.GetNeighbors: ArrayOfBoolean;
+  function TNode.GetNeighbors: ArrayOfWord;
     begin
       result := FNeighbors;
     end;
@@ -127,6 +139,11 @@ implementation
   function TNode.GetShape: PtrOfTShape;
     begin
       result := FPtrShape;
+    end;
+
+  function TNode.GetInfectedByNode: Word;
+    begin
+      result := FInfectedByNode;
     end;
 
   { Setters }
@@ -149,5 +166,18 @@ implementation
     begin
       FPtrShape := AShape;
     end;
+
+  procedure TNode.SetInfectedByNode(AValue: Word);
+    begin
+      FInfectedByNode := AValue;
+    end;
+
+  procedure TNode.Infect(InfectorNode: Word);
+  begin
+    self.SetIsInfected(True);
+    self.SetInfectedByNode(InfectorNode);
+    self.GetShape()^.Brush.Color := clRed;
+  end;
+
 end.
 

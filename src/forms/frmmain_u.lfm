@@ -24,11 +24,17 @@ object frmMain: TfrmMain
     Top = 104
     Width = 128
     Caption = 'Simulate'
+    Enabled = False
     OnClick = btnSimulateClick
     TabOrder = 1
   end
   object btnImportDialog: TOpenDialog
     left = 32
     top = 8
+  end
+  object frmTimer: TTimer
+    Enabled = False
+    left = 32
+    top = 88
   end
 end

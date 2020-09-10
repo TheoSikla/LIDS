@@ -24,9 +24,8 @@ unit frmMain_u;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   { Forms }
-  frmSimulation_u,
   { Classes }
   clNode_u,
   { Utilities }
@@ -40,9 +39,11 @@ type
     btnImport: TButton;
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
+    frmTimer: TTimer;
     procedure btnImportClick(Sender: TObject);
     procedure btnSimulateClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure RefreshGUI;
   private
 
   public
@@ -55,6 +56,10 @@ var
 
 implementation
 
+uses
+  { Forms }
+  frmSimulation_u;
+
 {$R *.lfm}
 
 { TfrmMain }
@@ -62,33 +67,42 @@ implementation
 procedure TfrmMain.btnImportClick(Sender: TObject);
 var
   filename: string;
-  i: Integer;
 begin
-  if Length(Nodes) > 0 then
-  begin
-    for i:=0 to Length(Nodes) - 1 do begin
-      FreeAndNil(Nodes[i]);
-    end;
-  end;
 
-  SetLength(Nodes, 0);
+  self.btnSimulate.Enabled := False;
 
   if btnImportDialog.Execute then
   begin
     filename := btnImportDialog.Filename;
   end;
 
-  Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
+  if filename <> '' then begin
+    frmSimulation.HideShapes;
+    Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
+    frmSimulation.RenderShapes;
+  end;
+
+  if Length(Nodes) > 0 then begin
+       self.btnSimulate.Enabled := True;
+  end;
+
 end;
 
 procedure TfrmMain.btnSimulateClick(Sender: TObject);
 begin
-  frmSimulation.Show;
+  if self.btnSimulate.IsEnabled then begin
+     frmSimulation.Show;
+  end;
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   SetLength(Nodes, 0);
+end;
+
+procedure TfrmMain.RefreshGUI;
+begin
+  self.Update;
 end;
 
 end.
