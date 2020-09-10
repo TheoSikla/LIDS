@@ -35,6 +35,8 @@ type
         destructor Destroy; override;
 
         procedure Append(var Arr: ArrayOfT; AValue: T);
+        procedure Delete(var Arr: ArrayOfT; const Index: Cardinal);
+        procedure DeleteByValue(var Arr: ArrayOfT; const AValue: T);
   end;
 
 implementation
@@ -53,5 +55,49 @@ implementation
       SetLength(Arr, Length(Arr)+1);
       Arr[High(Arr)] := AValue;
     end;
+
+  procedure TAppender.Delete(var Arr: ArrayOfT; const Index: Cardinal);
+  var
+    ALength: Cardinal;
+    TailElements: Cardinal;
+
+  begin
+    ALength := Length(Arr);
+    Assert(ALength > 0);
+    Assert(Index < ALength);
+    Finalize(Arr[Index]);
+    TailElements := ALength - Index;
+    if TailElements > 0 then
+      Move(Arr[Index + 1], Arr[Index], SizeOf(T) * TailElements);
+    Initialize(Arr[ALength - 1]);
+    SetLength(Arr, ALength - 1);
+  end;
+
+  procedure TAppender.DeleteByValue(var Arr: ArrayOfT; const AValue: T);
+  var
+    i: Integer;
+    ALength: Cardinal;
+    TailElements: Cardinal;
+    temp: T;
+    Index: Word;
+
+  begin
+    for i := 0 to Length(Arr) do begin
+      if Arr[i] = AValue then begin
+        Index := i;
+
+        ALength := Length(Arr);
+        Assert(ALength > 0);
+        Assert(Index < ALength);
+        Finalize(Arr[Index]);
+        TailElements := ALength - Index;
+        if TailElements > 0 then
+          Move(Arr[Index + 1], Arr[Index], SizeOf(T) * TailElements);
+        Initialize(Arr[ALength - 1]);
+        SetLength(Arr, ALength - 1);
+      end;
+    end;
+  end;
+
 end.
 
