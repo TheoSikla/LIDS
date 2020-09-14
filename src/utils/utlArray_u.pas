@@ -96,6 +96,7 @@ implementation
         Initialize(Arr[ALength - 1]);
         SetLength(Arr, ALength - 1);
       end;
+      break;
     end;
   end;
 

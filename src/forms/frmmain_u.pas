@@ -77,14 +77,12 @@ begin
   end;
 
   if filename <> '' then begin
-    frmSimulation.HideShapes;
+    if Length(Nodes) > 0 then frmSimulation.ResetShapes;
     Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
     frmSimulation.RenderShapes;
   end;
 
-  if Length(Nodes) > 0 then begin
-       self.btnSimulate.Enabled := True;
-  end;
+  if Length(Nodes) > 0 then self.btnSimulate.Enabled := True;
 
 end;
 

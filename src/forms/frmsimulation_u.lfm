@@ -6,6 +6,7 @@ object frmSimulation: TfrmSimulation
   Caption = 'Simulation'
   ClientHeight = 1000
   ClientWidth = 1000
+  OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.6.0'

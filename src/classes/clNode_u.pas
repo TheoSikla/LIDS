@@ -71,6 +71,7 @@ type
       property InfectedByNode: Word read GetInfectedByNode write SetInfectedByNode;
 
       procedure Infect(InfectorNode: Word);
+      procedure Restore;
 
     published
       { published declarations here }
@@ -177,6 +178,13 @@ implementation
     self.SetIsInfected(True);
     self.SetInfectedByNode(InfectorNode);
     self.GetShape()^.Brush.Color := clRed;
+  end;
+
+  procedure TNode.Restore;
+  begin
+    self.SetIsInfected(False);
+    self.SetInfectedByNode(0);
+    self.GetShape()^.Brush.Color := clMedGray;
   end;
 
 end.
