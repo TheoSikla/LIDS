@@ -24,7 +24,11 @@ unit utlArray_u;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils,
+  { Forms }
+  { Classes }
+  { Utilities }
+  utlTypes_u;
 
 type
   generic TAppender<T> = class(TObject)
@@ -38,6 +42,8 @@ type
         procedure Delete(var Arr: ArrayOfT; const Index: Cardinal);
         procedure DeleteByValue(var Arr: ArrayOfT; const AValue: T);
   end;
+
+function linspace(start: Double; stop: Double; num: Double): ArrayOfDouble;
 
 implementation
   constructor TAppender.Create;
@@ -78,7 +84,6 @@ implementation
     i: Integer;
     ALength: Cardinal;
     TailElements: Cardinal;
-    temp: T;
     Index: Word;
 
   begin
@@ -98,6 +103,58 @@ implementation
       end;
       break;
     end;
+  end;
+
+  function linspace(start: Double; stop: Double; num: Double): ArrayOfDouble;
+  var
+    i: Integer;
+    step: Double;
+  begin
+    {
+      [ Description ]
+      [************************************************************************]
+      Create and split an array to equal parts given the starting point, the
+      ending point and the number of parts.
+
+      [************************************************************************]
+
+      [ Parameters ]
+      [************************************************************************]
+      Param start: The starting point of the array.
+      Param stop: The ending point of the array.
+      Param num: The number of parts that the array will be made of.
+
+      [************************************************************************]
+
+      [ Variables ]
+      [************************************************************************]
+      Var i: Counter.
+      Var step: The calculated array part based on the start, stop, num params.
+
+      [************************************************************************]
+    }
+
+    step := (stop - start) / (num - 1);
+    SetLength(Result, Round((stop - start) / step) + 1);
+    Result[0] := start;
+
+    for i := 1 to Length(Result) - 1 do
+    begin
+      Result[i] := Result[i-1] + step;
+    end;
+
+    if Result[High(Result)] <> stop then
+    begin
+      SetLength(Result, High(Result) + 1);
+      Result[High(Result)] := stop;
+    end;
+
+    { Print the linspace result matrix }
+    //for i := 0 to Length(Result) - 1 do
+    //begin
+    //  write(Result[i]:0:2); write(', ');
+    //  if i mod 10 = 0 then writeln();
+    //end;
   end;
 
 end.
