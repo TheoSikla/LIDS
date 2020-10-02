@@ -25,25 +25,43 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
+  Menus, TAGraph,
   { Forms }
   { Classes }
   clNode_u,
   { Utilities }
-  utlFile_u;
+  utlFile_u,
+  utlValidation_u;
 
 type
 
   { TfrmMain }
 
   TfrmMain = class(TForm)
-    btnImport: TButton;
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
+    edtDays: TEdit;
+    edtBeta: TEdit;
+    edtGamma: TEdit;
+    edtInitialInfected: TEdit;
     frmTimer: TTimer;
-    procedure btnImportClick(Sender: TObject);
-    procedure btnSimulateClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+    lblDays: TLabel;
+    lblBeta: TLabel;
+    lblGamma: TLabel;
+    lblInitialInfected: TLabel;
+    mnuMainMenu: TMainMenu;
+    mnuFileOpen: TMenuItem;
+    mnuFile: TMenuItem;
+
     procedure RefreshGUI;
+    procedure FormCreate(Sender: TObject);
+    procedure btnSimulateClick(Sender: TObject);
+    procedure mnuFileOpenClick(Sender: TObject);
+    procedure edtFloatKeyPress(Sender: TObject; var Key: char);
+    procedure edtIntegerKeyPress(Sender: TObject; var Key: char);
+    procedure edtKeyUpEnter(Sender: TObject; var Key: char);
+    procedure preparePreSimulationChart;
+    function validatePreSimulationChart: Boolean;
   private
 
   public
@@ -58,17 +76,17 @@ implementation
 
 uses
   { Forms }
-  frmSimulation_u;
+  frmSimulation_u,
+  frmPreSimulationChart_u;
 
 {$R *.lfm}
 
 { TfrmMain }
 
-procedure TfrmMain.btnImportClick(Sender: TObject);
+procedure TfrmMain.mnuFileOpenClick(Sender: TObject);
 var
   filename: string;
 begin
-
   self.btnSimulate.Enabled := False;
 
   if btnImportDialog.Execute then
@@ -80,6 +98,9 @@ begin
     if Length(Nodes) > 0 then frmSimulation.ResetShapes;
     Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
     frmSimulation.RenderShapes;
+
+    if self.validatePreSimulationChart AND (Length(Nodes) > 0)
+       then self.preparePreSimulationChart;
   end;
 
   if Length(Nodes) > 0 then self.btnSimulate.Enabled := True;
@@ -101,6 +122,44 @@ end;
 procedure TfrmMain.RefreshGUI;
 begin
   self.Update;
+end;
+
+procedure TfrmMain.preparePreSimulationChart;
+begin
+  frmPreSimulationChart.ClearPreSimulationChart;
+  frmPreSimulationChart.CalculatePreSimulation;
+  frmPreSimulationChart.Show;
+end;
+
+procedure TfrmMain.edtIntegerKeyPress(Sender: TObject; var Key: char);
+begin
+  ValidateInteger(Sender, Key);
+end;
+
+procedure TfrmMain.edtFloatKeyPress(Sender: TObject; var Key: char);
+begin
+  ValidateFloat(Sender, Key);
+end;
+
+procedure TfrmMain.edtKeyUpEnter(Sender: TObject; var Key: char);
+begin
+  { Prepare the pre simulation chart if all conditions are met. }
+  { Key #13 represents the Enter key }
+  if (Key = #13) AND self.validatePreSimulationChart AND
+     (Length(self.Nodes) > 0) then
+  begin
+    self.preparePreSimulationChart;
+  end;
+end;
+
+function TfrmMain.validatePreSimulationChart: Boolean;
+begin
+  { If all the required TEdits contain a value then return True. }
+  Result := True;
+  if (self.edtDays.Text = '') OR (self.edtBeta.Text = '') OR
+     (self.edtGamma.Text = '') OR (self.edtInitialInfected.Text = '')
+     then Result := False;
+
 end;
 
 end.
