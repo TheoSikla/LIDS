@@ -24,15 +24,18 @@ program bvs;
 uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   cthreads, {$ENDIF} {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,
+  Forms, tachartlazaruspkg,
   { Forms }
   frmMain_u,
   frmSimulation_u,
+  frmPreSimulationChart_u,
   { Classes }
   clNode_u,
   { Utilities }
   utlFile_u,
-  utlArray_u;
+  utlArray_u,
+  utlEuler_u,
+  utlSIR_u;
 
 {$R *.res}
 
@@ -42,6 +45,7 @@ begin
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmSimulation, frmSimulation);
+  Application.CreateForm(Tfrmpresimulationchart, frmpresimulationchart);
   Application.Run;
 end.
 
