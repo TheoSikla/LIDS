@@ -1,0 +1,52 @@
+object frmpresimulationchart: Tfrmpresimulationchart
+  Left = 1027
+  Height = 500
+  Top = 313
+  Width = 613
+  Caption = 'Chart'
+  ClientHeight = 500
+  ClientWidth = 613
+  OnClose = FormClose
+  LCLVersion = '2.0.6.0'
+  object chtPreSimulation: TChart
+    Left = 10
+    Height = 480
+    Top = 10
+    Width = 582
+    AxisList = <    
+      item
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    Foot.Brush.Color = clBtnFace
+    Foot.Font.Color = clBlue
+    Legend.Font.Color = cl3DDkShadow
+    Legend.Visible = True
+    Title.Brush.Color = clBtnFace
+    Title.Font.Color = clBlue
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Visible = False
+    object chtPreSimulationS: TLineSeries
+      LinePen.Color = clActiveCaption
+      LinePen.Width = 3
+    end
+    object chtPreSimulationI: TLineSeries
+      LinePen.Color = clMaroon
+      LinePen.Width = 3
+    end
+    object chtPreSimulationR: TLineSeries
+      LinePen.Color = clGreen
+      LinePen.Width = 3
+    end
+  end
+end
