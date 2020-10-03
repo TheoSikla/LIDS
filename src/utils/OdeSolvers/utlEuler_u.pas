@@ -29,15 +29,14 @@ uses
   { Classes }
   { Utilities }
   utlTypes_u,
-  utlSIR_u;
+  utlEnum_u,
+  utlSIR_u,
+  utlSIS_u;
 
-type
-  TCallback = Function: ArrayOfDouble;
-
-function odeEuler(t, y0: ArrayOfDouble; N: Integer; beta, gamma: Double): ArrayOfArrayOfDouble;
+function odeEuler(model: String; t, y0: ArrayOfDouble; extraArgs: ArrayOfDouble): ArrayOfArrayOfDouble;
 
 implementation
-  function odeEuler(t, y0: ArrayOfDouble; N: Integer; beta, gamma: Double): ArrayOfArrayOfDouble;
+  function odeEuler(model: String; t, y0: ArrayOfDouble; extraArgs: ArrayOfDouble): ArrayOfArrayOfDouble;
   var
     i, j: Integer;
     DiffEquations: ArrayOfArrayOfDouble;
@@ -50,17 +49,15 @@ implementation
       procedure for solving ordinary differential equations (ODEs) with a given
       initial value.
 
-      Notes:
-            * Currently specific for SIR model.
       [************************************************************************]
 
       [ Parameters ]
       [************************************************************************]
       Param t: An array of a specified duration with equal parts.
       Param y0: The initial system state.
-      Param N: The total population.
-      Param beta  (β): The average number of contacts per person per time.
-      Param gamma (γ): The recovery rate.
+      Param extraArgs: Array of double containing the appropriate parameters
+                       needed in order to calculate the target differential
+                       equations.
 
       [************************************************************************]
 
@@ -92,7 +89,11 @@ implementation
         x[j] := DiffEquations[j][i];
       end;
 
-      dXdts := SIRDE(x, N, beta, gamma);
+      { Invoke the appropriate differential equation calculator function }
+      case model of
+        SIR: dXdts := SIRDE(x, extraArgs);
+        SIS: dXdts := SISDE(x, extraArgs);
+      end;
 
       for j := 0 to Length(dXdts) - 1 do begin
         DiffEquations[j][i + 1] := DiffEquations[j][i] + dXdts[j] * (t[i + 1] - t[i]);
