@@ -42,7 +42,8 @@ implementation
     {
       [ Description ]
       [************************************************************************]
-      Calculate the SIS's model differential equations given a y state.
+      Calculate the SIS's (Susceptible - Infectious - Susceptible) model
+      differential equations given a y state.
 
       [************************************************************************]
 
@@ -61,6 +62,8 @@ implementation
       [************************************************************************]
       Var N: The total population.
       Var beta  (β): The average number of contacts per person per time.
+                     (Infection rate)
+
       Var gamma (γ): The recovery rate.
       Var S: Number of Susceptible individuals.
       Var I: Number of Infected individuals.
