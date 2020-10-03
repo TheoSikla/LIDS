@@ -25,13 +25,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, TAGraph,
+  Menus, TAGraph, typinfo,
   { Forms }
   { Classes }
   clNode_u,
   { Utilities }
   utlFile_u,
-  utlValidation_u;
+  utlValidation_u,
+  utlEnum_u;
 
 type
 
@@ -40,6 +41,7 @@ type
   TfrmMain = class(TForm)
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
+    cbxAvailableModels: TComboBox;
     edtDays: TEdit;
     edtBeta: TEdit;
     edtGamma: TEdit;
@@ -61,6 +63,7 @@ type
     procedure edtIntegerKeyPress(Sender: TObject; var Key: char);
     procedure edtKeyUpEnter(Sender: TObject; var Key: char);
     procedure preparePreSimulationChart;
+    procedure registerAvailableModels;
     function validatePreSimulationChart: Boolean;
   private
 
@@ -117,6 +120,7 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   SetLength(Nodes, 0);
+  self.registerAvailableModels;
 end;
 
 procedure TfrmMain.RefreshGUI;
@@ -129,6 +133,17 @@ begin
   frmPreSimulationChart.ClearPreSimulationChart;
   frmPreSimulationChart.CalculatePreSimulation;
   frmPreSimulationChart.Show;
+end;
+
+procedure TfrmMain.registerAvailableModels;
+var
+  i: Integer;
+begin
+  for i := Low(AvailableModels) to High(AvailableModels) do
+  self.cbxAvailableModels.Items.Add(AvailableModels[i]);
+
+  self.cbxAvailableModels.ItemIndex := 0;
+  self.cbxAvailableModels.Style := csDropDownList;
 end;
 
 procedure TfrmMain.edtIntegerKeyPress(Sender: TObject; var Key: char);
@@ -155,11 +170,14 @@ end;
 function TfrmMain.validatePreSimulationChart: Boolean;
 begin
   { If all the required TEdits contain a value then return True. }
-  Result := True;
-  if (self.edtDays.Text = '') OR (self.edtBeta.Text = '') OR
-     (self.edtGamma.Text = '') OR (self.edtInitialInfected.Text = '')
-     then Result := False;
-
+  Result := False;
+  case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+  SIR, SIS: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+  end;
 end;
 
 end.

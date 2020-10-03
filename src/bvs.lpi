@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="7">
       <Unit0>
         <Filename Value="bvs.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -62,25 +62,21 @@
         <UnitName Value="frmSimulation_u"/>
       </Unit3>
       <Unit4>
-        <Filename Value="constants/constants_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="forms/frmpresimulationchart_u.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmpresimulationchart"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmPreSimulationChart_u"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="utils/OdeSolvers/utlEuler_u.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="utils/DifferentialEquations/utlSIR_u.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit7>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -90,7 +86,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="forms;classes;utils;constants;utils/DifferentialEquations;utils/OdeSolvers"/>
+      <OtherUnitFiles Value="forms;classes;utils;utils/DifferentialEquations;utils/OdeSolvers"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
