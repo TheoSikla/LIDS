@@ -17,7 +17,7 @@
     along with BVS. If not, see <https://www.gnu.org/licenses/>.
 }
 
-unit utlSIR_u;
+unit utlSIS_u;
 
 {$mode objfpc}{$H+}
 
@@ -30,25 +30,25 @@ uses
   { Utilities }
   utlTypes_u;
 
-function SIRDE(y, extraArgs: ArrayOfDouble): ArrayOfDouble;
+function SISDE(y, extraArgs: ArrayOfDouble): ArrayOfDouble;
 
 implementation
-  function SIRDE(y, extraArgs: ArrayOfDouble): ArrayOfDouble;
+  function SISDE(y, extraArgs: ArrayOfDouble): ArrayOfDouble;
   var
     N, beta, gamma: Double;
     S, I: Double;
-    dSdt, dIdt, dRdt: Double;
+    dSdt, dIdt: Double;
   begin
     {
       [ Description ]
       [************************************************************************]
-      Calculate the SIR's model differential equations given a y state.
+      Calculate the SIS's model differential equations given a y state.
 
       [************************************************************************]
 
       [ Parameters ]
       [************************************************************************]
-      Param y: Array of double containing the 'to be calculated' S I R states.
+      Param y: Array of double containing the 'to be calculated' S I states.
       Param extraArgs: An array of double containing the extra arguments that
                        are needed in order to perform calculations. The correct
                        form of the array should be:
@@ -66,7 +66,6 @@ implementation
       Var I: Number of Infected individuals.
       Var dSdt: Calculated differential equation result for Susceptibles.
       Var dIdt: Calculated differential equation result for Infected.
-      Var dRdt: Calculated differential equation result for Recovered.
 
       [************************************************************************]
 
@@ -74,18 +73,13 @@ implementation
       [************************************************************************]
                _     _
        dS     | β*I*S |
-       -- = - | ----- | ,
+       -- = - | ----- | + (γ*I) ,
        dt     |_  N  _|
 
              _     _
        dI   | β*I*S |
        -- = | ----- | - (γ*I) ,
        dt   |_  N  _|
-
-
-       dR
-       -- = (γ*I)
-       dt
 
       [************************************************************************]
     }
@@ -97,11 +91,10 @@ implementation
     beta := extraArgs[1];
     gamma := extraArgs[2];
 
-    dSdt := -(beta * S * I / N);
-    dIdt := (beta * S * I / N) - (gamma * I);
-    dRdt := gamma * I;
+    dSdt := -(beta * S * I / N) + (gamma * I);
+    dIdt :=  (beta * S * I / N) - (gamma * I);
 
-    Result := ArrayOfDouble.Create(dSdt, dIdt, dRdt);
+    Result := ArrayOfDouble.Create(dSdt, dIdt);
   end;
 
 end.
