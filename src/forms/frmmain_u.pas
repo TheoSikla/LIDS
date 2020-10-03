@@ -160,6 +160,7 @@ begin
   self.cbxAvailableModels.Items.Add(AvailableModels[i]);
 
   self.cbxAvailableModels.ItemIndex := 0;
+  cbxAvailableModelsChange(self.cbxAvailableModels);
   self.cbxAvailableModels.Style := csDropDownList;
 end;
 
