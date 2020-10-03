@@ -35,7 +35,9 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   utlFile_u,
   utlArray_u,
   utlEuler_u,
-  utlSIR_u;
+  utlSIR_u,
+  utlSIS_u,
+  utlSIRD_u;
 
 {$R *.res}
 

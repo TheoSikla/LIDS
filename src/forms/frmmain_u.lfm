@@ -70,7 +70,7 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 1
+    TabOrder = 2
   end
   object edtBeta: TEdit
     Left = 783
@@ -80,7 +80,7 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 2
+    TabOrder = 3
   end
   object edtGamma: TEdit
     Left = 783
@@ -90,12 +90,12 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 3
+    TabOrder = 4
   end
   object lblInitialInfected: TLabel
     Left = 648
     Height = 30
-    Top = 184
+    Top = 216
     Width = 130
     Alignment = taRightJustify
     AutoSize = False
@@ -109,12 +109,12 @@ object frmMain: TfrmMain
   object edtInitialInfected: TEdit
     Left = 783
     Height = 33
-    Top = 184
+    Top = 216
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 4
+    TabOrder = 6
   end
   object cbxAvailableModels: TComboBox
     Left = 752
@@ -122,8 +122,33 @@ object frmMain: TfrmMain
     Top = 40
     Width = 100
     ItemHeight = 0
-    TabOrder = 5
+    OnChange = cbxAvailableModelsChange
+    TabOrder = 1
     Text = 'cbxAvailableModels'
+  end
+  object lblMu: TLabel
+    Left = 728
+    Height = 30
+    Top = 184
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'μ :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtMu: TEdit
+    Left = 784
+    Height = 33
+    Top = 184
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtFloatKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 5
   end
   object btnImportDialog: TOpenDialog
     left = 32
