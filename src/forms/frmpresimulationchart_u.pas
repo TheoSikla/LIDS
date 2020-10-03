@@ -31,7 +31,8 @@ uses
   { Utilities }
   utlArray_u,
   utlTypes_u,
-  utlEuler_u;
+  utlEuler_u,
+  utlEnum_u;
 
 type
 
@@ -45,6 +46,8 @@ type
     procedure CalculatePreSimulation;
     procedure FormClose(Sender: TObject);
     procedure ClearPreSimulationChart;
+    procedure PrepareSIR(var y0, extraArgs: ArrayOfDouble);
+    procedure PrepareSIS(var y0, extraArgs: ArrayOfDouble);
   private
 
   public
@@ -59,32 +62,49 @@ implementation
 procedure TfrmPreSimulationChart.CalculatePreSimulation;
 var
   OdeEulerResult: ArrayOfArrayOfDouble;
-  t, y0: ArrayOfDouble;
+  t, y0, extraArgs: ArrayOfDouble;
   i, days: Integer;
+  model: String;
 begin
+  SetLength(y0, 0);
+  SetLength(extraArgs, 0);
+
   days := StrToInt(frmMain.edtDays.Text);
   SetLength(t, days);
   t := linspace(0, days, days);
 
-  SetLength(y0, 3);
-  y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
-  y0[2] := 0;                                                 // R
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  model := frmMain.cbxAvailableModels.Items[frmMain.cbxAvailableModels.ItemIndex];
+  { Initiate based on the model }
+  case model of
+    SIR: self.PrepareSIR(y0, extraArgs);
+    SIS: self.PrepareSIS(y0, extraArgs);
+  end;
+
+  { Apply Euler to the model's differential equations }
+  OdeEulerResult := odeEuler(model, t, y0, extraArgs);
+
+  { Fill data to the appropriate axes }
+  case model of
+    SIR: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
+          self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[2][i]); // R
+        end;
+      end;
+
+    SIS: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
+        end;
+      end;
+    end;
+
 
   self.chtPreSimulation.Visible := true;
-  OdeEulerResult := odeEuler(t, y0, Length(frmMain.Nodes),
-                             StrToFloat(frmMain.edtBeta.Text),
-                             StrToFloat(frmMain.edtGamma.Text));
-
-  self.chtPreSimulationS.Title := 'Susceptible';
-  self.chtPreSimulationI.Title := 'Infectious';
-  self.chtPreSimulationR.Title := 'Recovered';
-  for i := 0 to days - 1 do
-  begin
-    self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
-    self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
-    self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[2][i]); // R
-  end;
 end;
 
 procedure TfrmPreSimulationChart.ClearPreSimulationChart;
@@ -94,8 +114,43 @@ begin
   for i := 0 to self.chtPreSimulation.SeriesCount - 1 do
   begin
     if self.chtPreSimulation.Series[i] is TLineSeries then
-      (self.chtPreSimulation.Series[i] as TLineSeries).Clear;
+      begin
+        (self.chtPreSimulation.Series[i] as TLineSeries).Clear;
+        (self.chtPreSimulation.Series[i] as TLineSeries).Active := False;
+      end;
   end;
+end;
+
+procedure TfrmPreSimulationChart.PrepareSIR(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 3);
+  y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
+  y0[2] := 0;                                                 // R
+  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+
+  SetLength(extraArgs, 3);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationI.Active := True;
+  self.chtPreSimulationR.Active := True;
+end;
+
+procedure TfrmPreSimulationChart.PrepareSIS(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 2);
+  y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
+  y0[0] := Length(frmMain.Nodes) - y0[1];                     // S
+
+  SetLength(extraArgs, 3);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationI.Active := True;
 end;
 
 procedure TfrmPreSimulationChart.FormClose(Sender: TObject);

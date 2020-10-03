@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 2338
+  Left = 653
   Height = 397
-  Top = 229
+  Top = 360
   Width = 1144
   Caption = 'BVS'
   ClientHeight = 372
@@ -23,7 +23,7 @@ object frmMain: TfrmMain
   object lblDays: TLabel
     Left = 728
     Height = 30
-    Top = 88
+    Top = 91
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -115,6 +115,15 @@ object frmMain: TfrmMain
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
     TabOrder = 4
+  end
+  object cbxAvailableModels: TComboBox
+    Left = 752
+    Height = 33
+    Top = 40
+    Width = 100
+    ItemHeight = 0
+    TabOrder = 5
+    Text = 'cbxAvailableModels'
   end
   object btnImportDialog: TOpenDialog
     left = 32

@@ -37,14 +37,20 @@ object frmpresimulationchart: Tfrmpresimulationchart
     )
     Visible = False
     object chtPreSimulationS: TLineSeries
+      Active = False
+      Title = 'Susceptible'
       LinePen.Color = clActiveCaption
       LinePen.Width = 3
     end
     object chtPreSimulationI: TLineSeries
+      Active = False
+      Title = 'Infectious'
       LinePen.Color = clMaroon
       LinePen.Width = 3
     end
     object chtPreSimulationR: TLineSeries
+      Active = False
+      Title = 'Recovered'
       LinePen.Color = clGreen
       LinePen.Width = 3
     end
