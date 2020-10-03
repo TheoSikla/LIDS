@@ -46,15 +46,18 @@ type
     edtBeta: TEdit;
     edtGamma: TEdit;
     edtInitialInfected: TEdit;
+    edtMu: TEdit;
     frmTimer: TTimer;
     lblDays: TLabel;
     lblBeta: TLabel;
     lblGamma: TLabel;
+    lblMu: TLabel;
     lblInitialInfected: TLabel;
     mnuMainMenu: TMainMenu;
     mnuFileOpen: TMenuItem;
     mnuFile: TMenuItem;
 
+    procedure cbxAvailableModelsChange(Sender: TObject);
     procedure RefreshGUI;
     procedure FormCreate(Sender: TObject);
     procedure btnSimulateClick(Sender: TObject);
@@ -128,6 +131,20 @@ begin
   self.Update;
 end;
 
+procedure TfrmMain.cbxAvailableModelsChange(Sender: TObject);
+begin
+  case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+    SIR, SIS: begin
+           self.edtMu.Enabled := False;
+    end;
+
+    SIRD: begin
+      self.edtMu.Enabled := True;
+    end;
+
+  end;
+end;
+
 procedure TfrmMain.preparePreSimulationChart;
 begin
   frmPreSimulationChart.ClearPreSimulationChart;
@@ -177,6 +194,14 @@ begin
             (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;
+
+  SIRD: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
+            AND (self.edtMu.Text <> '')
+              then Result := True;
+       end;
+
   end;
 end;
 

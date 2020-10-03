@@ -41,6 +41,7 @@ type
   TfrmPreSimulationChart = class(TForm)
     chtPreSimulation: TChart;
     chtPreSimulationI: TLineSeries;
+    chtPreSimulationD: TLineSeries;
     chtPreSimulationR: TLineSeries;
     chtPreSimulationS: TLineSeries;
     procedure CalculatePreSimulation;
@@ -48,6 +49,7 @@ type
     procedure ClearPreSimulationChart;
     procedure PrepareSIR(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIS(var y0, extraArgs: ArrayOfDouble);
+    procedure PrepareSIRD(var y0, extraArgs: ArrayOfDouble);
   private
 
   public
@@ -78,6 +80,7 @@ begin
   case model of
     SIR: self.PrepareSIR(y0, extraArgs);
     SIS: self.PrepareSIS(y0, extraArgs);
+    SIRD: self.PrepareSIRD(y0, extraArgs);
   end;
 
   { Apply Euler to the model's differential equations }
@@ -101,6 +104,17 @@ begin
           self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
         end;
       end;
+
+    SIRD: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
+          self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[2][i]); // R
+          self.chtPreSimulationD.AddXY(t[i], OdeEulerResult[3][i]); // D
+        end;
+      end;
+
     end;
 
 
@@ -133,6 +147,12 @@ begin
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
 
+  { Arrange Line Series Color }
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
+  self.chtPreSimulationR.SeriesColor := clGreen;
+
+  { Activate Line Series }
   self.chtPreSimulationS.Active := True;
   self.chtPreSimulationI.Active := True;
   self.chtPreSimulationR.Active := True;
@@ -149,8 +169,40 @@ begin
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
 
+  { Arrange Line Series Color }
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
+
+  { Activate Line Series }
   self.chtPreSimulationS.Active := True;
   self.chtPreSimulationI.Active := True;
+end;
+
+procedure TfrmPreSimulationChart.PrepareSIRD(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 4);
+  y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
+  y0[2] := 0;                                                 // R
+  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[3] := 0;                                                 // D
+
+  SetLength(extraArgs, 4);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+  extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
+
+  { Arrange Line Series Color }
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationI.SeriesColor := clOlive;
+  self.chtPreSimulationR.SeriesColor := clGreen;
+  self.chtPreSimulationD.SeriesColor := clMaroon;
+
+  { Activate Line Series }
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationI.Active := True;
+  self.chtPreSimulationR.Active := True;
+  self.chtPreSimulationD.Active := True;
 end;
 
 procedure TfrmPreSimulationChart.FormClose(Sender: TObject);
