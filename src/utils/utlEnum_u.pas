@@ -28,15 +28,16 @@ uses
 
 const
   { Basic enumeration for available epidemic models }
-  NumberOfAvailableModels = 5 {+ 1};
+  NumberOfAvailableModels = 6 {+ 1};
   SIR = 'SIR';
   SIS = 'SIS';
   SIRD = 'SIRD';
   MSIR = 'MSIR';
   SEIR = 'SEIR';
   SEIS = 'SEIS';
+  MSEIR = 'MSEIR';
   AvailableModels: Array[0..NumberOfAvailableModels] of String =
-                   (SIR, SIS, SIRD, MSIR, SEIR, SEIS);
+                   (SIR, SIS, SIRD, MSIR, SEIR, SEIS, MSEIR);
 
 implementation
 
