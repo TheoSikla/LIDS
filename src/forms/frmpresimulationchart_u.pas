@@ -43,6 +43,7 @@ type
     chtPreSimulation: TChart;
     chtPreSimulationI: TLineSeries;
     chtPreSimulationD: TLineSeries;
+    chtPreSimulationE: TLineSeries;
     chtPreSimulationM: TLineSeries;
     chtPreSimulationR: TLineSeries;
     chtPreSimulationS: TLineSeries;
@@ -53,6 +54,7 @@ type
     procedure PrepareSIS(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIRD(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareMSIR(var y0, extraArgs: ArrayOfDouble);
+    procedure PrepareSEIR(var y0, extraArgs: ArrayOfDouble);
   private
 
   public
@@ -85,6 +87,7 @@ begin
     SIS: self.PrepareSIS(y0, extraArgs);
     SIRD: self.PrepareSIRD(y0, extraArgs);
     MSIR: self.PrepareMSIR(y0, extraArgs);
+    SEIR: self.PrepareSEIR(y0, extraArgs);
   end;
 
   { Apply Euler to the model's differential equations }
@@ -129,8 +132,17 @@ begin
         end;
       end;
 
-    end;
+    SEIR: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
+          self.chtPreSimulationE.AddXY(t[i], OdeEulerResult[1][i]); // E
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[2][i]); // I
+          self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[3][i]); // R
+        end;
+      end;
 
+    end;
 
   self.chtPreSimulation.Visible := true;
 end;
@@ -266,6 +278,41 @@ begin
   { Activate Line Series }
   self.chtPreSimulationM.Active := True;
   self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationI.Active := True;
+  self.chtPreSimulationR.Active := True;
+end;
+
+procedure TfrmPreSimulationChart.PrepareSEIR(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 4);
+  y0[3] := 0;                                                 // R
+  y0[2] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
+  y0[1] := 0;                                                 // E
+  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2] - y0[3];     // S
+
+  SetLength(extraArgs, 6);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+  extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
+  extraArgs[4] := StrToFloat(frmMain.edtLambda.Text);         // Lambda
+  extraArgs[5] := StrToFloat(frmMain.edtAlpha.Text);          // Alpha
+
+  { Arrange Line Series Color }
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationE.SeriesColor := clOlive;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
+  self.chtPreSimulationR.SeriesColor := clGreen;
+
+  { Define Line Series Titles }
+  self.chtPreSimulationS.Title := 'Susceptible';
+  self.chtPreSimulationE.Title := 'Exposed';
+  self.chtPreSimulationI.Title := 'Infected';
+  self.chtPreSimulationR.Title := 'Recovered';
+
+  { Activate Line Series }
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationE.Active := True;
   self.chtPreSimulationI.Active := True;
   self.chtPreSimulationR.Active := True;
 end;

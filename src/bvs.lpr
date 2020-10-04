@@ -34,12 +34,15 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   { Utilities }
   utlConstants_u,
   utlFile_u,
-  utlArray_u, utlEnum_u, utlTypes_u, utlValidation_u,
+  utlArray_u,
+  utlEnum_u,
+  utlTypes_u,
+  utlValidation_u,
   utlEuler_u,
   utlSIR_u,
   utlSIS_u,
   utlSIRD_u,
-  utlMSIR_u;
+  utlMSIR_u, utlSEIR_u;
 
 {$R *.res}
 

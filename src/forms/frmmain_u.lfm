@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 701
+  Left = 691
   Height = 397
-  Top = 303
+  Top = 385
   Width = 1144
   Caption = 'BVS'
   ClientHeight = 372
@@ -23,7 +23,7 @@ object frmMain: TfrmMain
   object lblDays: TLabel
     Left = 728
     Height = 30
-    Top = 91
+    Top = 75
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -37,7 +37,7 @@ object frmMain: TfrmMain
   object lblBeta: TLabel
     Left = 728
     Height = 30
-    Top = 123
+    Top = 107
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -51,7 +51,7 @@ object frmMain: TfrmMain
   object lblGamma: TLabel
     Left = 728
     Height = 30
-    Top = 152
+    Top = 136
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -65,7 +65,7 @@ object frmMain: TfrmMain
   object edtDays: TEdit
     Left = 783
     Height = 33
-    Top = 88
+    Top = 72
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
@@ -75,7 +75,7 @@ object frmMain: TfrmMain
   object edtBeta: TEdit
     Left = 783
     Height = 33
-    Top = 120
+    Top = 104
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
@@ -85,7 +85,7 @@ object frmMain: TfrmMain
   object edtGamma: TEdit
     Left = 783
     Height = 33
-    Top = 152
+    Top = 136
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
@@ -95,7 +95,7 @@ object frmMain: TfrmMain
   object lblInitialInfected: TLabel
     Left = 648
     Height = 30
-    Top = 312
+    Top = 328
     Width = 130
     Alignment = taRightJustify
     AutoSize = False
@@ -109,7 +109,7 @@ object frmMain: TfrmMain
   object edtInitialInfected: TEdit
     Left = 783
     Height = 33
-    Top = 312
+    Top = 328
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
@@ -119,7 +119,7 @@ object frmMain: TfrmMain
   object cbxAvailableModels: TComboBox
     Left = 752
     Height = 33
-    Top = 40
+    Top = 24
     Width = 100
     ItemHeight = 0
     OnChange = cbxAvailableModelsChange
@@ -127,9 +127,9 @@ object frmMain: TfrmMain
     Text = 'cbxAvailableModels'
   end
   object lblMu: TLabel
-    Left = 728
+    Left = 727
     Height = 30
-    Top = 184
+    Top = 168
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -141,9 +141,9 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtMu: TEdit
-    Left = 784
+    Left = 783
     Height = 33
-    Top = 184
+    Top = 168
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
@@ -151,9 +151,9 @@ object frmMain: TfrmMain
     TabOrder = 5
   end
   object lblLambda: TLabel
-    Left = 728
+    Left = 727
     Height = 30
-    Top = 216
+    Top = 200
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -165,9 +165,9 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtLambda: TEdit
-    Left = 784
+    Left = 783
     Height = 33
-    Top = 216
+    Top = 200
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
@@ -177,7 +177,7 @@ object frmMain: TfrmMain
   object lblDelta: TLabel
     Left = 727
     Height = 30
-    Top = 248
+    Top = 232
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -191,7 +191,7 @@ object frmMain: TfrmMain
   object edtDelta: TEdit
     Left = 783
     Height = 33
-    Top = 248
+    Top = 232
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
@@ -199,9 +199,9 @@ object frmMain: TfrmMain
     TabOrder = 7
   end
   object lblMaternallyDerivedImmunity: TLabel
-    Left = 449
+    Left = 448
     Height = 30
-    Top = 283
+    Top = 299
     Width = 330
     Alignment = taRightJustify
     AutoSize = False
@@ -213,14 +213,38 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtMaternallyDerivedImmunity: TEdit
-    Left = 784
+    Left = 783
     Height = 33
-    Top = 280
+    Top = 296
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
     TabOrder = 8
+  end
+  object lblAlpha: TLabel
+    Left = 727
+    Height = 30
+    Top = 264
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'α :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtAlpha: TEdit
+    Left = 783
+    Height = 33
+    Top = 264
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtFloatKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 10
   end
   object btnImportDialog: TOpenDialog
     left = 32
