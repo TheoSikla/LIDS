@@ -44,6 +44,7 @@ type
     cbxAvailableModels: TComboBox;
     edtDays: TEdit;
     edtBeta: TEdit;
+    edtAlpha: TEdit;
     edtGamma: TEdit;
     edtInitialInfected: TEdit;
     edtMaternallyDerivedImmunity: TEdit;
@@ -53,6 +54,7 @@ type
     frmTimer: TTimer;
     lblDays: TLabel;
     lblBeta: TLabel;
+    lblAlpha: TLabel;
     lblGamma: TLabel;
     lblMaternallyDerivedImmunity: TLabel;
     lblMu: TLabel;
@@ -145,13 +147,16 @@ begin
            self.edtLambda.Enabled := False;
            self.edtDelta.Enabled := False;
            self.edtMaternallyDerivedImmunity.Enabled := False;
+           self.edtAlpha.Enabled := False;
     end;
 
     SIRD: begin
        self.edtMu.Enabled := True;
+
        self.edtLambda.Enabled := False;
        self.edtDelta.Enabled := False;
        self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
     end;
 
     MSIR: begin
@@ -159,6 +164,17 @@ begin
        self.edtLambda.Enabled := True;
        self.edtDelta.Enabled := True;
        self.edtMaternallyDerivedImmunity.Enabled := True;
+
+       self.edtAlpha.Enabled := False;
+    end;
+
+    SEIR: begin
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := True;
+       self.edtAlpha.Enabled := True;
+
+       self.edtDelta.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
     end;
 
   end;
@@ -227,6 +243,14 @@ begin
             (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
             (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
             (self.edtMaternallyDerivedImmunity.Text <> '') AND
+            (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+
+  SEIR: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+            (self.edtLambda.Text <> '') AND (self.edtAlpha.Text <> '') AND
             (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;
