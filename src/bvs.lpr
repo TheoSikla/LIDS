@@ -32,12 +32,14 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   { Classes }
   clNode_u,
   { Utilities }
+  utlConstants_u,
   utlFile_u,
-  utlArray_u,
+  utlArray_u, utlEnum_u, utlTypes_u, utlValidation_u,
   utlEuler_u,
   utlSIR_u,
   utlSIS_u,
-  utlSIRD_u;
+  utlSIRD_u,
+  utlMSIR_u;
 
 {$R *.res}
 

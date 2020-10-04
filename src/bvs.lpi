@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="15">
       <Unit0>
         <Filename Value="bvs.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -78,10 +78,38 @@
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="utils/DifferentialEquations/utlsird_u.pas"/>
+        <Filename Value="utils/utlFile_u.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="utlSIRD_u"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="utils/utlTypes_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="utils/utlValidation_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="utils/utlEnum_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="utils/DifferentialEquations/utlSIS_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="utils/DifferentialEquations/utlSIRD_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="utils/DifferentialEquations/utlMSIR_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="utils/utlconstants_u.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utlConstants_u"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

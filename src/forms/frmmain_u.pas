@@ -46,13 +46,19 @@ type
     edtBeta: TEdit;
     edtGamma: TEdit;
     edtInitialInfected: TEdit;
+    edtMaternallyDerivedImmunity: TEdit;
     edtMu: TEdit;
+    edtLambda: TEdit;
+    edtDelta: TEdit;
     frmTimer: TTimer;
     lblDays: TLabel;
     lblBeta: TLabel;
     lblGamma: TLabel;
+    lblMaternallyDerivedImmunity: TLabel;
     lblMu: TLabel;
     lblInitialInfected: TLabel;
+    lblLambda: TLabel;
+    lblDelta: TLabel;
     mnuMainMenu: TMainMenu;
     mnuFileOpen: TMenuItem;
     mnuFile: TMenuItem;
@@ -136,10 +142,23 @@ begin
   case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
     SIR, SIS: begin
            self.edtMu.Enabled := False;
+           self.edtLambda.Enabled := False;
+           self.edtDelta.Enabled := False;
+           self.edtMaternallyDerivedImmunity.Enabled := False;
     end;
 
     SIRD: begin
-      self.edtMu.Enabled := True;
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := False;
+       self.edtDelta.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+    end;
+
+    MSIR: begin
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := True;
+       self.edtDelta.Enabled := True;
+       self.edtMaternallyDerivedImmunity.Enabled := True;
     end;
 
   end;
@@ -198,8 +217,17 @@ begin
 
   SIRD: begin
          if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
-            AND (self.edtMu.Text <> '')
+            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '')
+            AND (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+
+  MSIR: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+            (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
+            (self.edtMaternallyDerivedImmunity.Text <> '') AND
+            (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;
 

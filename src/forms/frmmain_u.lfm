@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 653
+  Left = 701
   Height = 397
-  Top = 360
+  Top = 303
   Width = 1144
   Caption = 'BVS'
   ClientHeight = 372
@@ -95,11 +95,11 @@ object frmMain: TfrmMain
   object lblInitialInfected: TLabel
     Left = 648
     Height = 30
-    Top = 216
+    Top = 312
     Width = 130
     Alignment = taRightJustify
     AutoSize = False
-    Caption = 'Initial Infected :'
+    Caption = 'Initial Infected (I) :'
     Font.Height = -16
     Font.Name = 'Sans'
     Layout = tlCenter
@@ -109,12 +109,12 @@ object frmMain: TfrmMain
   object edtInitialInfected: TEdit
     Left = 783
     Height = 33
-    Top = 216
+    Top = 312
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 6
+    TabOrder = 9
   end
   object cbxAvailableModels: TComboBox
     Left = 752
@@ -149,6 +149,78 @@ object frmMain: TfrmMain
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
     TabOrder = 5
+  end
+  object lblLambda: TLabel
+    Left = 728
+    Height = 30
+    Top = 216
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'Λ :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtLambda: TEdit
+    Left = 784
+    Height = 33
+    Top = 216
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtFloatKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 6
+  end
+  object lblDelta: TLabel
+    Left = 727
+    Height = 30
+    Top = 248
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'δ :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtDelta: TEdit
+    Left = 783
+    Height = 33
+    Top = 248
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtFloatKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 7
+  end
+  object lblMaternallyDerivedImmunity: TLabel
+    Left = 449
+    Height = 30
+    Top = 283
+    Width = 330
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'Initial Maternally Derived Immunity (M) :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtMaternallyDerivedImmunity: TEdit
+    Left = 784
+    Height = 33
+    Top = 280
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtIntegerKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 8
   end
   object btnImportDialog: TOpenDialog
     left = 32
