@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="18">
       <Unit0>
         <Filename Value="bvs.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -120,6 +120,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="utlSEIS_u"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="utils/DifferentialEquations/utlmseir_u.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utlMSEIR_u"/>
+      </Unit17>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
