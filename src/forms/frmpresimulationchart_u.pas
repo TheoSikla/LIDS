@@ -55,6 +55,7 @@ type
     procedure PrepareSIRD(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareMSIR(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSEIR(var y0, extraArgs: ArrayOfDouble);
+    procedure PrepareSEIS(var y0, extraArgs: ArrayOfDouble);
   private
 
   public
@@ -88,6 +89,7 @@ begin
     SIRD: self.PrepareSIRD(y0, extraArgs);
     MSIR: self.PrepareMSIR(y0, extraArgs);
     SEIR: self.PrepareSEIR(y0, extraArgs);
+    SEIS: self.PrepareSEIS(y0, extraArgs);
   end;
 
   { Apply Euler to the model's differential equations }
@@ -139,6 +141,15 @@ begin
           self.chtPreSimulationE.AddXY(t[i], OdeEulerResult[1][i]); // E
           self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[2][i]); // I
           self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[3][i]); // R
+        end;
+      end;
+
+    SEIS: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
+          self.chtPreSimulationE.AddXY(t[i], OdeEulerResult[1][i]); // E
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[2][i]); // I
         end;
       end;
 
@@ -315,6 +326,37 @@ begin
   self.chtPreSimulationE.Active := True;
   self.chtPreSimulationI.Active := True;
   self.chtPreSimulationR.Active := True;
+end;
+
+procedure TfrmPreSimulationChart.PrepareSEIS(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 3);
+  y0[2] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
+  y0[1] := 0;                                                 // E
+  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+
+  SetLength(extraArgs, 6);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+  extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
+  extraArgs[4] := StrToFloat(frmMain.edtLambda.Text);         // Lambda
+  extraArgs[5] := StrToFloat(frmMain.edtEpsilon.Text);        // Epsilon
+
+  { Arrange Line Series Color }
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationE.SeriesColor := clOlive;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
+
+  { Define Line Series Titles }
+  self.chtPreSimulationS.Title := 'Susceptible';
+  self.chtPreSimulationE.Title := 'Exposed';
+  self.chtPreSimulationI.Title := 'Infected';
+
+  { Activate Line Series }
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationE.Active := True;
+  self.chtPreSimulationI.Active := True;
 end;
 
 procedure TfrmPreSimulationChart.FormClose(Sender: TObject);

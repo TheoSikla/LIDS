@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="16">
+    <Units Count="17">
       <Unit0>
         <Filename Value="bvs.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -115,6 +115,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="utlSEIR_u"/>
       </Unit15>
+      <Unit16>
+        <Filename Value="utils/utlseis_u.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utlSEIS_u"/>
+      </Unit16>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

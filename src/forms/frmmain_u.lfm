@@ -1,10 +1,10 @@
 object frmMain: TfrmMain
-  Left = 691
-  Height = 397
-  Top = 385
+  Left = 2277
+  Height = 451
+  Top = 161
   Width = 1144
   Caption = 'BVS'
-  ClientHeight = 372
+  ClientHeight = 426
   ClientWidth = 1144
   Menu = mnuMainMenu
   OnCreate = FormCreate
@@ -23,7 +23,7 @@ object frmMain: TfrmMain
   object lblDays: TLabel
     Left = 728
     Height = 30
-    Top = 75
+    Top = 72
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -37,7 +37,7 @@ object frmMain: TfrmMain
   object lblBeta: TLabel
     Left = 728
     Height = 30
-    Top = 107
+    Top = 104
     Width = 50
     Alignment = taRightJustify
     AutoSize = False
@@ -95,7 +95,7 @@ object frmMain: TfrmMain
   object lblInitialInfected: TLabel
     Left = 648
     Height = 30
-    Top = 328
+    Top = 360
     Width = 130
     Alignment = taRightJustify
     AutoSize = False
@@ -109,7 +109,7 @@ object frmMain: TfrmMain
   object edtInitialInfected: TEdit
     Left = 783
     Height = 33
-    Top = 328
+    Top = 360
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
@@ -201,7 +201,7 @@ object frmMain: TfrmMain
   object lblMaternallyDerivedImmunity: TLabel
     Left = 448
     Height = 30
-    Top = 299
+    Top = 328
     Width = 330
     Alignment = taRightJustify
     AutoSize = False
@@ -215,7 +215,7 @@ object frmMain: TfrmMain
   object edtMaternallyDerivedImmunity: TEdit
     Left = 783
     Height = 33
-    Top = 296
+    Top = 328
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
@@ -245,6 +245,30 @@ object frmMain: TfrmMain
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
     TabOrder = 10
+  end
+  object lblEpsilon: TLabel
+    Left = 727
+    Height = 30
+    Top = 296
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'ε :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtEpsilon: TEdit
+    Left = 783
+    Height = 33
+    Top = 296
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtFloatKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 11
   end
   object btnImportDialog: TOpenDialog
     left = 32

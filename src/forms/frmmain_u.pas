@@ -42,6 +42,7 @@ type
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
     cbxAvailableModels: TComboBox;
+    edtEpsilon: TEdit;
     edtDays: TEdit;
     edtBeta: TEdit;
     edtAlpha: TEdit;
@@ -52,6 +53,7 @@ type
     edtLambda: TEdit;
     edtDelta: TEdit;
     frmTimer: TTimer;
+    lblEpsilon: TLabel;
     lblDays: TLabel;
     lblBeta: TLabel;
     lblAlpha: TLabel;
@@ -148,6 +150,7 @@ begin
            self.edtDelta.Enabled := False;
            self.edtMaternallyDerivedImmunity.Enabled := False;
            self.edtAlpha.Enabled := False;
+           self.edtEpsilon.Enabled := False;
     end;
 
     SIRD: begin
@@ -157,6 +160,7 @@ begin
        self.edtDelta.Enabled := False;
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
     end;
 
     MSIR: begin
@@ -166,6 +170,7 @@ begin
        self.edtMaternallyDerivedImmunity.Enabled := True;
 
        self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
     end;
 
     SEIR: begin
@@ -175,6 +180,17 @@ begin
 
        self.edtDelta.Enabled := False;
        self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtEpsilon.Enabled := False;
+    end;
+
+    SEIS: begin
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := True;
+       self.edtEpsilon.Enabled := True;
+
+       self.edtDelta.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
     end;
 
   end;
@@ -251,6 +267,14 @@ begin
          if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
             (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
             (self.edtLambda.Text <> '') AND (self.edtAlpha.Text <> '') AND
+            (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+
+  SEIS: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+            (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
             (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;

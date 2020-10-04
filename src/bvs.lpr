@@ -42,7 +42,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   utlSIR_u,
   utlSIS_u,
   utlSIRD_u,
-  utlMSIR_u, utlSEIR_u;
+  utlMSIR_u, utlSEIR_u, utlSEIS_u;
 
 {$R *.res}
 
