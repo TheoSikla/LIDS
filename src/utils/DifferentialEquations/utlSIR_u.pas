@@ -45,6 +45,13 @@ implementation
       Calculate the SIR's (Susceptible - Infectious - Recovered) model
       differential equations given a y state.
 
+
+      <>=============<>     βSI    <>============<>      γI    <>============<>
+      ||             ||            ||            ||            ||            ||
+      || Susceptible ||  ___\`-._  ||  Infected  ||  ___\`-._  || Recovered  ||
+      ||             ||     /.-'   ||            ||     /.-'   ||            ||
+      <>=============<>            <>============<>            <>============<>
+
       [************************************************************************]
 
       [ Parameters ]
@@ -61,12 +68,14 @@ implementation
       [ Variables ]
       [************************************************************************]
       Var N: The total population.
+
       Var beta  (β): The average number of contacts per person per time.
                      (Infection rate)
-
       Var gamma (γ): The recovery rate.
+
       Var S: Number of Susceptible individuals.
       Var I: Number of Infected individuals.
+
       Var dSdt: Calculated differential equation result for Susceptibles.
       Var dIdt: Calculated differential equation result for Infected.
       Var dRdt: Calculated differential equation result for Recovered.
