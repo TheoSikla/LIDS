@@ -32,7 +32,8 @@ uses
   utlEnum_u,
   utlSIR_u,
   utlSIS_u,
-  utlSIRD_u;
+  utlSIRD_u,
+  utlMSIR_u;
 
 function odeEuler(model: String; t, y0: ArrayOfDouble; extraArgs: ArrayOfDouble): ArrayOfArrayOfDouble;
 
@@ -95,6 +96,7 @@ implementation
         SIR: dXdts := SIRDE(x, extraArgs);
         SIS: dXdts := SISDE(x, extraArgs);
         SIRD: dXdts := SIRDDE(x, extraArgs);
+        MSIR: dXdts := MSIRDE(x, extraArgs);
       end;
 
       for j := 0 to Length(dXdts) - 1 do begin
