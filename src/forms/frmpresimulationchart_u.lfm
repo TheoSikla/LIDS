@@ -36,6 +36,11 @@ object frmpresimulationchart: Tfrmpresimulationchart
       'TAChart'
     )
     Visible = False
+    object chtPreSimulationM: TLineSeries
+      Active = False
+      Title = 'Maternally derived immunity'
+      LinePen.Width = 3
+    end
     object chtPreSimulationS: TLineSeries
       Active = False
       Title = 'Susceptible'

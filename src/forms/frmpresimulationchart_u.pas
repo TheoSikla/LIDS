@@ -32,7 +32,8 @@ uses
   utlArray_u,
   utlTypes_u,
   utlEuler_u,
-  utlEnum_u;
+  utlEnum_u,
+  utlConstants_u;
 
 type
 
@@ -42,6 +43,7 @@ type
     chtPreSimulation: TChart;
     chtPreSimulationI: TLineSeries;
     chtPreSimulationD: TLineSeries;
+    chtPreSimulationM: TLineSeries;
     chtPreSimulationR: TLineSeries;
     chtPreSimulationS: TLineSeries;
     procedure CalculatePreSimulation;
@@ -50,6 +52,7 @@ type
     procedure PrepareSIR(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIS(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIRD(var y0, extraArgs: ArrayOfDouble);
+    procedure PrepareMSIR(var y0, extraArgs: ArrayOfDouble);
   private
 
   public
@@ -81,6 +84,7 @@ begin
     SIR: self.PrepareSIR(y0, extraArgs);
     SIS: self.PrepareSIS(y0, extraArgs);
     SIRD: self.PrepareSIRD(y0, extraArgs);
+    MSIR: self.PrepareMSIR(y0, extraArgs);
   end;
 
   { Apply Euler to the model's differential equations }
@@ -112,6 +116,16 @@ begin
           self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
           self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[2][i]); // R
           self.chtPreSimulationD.AddXY(t[i], OdeEulerResult[3][i]); // D
+        end;
+      end;
+
+    MSIR: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationM.AddXY(t[i], OdeEulerResult[0][i]); // M
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[1][i]); // S
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[2][i]); // I
+          self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[3][i]); // R
         end;
       end;
 
@@ -152,6 +166,11 @@ begin
   self.chtPreSimulationI.SeriesColor := clMaroon;
   self.chtPreSimulationR.SeriesColor := clGreen;
 
+  { Define Line Series Titles }
+  self.chtPreSimulationS.Title := 'Susceptible';
+  self.chtPreSimulationI.Title := 'Infected';
+  self.chtPreSimulationR.Title := 'Recovered';
+
   { Activate Line Series }
   self.chtPreSimulationS.Active := True;
   self.chtPreSimulationI.Active := True;
@@ -172,6 +191,10 @@ begin
   { Arrange Line Series Color }
   self.chtPreSimulationS.SeriesColor := clNavy;
   self.chtPreSimulationI.SeriesColor := clMaroon;
+
+  { Define Line Series Titles }
+  self.chtPreSimulationS.Title := 'Susceptible';
+  self.chtPreSimulationI.Title := 'Infected';
 
   { Activate Line Series }
   self.chtPreSimulationS.Active := True;
@@ -198,11 +221,53 @@ begin
   self.chtPreSimulationR.SeriesColor := clGreen;
   self.chtPreSimulationD.SeriesColor := clMaroon;
 
+  { Define Line Series Titles }
+  self.chtPreSimulationS.Title := 'Susceptible';
+  self.chtPreSimulationI.Title := 'Infected';
+  self.chtPreSimulationR.Title := 'Recovered';
+  self.chtPreSimulationD.Title := 'Deceased';
+
   { Activate Line Series }
   self.chtPreSimulationS.Active := True;
   self.chtPreSimulationI.Active := True;
   self.chtPreSimulationR.Active := True;
   self.chtPreSimulationD.Active := True;
+end;
+
+procedure TfrmPreSimulationChart.PrepareMSIR(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 4);
+  y0[0] := StrToFloat(frmMain.edtMaternallyDerivedImmunity.Text);  // M
+  y0[2] := StrToFloat(frmMain.edtInitialInfected.Text);            // I
+  y0[3] := 0;                                                      // R
+  { Susceptible (y0[1]) = N - Maternally derived immunity - Infected - Recovered }
+  y0[1] := Length(frmMain.Nodes) - y0[0] - y0[2] - y0[3];          // S
+
+  SetLength(extraArgs, 6);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+  extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
+  extraArgs[4] := StrToFloat(frmMain.edtLambda.Text);         // Lambda
+  extraArgs[5] := StrToFloat(frmMain.edtDelta.Text);          // Delta
+
+  { Arrange Line Series Color }
+  self.chtPreSimulationM.SeriesColor := clFuchsia;
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationI.SeriesColor := clOlive;
+  self.chtPreSimulationR.SeriesColor := clGreen;
+
+  { Define Line Series Titles }
+  self.chtPreSimulationM.Title := 'Maternally' + sLineBreak + 'derived' + sLineBreak + 'immunity';
+  self.chtPreSimulationS.Title := ' ' + sLineBreak + 'Susceptible';
+  self.chtPreSimulationI.Title := ' ' + sLineBreak + 'Infected';
+  self.chtPreSimulationR.Title := ' ' + sLineBreak + 'Recovered';
+
+  { Activate Line Series }
+  self.chtPreSimulationM.Active := True;
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationI.Active := True;
+  self.chtPreSimulationR.Active := True;
 end;
 
 procedure TfrmPreSimulationChart.FormClose(Sender: TObject);
