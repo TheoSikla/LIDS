@@ -193,6 +193,16 @@ begin
        self.edtAlpha.Enabled := False;
     end;
 
+    MSEIR: begin
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := True;
+       self.edtEpsilon.Enabled := True;
+       self.edtDelta.Enabled := True;
+       self.edtMaternallyDerivedImmunity.Enabled := True;
+
+       self.edtAlpha.Enabled := False;
+    end;
+
   end;
 end;
 
@@ -275,6 +285,16 @@ begin
          if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
             (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
             (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
+            (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+
+  MSEIR: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+            (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
+            (self.edtDelta.Text <> '') AND
+            (self.edtMaternallyDerivedImmunity.Text <> '') AND
             (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;
