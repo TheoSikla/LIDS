@@ -46,6 +46,7 @@ type
     edtDays: TEdit;
     edtBeta: TEdit;
     edtAlpha: TEdit;
+    edtKappa: TEdit;
     edtGamma: TEdit;
     edtInitialInfected: TEdit;
     edtMaternallyDerivedImmunity: TEdit;
@@ -57,6 +58,7 @@ type
     lblDays: TLabel;
     lblBeta: TLabel;
     lblAlpha: TLabel;
+    lblKappa: TLabel;
     lblGamma: TLabel;
     lblMaternallyDerivedImmunity: TLabel;
     lblMu: TLabel;
@@ -145,15 +147,31 @@ procedure TfrmMain.cbxAvailableModelsChange(Sender: TObject);
 begin
   case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
     SIR, SIS: begin
-           self.edtMu.Enabled := False;
-           self.edtLambda.Enabled := False;
-           self.edtDelta.Enabled := False;
-           self.edtMaternallyDerivedImmunity.Enabled := False;
-           self.edtAlpha.Enabled := False;
-           self.edtEpsilon.Enabled := False;
+       self.edtGamma.Enabled := True;
+
+       self.edtMu.Enabled := False;
+       self.edtLambda.Enabled := False;
+       self.edtDelta.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
+       self.edtKappa.Enabled := False;
+    end;
+
+    SIQ: begin
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := True;
+       self.edtDelta.Enabled := True;
+       self.edtKappa.Enabled := True;
+
+       self.edtGamma.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
     end;
 
     SIRD: begin
+       self.edtGamma.Enabled := True;
        self.edtMu.Enabled := True;
 
        self.edtLambda.Enabled := False;
@@ -161,9 +179,11 @@ begin
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtAlpha.Enabled := False;
        self.edtEpsilon.Enabled := False;
+       self.edtKappa.Enabled := False;
     end;
 
     MSIR: begin
+       self.edtGamma.Enabled := True;
        self.edtMu.Enabled := True;
        self.edtLambda.Enabled := True;
        self.edtDelta.Enabled := True;
@@ -171,9 +191,11 @@ begin
 
        self.edtAlpha.Enabled := False;
        self.edtEpsilon.Enabled := False;
+       self.edtKappa.Enabled := False;
     end;
 
     SEIR: begin
+       self.edtGamma.Enabled := True;
        self.edtMu.Enabled := True;
        self.edtLambda.Enabled := True;
        self.edtAlpha.Enabled := True;
@@ -181,9 +203,11 @@ begin
        self.edtDelta.Enabled := False;
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtEpsilon.Enabled := False;
+       self.edtKappa.Enabled := False;
     end;
 
     SEIS: begin
+       self.edtGamma.Enabled := True;
        self.edtMu.Enabled := True;
        self.edtLambda.Enabled := True;
        self.edtEpsilon.Enabled := True;
@@ -191,9 +215,11 @@ begin
        self.edtDelta.Enabled := False;
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtAlpha.Enabled := False;
+       self.edtKappa.Enabled := False;
     end;
 
     MSEIR: begin
+       self.edtGamma.Enabled := True;
        self.edtMu.Enabled := True;
        self.edtLambda.Enabled := True;
        self.edtEpsilon.Enabled := True;
@@ -201,6 +227,7 @@ begin
        self.edtMaternallyDerivedImmunity.Enabled := True;
 
        self.edtAlpha.Enabled := False;
+       self.edtKappa.Enabled := False;
     end;
 
   end;
@@ -254,6 +281,14 @@ begin
   SIR, SIS: begin
          if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
             (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+
+  SIQ: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtMu.Text <> '') AND (self.edtLambda.Text <> '') AND
+            (self.edtDelta.Text <> '') AND (self.edtKappa.Text <> '') AND
+            (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;
 

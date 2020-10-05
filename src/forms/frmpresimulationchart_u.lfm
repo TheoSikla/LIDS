@@ -57,6 +57,10 @@ object frmpresimulationchart: Tfrmpresimulationchart
       LinePen.Color = clGreen
       LinePen.Width = 3
     end
+    object chtPreSimulationQ: TLineSeries
+      Active = False
+      LinePen.Width = 3
+    end
     object chtPreSimulationR: TLineSeries
       Active = False
       Title = 'Recovered'

@@ -1,10 +1,10 @@
 object frmMain: TfrmMain
-  Left = 776
-  Height = 451
-  Top = 191
+  Left = 497
+  Height = 488
+  Top = 232
   Width = 1144
   Caption = 'BVS'
-  ClientHeight = 426
+  ClientHeight = 463
   ClientWidth = 1144
   Menu = mnuMainMenu
   OnCreate = FormCreate
@@ -95,7 +95,7 @@ object frmMain: TfrmMain
   object lblInitialInfected: TLabel
     Left = 648
     Height = 30
-    Top = 360
+    Top = 392
     Width = 130
     Alignment = taRightJustify
     AutoSize = False
@@ -109,12 +109,12 @@ object frmMain: TfrmMain
   object edtInitialInfected: TEdit
     Left = 783
     Height = 33
-    Top = 360
+    Top = 392
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 9
+    TabOrder = 12
   end
   object cbxAvailableModels: TComboBox
     Left = 752
@@ -201,7 +201,7 @@ object frmMain: TfrmMain
   object lblMaternallyDerivedImmunity: TLabel
     Left = 448
     Height = 30
-    Top = 328
+    Top = 360
     Width = 330
     Alignment = taRightJustify
     AutoSize = False
@@ -215,12 +215,12 @@ object frmMain: TfrmMain
   object edtMaternallyDerivedImmunity: TEdit
     Left = 783
     Height = 33
-    Top = 328
+    Top = 360
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 8
+    TabOrder = 11
   end
   object lblAlpha: TLabel
     Left = 727
@@ -244,7 +244,7 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 10
+    TabOrder = 8
   end
   object lblEpsilon: TLabel
     Left = 727
@@ -268,7 +268,31 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 11
+    TabOrder = 9
+  end
+  object lblKappa: TLabel
+    Left = 727
+    Height = 30
+    Top = 328
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'κ :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtKappa: TEdit
+    Left = 783
+    Height = 33
+    Top = 328
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtFloatKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 10
   end
   object btnImportDialog: TOpenDialog
     left = 32
