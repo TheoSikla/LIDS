@@ -32,6 +32,7 @@ uses
   utlEnum_u,
   utlSIR_u,
   utlSIS_u,
+  utlSIQ_u,
   utlSIRD_u,
   utlMSIR_u,
   utlSEIR_u,
@@ -98,6 +99,7 @@ implementation
       case model of
         SIR: dXdts := SIRDE(x, extraArgs);
         SIS: dXdts := SISDE(x, extraArgs);
+        SIQ: dXdts := SIQDE(x, extraArgs);
         SIRD: dXdts := SIRDDE(x, extraArgs);
         MSIR: dXdts := MSIRDE(x, extraArgs);
         SEIR: dXdts := SEIRDE(x, extraArgs);
