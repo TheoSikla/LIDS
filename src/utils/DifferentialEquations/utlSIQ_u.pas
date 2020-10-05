@@ -60,7 +60,7 @@ implementation
       Param extraArgs: An array of double containing the extra arguments that
                        are needed in order to perform calculations. The correct
                        form of the array should be:
-                        0    1     2    3      4      5
+                        0    1   2     3       4      5
                        [N, beta, mu, lambda, delta, kappa]
 
       [************************************************************************]
