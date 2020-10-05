@@ -42,10 +42,12 @@ type
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
     cbxAvailableModels: TComboBox;
+    edtDelta1: TEdit;
     edtEpsilon: TEdit;
     edtDays: TEdit;
     edtBeta: TEdit;
     edtAlpha: TEdit;
+    edtZeta: TEdit;
     edtKappa: TEdit;
     edtGamma: TEdit;
     edtInitialInfected: TEdit;
@@ -54,10 +56,12 @@ type
     edtLambda: TEdit;
     edtDelta: TEdit;
     frmTimer: TTimer;
+    lblDelta1: TLabel;
     lblEpsilon: TLabel;
     lblDays: TLabel;
     lblBeta: TLabel;
     lblAlpha: TLabel;
+    lblZeta: TLabel;
     lblKappa: TLabel;
     lblGamma: TLabel;
     lblMaternallyDerivedImmunity: TLabel;
@@ -156,6 +160,8 @@ begin
        self.edtAlpha.Enabled := False;
        self.edtEpsilon.Enabled := False;
        self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
     end;
 
     SIQ: begin
@@ -165,6 +171,22 @@ begin
        self.edtKappa.Enabled := True;
 
        self.edtGamma.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
+    end;
+
+    SIQS: begin
+       self.edtGamma.Enabled := True;
+       self.edtMu.Enabled := True;
+       self.edtLambda.Enabled := True;
+       self.edtDelta.Enabled := True;
+       self.edtDelta1.Enabled := True;
+       self.edtKappa.Enabled := True;
+       self.edtZeta.Enabled := True;
+
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtAlpha.Enabled := False;
        self.edtEpsilon.Enabled := False;
@@ -180,6 +202,8 @@ begin
        self.edtAlpha.Enabled := False;
        self.edtEpsilon.Enabled := False;
        self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
     end;
 
     MSIR: begin
@@ -192,6 +216,8 @@ begin
        self.edtAlpha.Enabled := False;
        self.edtEpsilon.Enabled := False;
        self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
     end;
 
     SEIR: begin
@@ -204,6 +230,8 @@ begin
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtEpsilon.Enabled := False;
        self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
     end;
 
     SEIS: begin
@@ -216,6 +244,8 @@ begin
        self.edtMaternallyDerivedImmunity.Enabled := False;
        self.edtAlpha.Enabled := False;
        self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
     end;
 
     MSEIR: begin
@@ -228,6 +258,8 @@ begin
 
        self.edtAlpha.Enabled := False;
        self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
     end;
 
   end;
@@ -289,6 +321,15 @@ begin
             (self.edtMu.Text <> '') AND (self.edtLambda.Text <> '') AND
             (self.edtDelta.Text <> '') AND (self.edtKappa.Text <> '') AND
             (self.edtInitialInfected.Text <> '')
+              then Result := True;
+       end;
+
+  SIQS: begin
+         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+            (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
+            (self.edtDelta1.Text <> '') AND (self.edtKappa.Text <> '') AND
+            (self.edtZeta.Text <> '') AND (self.edtInitialInfected.Text <> '')
               then Result := True;
        end;
 
