@@ -73,7 +73,7 @@ implementation
       Var beta  (β): The average number of contacts per person per time.
                      (Infection rate)
       Var gamma (γ): The recovery rate.
-      Var mu (μ): The mortality rate.
+      Var mu (μ): Natural mortality rate.
       Var lambda (Λ): Recruitment of the susceptible individuals (birth etc.)
       Var epsilon (ε): The rate at which exposed individuals become infectious.
 
