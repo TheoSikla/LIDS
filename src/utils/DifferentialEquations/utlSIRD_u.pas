@@ -71,7 +71,7 @@ implementation
       Var beta  (β): The average number of contacts per person per time.
                      (Infection rate)
       Var gamma (γ): The recovery rate.
-      Var mu (μ): The mortality rate.
+      Var mu (μ): Natural mortality rate.
 
       Var S: Number of Susceptible individuals.
       Var I: Number of Infected individuals.

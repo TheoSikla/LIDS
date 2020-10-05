@@ -74,9 +74,9 @@ implementation
       Var beta  (β): The average number of contacts per person per time.
                      (Infection rate)
       Var gamma (γ): The recovery rate.
-      Var mu (μ): The mortality rate.
+      Var mu (μ): Natural mortality rate.
       Var lambda (Λ): Recruitment of the susceptible individuals (birth etc.)
-      Var delta (δ): Additional mortality.
+      Var delta (δ): Disease mortality rate.
 
       Var M: Number of individuals with Maternally derived immunity.
       Var S: Number of Susceptible individuals.
