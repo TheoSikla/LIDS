@@ -13,6 +13,7 @@ It can also be expressed by the following set of ordinary differential equations
 
 <div>
 <span align="center">
+ 
 <img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="200"  alt="SIR"/><br><br>
  
 <img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," width="200" alt="SIR"/><br><br>
