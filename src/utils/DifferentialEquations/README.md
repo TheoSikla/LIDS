@@ -18,7 +18,7 @@ It can also be expressed by the following set of ordinary differential equations
  
 <img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," width="200" alt="SIR"/><br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," width="125"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I" width="125"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 </span>
 </div>
 
@@ -38,3 +38,43 @@ N: The total population.
 <span>&gamma;</span>: The recovery rate.  
 
 For more information on the SIR epidemic model check: [here](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model)
+
+<br>
+
+---
+
+<br>
+
+## SIS
+
+Some infections, for example, those from the **common cold** and **influenza**, do not confer any <ins>long-lasting immunity</ins>. Such infections do not give immunity upon recovery from infection, and individuals become <ins>susceptible</ins> again.
+
+This model can be expressed by the following set of ordinary differential equations:
+
+<div>
+<span align="center">
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}%2B\gamma I\ ,}" width="210" style="background-color:white"  alt="SIR"/><br><br>
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}-\gamma I\ }" width="175" style="background-color:white"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+</div>
+
+<!-- 
+For https://latex.codecogs.com/ :
+
+{\displaystyle 
+{\begin{aligned}
+{\frac {dS}{dt}}&=-{\frac {\beta SI}{N}}+\gamma I\\
+[6pt]{\frac {dI}{dt}}&={\frac {\beta SI}{N}}-\gamma I
+\end{aligned}}}
+} -->
+
+Where:  
+
+N: The total population.  
+<span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
+<span>&gamma;</span>: The recovery rate.
+
+
+For more information on the SIS epidemic model check: [here](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIS_model)
