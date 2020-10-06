@@ -14,9 +14,12 @@ It can also be expressed by the following set of ordinary differential equations
 <div>
 <span align="center">
 <img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="200"  alt="SIR"/><br><br>
+ 
 <img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," width="200" alt="SIR"/><br><br>
+
 <img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," width="125"  alt="SIR"/><br><br>
 </span>
+</div>
 
 <!-- 
 For https://latex.codecogs.com/ :
@@ -26,7 +29,6 @@ For https://latex.codecogs.com/ :
 [6pt]&{\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ,\ \\
 [6pt]&{\frac {dR}{dt}}=\gamma I\ ,\ \\\end{aligned}}
 } -->
-</div>
 
 Where:  
 
