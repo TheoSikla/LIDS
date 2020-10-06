@@ -14,11 +14,11 @@ It can also be expressed by the following set of ordinary differential equations
 <div>
 <span align="center">
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="185"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="185" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," width="205" alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," width="205" style="background-color:white" alt="SIR"/><br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I" width="100"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I" width="100" style="background-color:white"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 </span>
 </div>
 
