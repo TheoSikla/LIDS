@@ -76,5 +76,50 @@ N: The total population.
 <span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
 <span>&gamma;</span>: The recovery rate.
 
-
 For more information on the SIS epidemic model check: [here](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIS_model)
+
+<br>
+
+---
+
+<br>
+
+## SIRD
+
+The Susceptible Infectious Recovered Deceased Model differentiates between <ins>Recovered</ins> (meaning specifically individuals having survived the disease and now immune) and <ins>Deceased</ins>.
+
+This model can be expressed by the following set of **ordinary differential equations**:
+
+<div>
+<span align="center">
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="185" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I-\mu I\  ," width="250" style="background-color:white" alt="SIR"/><br><br>
+
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," width="120" style="background-color:white"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dD}{dt}}=\mu I" width="105" style="background-color:white"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+</span>
+</div>
+
+<!-- 
+For https://latex.codecogs.com/ :
+
+{\displaystyle 
+{\begin{aligned}
+&{\frac {dS}{dt}}=-{\frac {\beta IS}{N}},\\
+[6pt]&{\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I-\mu I,\\
+[6pt]&{\frac {dR}{dt}}=\gamma I,\\
+[6pt]&{\frac {dD}{dt}}=\mu I,
+\end{aligned}}}
+} -->
+
+Where:  
+
+N: The total population.  
+<span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
+<span>&gamma;</span>: The recovery rate.  
+<span>&mu;</span>: Natural mortality rate.
+
+For more information on the SIS epidemic model check: [here](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIRD_model)
