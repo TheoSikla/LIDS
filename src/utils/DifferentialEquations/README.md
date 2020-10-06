@@ -11,6 +11,34 @@ The SIR is one of the simplest compartmental epidemic models. It consists of thr
 
 It can also be expressed by the following set of ordinary differential equations:
 
-<p align="center">
-  <img src="./images/sir_de.svg" style="background-color:white" alt="SIR"/>
-</p>
+<div>
+<span style="text-align: center; width: 100%; display: inline-block;">
+  <img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" style="background-color:white; height:50px;"  alt="SIR"/>
+</span>
+
+<span style="text-align: center; width: 100%; display: inline-block;">
+  <img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," style="background-color:white; height:50px" alt="SIR"/>
+</span>
+
+<span style="text-align: center; width: 100%; display: inline-block;">
+  <img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," style="background-color:white; height:50px" alt="SIR"/>
+</span>
+
+
+<!-- 
+For https://latex.codecogs.com/ :
+
+{\displaystyle
+ {\\\begin{aligned}&{\frac {dS}{dt}}=-{\frac {\beta IS}{N}}\ ,\ \\
+[6pt]&{\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ,\ \\
+[6pt]&{\frac {dR}{dt}}=\gamma I\ ,\ \\\end{aligned}}
+} -->
+</div>
+
+Where:  
+
+N: The total population.  
+<span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
+<span>&gamma;</span>: The recovery rate.  
+
+For more information on the SIR epidemic model check: [here](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model)
