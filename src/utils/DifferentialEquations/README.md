@@ -12,18 +12,11 @@ The SIR is one of the simplest compartmental epidemic models. It consists of thr
 It can also be expressed by the following set of ordinary differential equations:
 
 <div>
-<span style="text-align: center; width: 100%; display: inline-block;">
-  <img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" style="background-color:white; height:50px;"  alt="SIR"/>
+<span align="center">
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="200"  alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," width="200" alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," width="125"  alt="SIR"/><br><br>
 </span>
-
-<span style="text-align: center; width: 100%; display: inline-block;">
-  <img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I\ ," style="background-color:white; height:50px" alt="SIR"/>
-</span>
-
-<span style="text-align: center; width: 100%; display: inline-block;">
-  <img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," style="background-color:white; height:50px" alt="SIR"/>
-</span>
-
 
 <!-- 
 For https://latex.codecogs.com/ :
