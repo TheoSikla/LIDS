@@ -129,6 +129,55 @@ For more information on the SIQ epidemic model check: [here](https://www.researc
 
 <br>
 
+## SIQS
+
+In SIQS we have an extra step after the Quarantine compartment, where quarantined individuals recover from the disease, but they become susceptible again as they do not gain any type of immunity from that disease. An example of such disease can be [Covid-19](https://en.wikipedia.org/wiki/COVID-19_pandemic).
+
+This model can be expressed by the following set of **ordinary differential equations**:
+
+<div>
+<span align="center">
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=\Lambda - {\frac {\beta SI}{N}} - \mu S %2B \gamma I %2B \zeta Q\ ," width="380" style="background-color:white"  alt="SIQS"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta SI}{N}} - (\mu %2B \delta %2B \kappa %2B \gamma)I\ ," width="370" style="background-color:white" alt="SIQS"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dQ}{dt}}=\kappa I - (\mu %2B \delta1 %2B \zeta)Q" width="310" style="background-color:white" alt="SIQS"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+</span>
+</div>
+
+<!-- 
+For https://latex.codecogs.com/ :
+
+{\displaystyle 
+{\begin{aligned}
+{\frac {dS}{dt}}&=\Lambda - {\frac {\beta SI}{N}} - \mu S + \gamma I + \zeta Q ,\\
+[6pt]{\frac {dI}{dt}}&={\frac {\beta SI}{N}} - (\mu + \delta + \kappa + \gamma)I ,\\
+[6pt]{\frac {dQ}{dt}}&=\kappa I - (\mu + \delta1 + \zeta)Q
+\end{aligned}}}
+} -->
+
+Where:  
+
+N: The total population.  
+<span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
+<span>&gamma;</span>: The recovery rate.  
+<span>&mu;</span>: Natural mortality rate.  
+<span>&Lambda;</span>: Recruitment of the susceptible individuals (birth etc.)  
+<span>&delta;</span>: Disease mortality rate.  
+<span>&delta;1</span>: Disease mortality rate of quarantined individuals.  
+<span>&kappa;</span>: The rate where the infected individuals become quarantined.  
+<span>&zeta;</span>: The rate where quarantined individuals become susceptible again.  
+
+For more information on the SIQS epidemic model check: [here](https://www.researchgate.net/publication/324680133_Dynamic_behavior_of_a_stochastic_SIQS_epidemic_model_with_Levy_jumps)
+
+<br>
+
+---
+
+<br>
+
 ## SIRD
 
 The Susceptible Infectious Recovered Deceased Model differentiates between <ins>Recovered</ins> (meaning specifically individuals having survived the disease and now immune) and <ins>Deceased</ins>.
