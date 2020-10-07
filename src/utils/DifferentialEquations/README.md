@@ -54,10 +54,10 @@ This model can be expressed by the following set of **ordinary differential equa
 <div>
 <span align="center">
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}%2B\gamma I\ ,}" width="220" style="background-color:white"  alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}%2B\gamma I\ ,}" width="220" style="background-color:white"  alt="SIS"/><br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}-\gamma I\ }" width="185" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
-
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}-\gamma I\ }" width="185" style="background-color:white" alt="SIS"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+</span>
 </div>
 
 <!-- 
@@ -84,6 +84,51 @@ For more information on the SIS epidemic model check: [here](https://en.wikipedi
 
 <br>
 
+## SIQ
+
+SIQ is another very simple compartmental epidemic model which is similar to the SIQ model. The main difference is that **Infected** individuals are now going to the new **Quarantined** compartment instead of the **Recovered** one.
+
+This model can be expressed by the following set of **ordinary differential equations**:
+
+<div>
+<span align="center">
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=\Lambda - {\frac {\beta SI}{N}} - \mu S\ ," width="240" style="background-color:white" alt="SIQ"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}=\Lambda %2B {\frac {\beta SI}{N}} - (\mu %2B \delta %2B \kappa)I\ ," width="370" style="background-color:white" alt="SIQ"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dQ}{dt}}=\kappa I - (\mu %2B \delta)Q" width="250" style="background-color:white" alt="SIQ"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+</span>
+</div>
+
+<!-- 
+For https://latex.codecogs.com/ :
+
+{\displaystyle 
+{\begin{aligned}
+{\frac {dS}{dt}}&=\Lambda - {\frac {\beta SI}{N}} - \mu S\\
+[6pt]{\frac {dI}{dt}}&=\Lambda + {\frac {\beta SI}{N}} - (\mu + \delta + \kappa)I\\
+[6pt]{\frac {dQ}{dt}}&=\kappa I - (\mu + \delta)Q
+\end{aligned}}}
+} -->
+
+Where:  
+
+N: The total population.  
+<span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
+<span>&mu;</span>: Natural mortality rate.  
+<span>&Lambda;</span>: Recruitment of the susceptible individuals (birth etc.)  
+<span>&delta;</span>: Disease mortality rate.  
+<span>&kappa;</span>: The rate where the infected individuals become quarantined.  
+
+For more information on the SIQ epidemic model check: [here](https://www.researchgate.net/publication/228385000_Global_Stability_of_an_SIQ_Epidemic_Model)
+
+<br>
+
+---
+
+<br>
+
 ## SIRD
 
 The Susceptible Infectious Recovered Deceased Model differentiates between <ins>Recovered</ins> (meaning specifically individuals having survived the disease and now immune) and <ins>Deceased</ins>.
@@ -93,13 +138,13 @@ This model can be expressed by the following set of **ordinary differential equa
 <div>
 <span align="center">
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="185" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=-{\frac {\beta IS}{N}\ ,}" width="185" style="background-color:white" alt="SIRD"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I-\mu I\  ," width="250" style="background-color:white" alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta IS}{N}}-\gamma I-\mu I\  ," width="250" style="background-color:white" alt="SIRD"/><br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," width="120" style="background-color:white"  alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I\ ," width="120" style="background-color:white"  alt="SIRD"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dD}{dt}}=\mu I" width="105" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dD}{dt}}=\mu I" width="105" style="background-color:white" alt="SIRD"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 </span>
 </div>
 
@@ -139,15 +184,16 @@ This model can be expressed by the following set of **ordinary differential equa
 <div>
 <span align="center">
  
- <img src="https://render.githubusercontent.com/render/math?math={\frac {dM}{dT}}=\Lambda - \delta M -\mu M\ ," width="210" style="background-color:white" alt="SIR"/>&nbsp;<br><br>
+ <img src="https://render.githubusercontent.com/render/math?math={\frac {dM}{dT}}=\Lambda - \delta M -\mu M\ ," width="210" style="background-color:white" alt="MSIR"/>&nbsp;<br><br>
 </span>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dT}}=\delta M - {\frac {\beta SI}{N}} - \mu S\ ," width="220" style="background-color:white" alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dT}}=\delta M - {\frac {\beta SI}{N}} - \mu S\ ," width="220" style="background-color:white" alt="MSIR"/><br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dT}}={\frac {\beta SI}{N}} - \gamma I - \mu I\  ," width="215" style="background-color:white" alt="SIR"/>&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dT}}={\frac {\beta SI}{N}} - \gamma I - \mu I\  ," width="215" style="background-color:white" alt="MSIR"/>&nbsp;<br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dT}}= \gamma I - \mu R\ ," width="160" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dT}}= \gamma I - \mu R\ ," width="160" style="background-color:white" alt="MSIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
+</span>
 </div>
 
 <!-- 
@@ -188,13 +234,13 @@ This model can be expressed by the following set of **ordinary differential equa
 <div>
 <span align="center">
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=\Lambda N - \mu S - {\frac {\beta IS}{N}}\ ," width="230" style="background-color:white" alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=\Lambda N - \mu S - {\frac {\beta IS}{N}}\ ," width="230" style="background-color:white" alt="SEIR"/><br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dE}{dt}}={\frac {\beta IS}{N}} - (\mu %2B a)E\ ," width="210" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dE}{dt}}={\frac {\beta IS}{N}} - (\mu %2B a)E\ ," width="210" style="background-color:white" alt="SEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}=aE - (\gamma %2B \mu )I\  ," width="205" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}=aE - (\gamma %2B \mu )I\  ," width="205" style="background-color:white" alt="SEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I - \mu R" width="160" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I - \mu R" width="160" style="background-color:white" alt="SEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
 </span>
 </div>
@@ -237,11 +283,11 @@ This model can be expressed by the following set of **ordinary differential equa
 <div>
 <span align="center">
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dT}}=\Lambda -{\frac {\beta SI}{N}}-\mu S %2B\gamma I\ ," width="280" style="background-color:white" alt="SIR"/><br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dT}}=\Lambda -{\frac {\beta SI}{N}}-\mu S %2B\gamma I\ ," width="280" style="background-color:white" alt="SEIS"/><br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dE}{dT}}={\frac {\beta SI}{N}} - (\epsilon %2B \mu )E\ ," width="255" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dE}{dT}}={\frac {\beta SI}{N}} - (\epsilon %2B \mu )E\ ," width="255" style="background-color:white" alt="SEIS"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dT}}=\varepsilon E - (\gamma %2B \mu )I" width="250" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dT}}=\varepsilon E - (\gamma %2B \mu )I" width="250" style="background-color:white" alt="SEIS"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
 </span>
 </div>
@@ -283,15 +329,15 @@ This model can be expressed by the following set of **ordinary differential equa
 <div>
 <span align="center">
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dM}{dT}}=\Lambda - \delta M - \mu M\ ," width="280" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dM}{dT}}=\Lambda - \delta M - \mu M\ ," width="280" style="background-color:white" alt="MSEIR"/>&nbsp;&nbsp;&nbsp;<br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dT}}=\delta M - {\frac {\beta SI}{N}} - \mu S\ ," width="275" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dT}}=\delta M - {\frac {\beta SI}{N}} - \mu S\ ," width="275" style="background-color:white" alt="MSEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
  
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dE}{dT}}={\frac {\beta SI}{N}} - (\varepsilon %2B \mu )E\ ," width="270" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dE}{dT}}={\frac {\beta SI}{N}} - (\varepsilon %2B \mu )E\ ," width="270" style="background-color:white" alt="MSEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dT}}=\varepsilon E - (\gamma %2B \mu )I\ ," width="270" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dT}}=\varepsilon E - (\gamma %2B \mu )I\ ," width="270" style="background-color:white" alt="MSEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
-<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dT}}=\gamma I - \mu R" width="200" style="background-color:white" alt="SIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dT}}=\gamma I - \mu R" width="200" style="background-color:white" alt="MSEIR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
 
 </span>
 </div>
