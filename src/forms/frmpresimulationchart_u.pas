@@ -55,6 +55,7 @@ type
     procedure PrepareSIS(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIQ(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIQS(var y0, extraArgs: ArrayOfDouble);
+    procedure PrepareSIQR(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSIRD(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareMSIR(var y0, extraArgs: ArrayOfDouble);
     procedure PrepareSEIR(var y0, extraArgs: ArrayOfDouble);
@@ -92,6 +93,7 @@ begin
     SIS: self.PrepareSIS(y0, extraArgs);
     SIQ: self.PrepareSIQ(y0, extraArgs);
     SIQS: self.PrepareSIQS(y0, extraArgs);
+    SIQR: self.PrepareSIQR(y0, extraArgs);
     SIRD: self.PrepareSIRD(y0, extraArgs);
     MSIR: self.PrepareMSIR(y0, extraArgs);
     SEIR: self.PrepareSEIR(y0, extraArgs);
@@ -127,6 +129,16 @@ begin
           self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
           self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
           self.chtPreSimulationQ.AddXY(t[i], OdeEulerResult[2][i]); // Q
+        end;
+      end;
+
+    SIQR: begin
+      for i := 0 to days - 1 do
+        begin
+          self.chtPreSimulationS.AddXY(t[i], OdeEulerResult[0][i]); // S
+          self.chtPreSimulationI.AddXY(t[i], OdeEulerResult[1][i]); // I
+          self.chtPreSimulationQ.AddXY(t[i], OdeEulerResult[2][i]); // Q
+          self.chtPreSimulationR.AddXY(t[i], OdeEulerResult[3][i]); // R
         end;
       end;
 
@@ -314,6 +326,44 @@ begin
   self.chtPreSimulationS.Active := True;
   self.chtPreSimulationI.Active := True;
   self.chtPreSimulationQ.Active := True;
+end;
+
+procedure TfrmPreSimulationChart.PrepareSIQR(var y0, extraArgs: ArrayOfDouble);
+begin
+  SetLength(y0, 4);
+  y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
+  y0[2] := 0;                                                 // Q
+  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[3] := 0;                                                 // R
+
+  SetLength(extraArgs, 9);
+  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
+  extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
+  extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
+  extraArgs[4] := StrToFloat(frmMain.edtLambda.Text);         // Lambda
+  extraArgs[5] := StrToFloat(frmMain.edtDelta.Text);          // Delta
+  extraArgs[6] := StrToFloat(frmMain.edtDelta1.Text);         // Delta1
+  extraArgs[7] := StrToFloat(frmMain.edtKappa.Text);          // Kappa
+  extraArgs[8] := StrToFloat(frmMain.edtZeta.Text);           // Zeta
+
+  { Arrange Line Series Color }
+  self.chtPreSimulationS.SeriesColor := clNavy;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
+  self.chtPreSimulationQ.SeriesColor := TColor($F59D81);
+  self.chtPreSimulationR.SeriesColor := clGreen;
+
+  { Define Line Series Titles }
+  self.chtPreSimulationS.Title := 'Susceptible';
+  self.chtPreSimulationI.Title := 'Infected';
+  self.chtPreSimulationQ.Title := 'Quarantined';
+  self.chtPreSimulationR.Title := 'Recovered';
+
+  { Activate Line Series }
+  self.chtPreSimulationS.Active := True;
+  self.chtPreSimulationI.Active := True;
+  self.chtPreSimulationQ.Active := True;
+  self.chtPreSimulationR.Active := True;
 end;
 
 procedure TfrmPreSimulationChart.PrepareSIRD(var y0, extraArgs: ArrayOfDouble);

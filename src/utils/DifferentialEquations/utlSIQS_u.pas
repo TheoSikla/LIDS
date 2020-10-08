@@ -75,7 +75,7 @@ implementation
       Var gamma (γ): The recovery rate.
       Var mu (μ): Natural mortality rate.
       Var lambda (Λ): Recruitment of the susceptible individuals (birth etc.)
-      Var delta (δ): Disease mortality rate.
+      Var delta (δ): Disease mortality rate of infectious individuals.
       Var delta1 (δ1): Disease mortality rate of quarantined individuals.
       Var Kappa (κ): The rate where the infected individuals become quarantined.
       Var Zeta (ζ): The rate where quarantined individuals become susceptible
