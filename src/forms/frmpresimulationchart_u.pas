@@ -216,10 +216,10 @@ begin
   SetLength(y0, 3);
   y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[2] := 0;                                                 // R
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[0] := frmMain.getN - y0[1] - y0[2];                      // S
 
   SetLength(extraArgs, 3);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
 
@@ -243,10 +243,10 @@ procedure TfrmPreSimulationChart.PrepareSIS(var y0, extraArgs: ArrayOfDouble);
 begin
   SetLength(y0, 2);
   y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
-  y0[0] := Length(frmMain.Nodes) - y0[1];                     // S
+  y0[0] := frmMain.getN - y0[1];                              // S
 
   SetLength(extraArgs, 3);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
 
@@ -268,10 +268,10 @@ begin
   SetLength(y0, 3);
   y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[2] := 0;                                                 // Q
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[0] := frmMain.getN - y0[1] - y0[2];                      // S
 
   SetLength(extraArgs, 6);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtMu.Text);             // Mu
   extraArgs[3] := StrToFloat(frmMain.edtLambda.Text);         // Lambda
@@ -299,10 +299,10 @@ begin
   SetLength(y0, 3);
   y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[2] := 0;                                                 // Q
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[0] := frmMain.getN - y0[1] - y0[2];                      // S
 
   SetLength(extraArgs, 9);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
@@ -333,11 +333,11 @@ begin
   SetLength(y0, 4);
   y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[2] := 0;                                                 // Q
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[0] := frmMain.getN - y0[1] - y0[2];                      // S
   y0[3] := 0;                                                 // R
 
   SetLength(extraArgs, 9);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
@@ -371,11 +371,11 @@ begin
   SetLength(y0, 4);
   y0[1] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[2] := 0;                                                 // R
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[0] := frmMain.getN - y0[1] - y0[2];                      // S
   y0[3] := 0;                                                 // D
 
   SetLength(extraArgs, 4);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
@@ -406,10 +406,10 @@ begin
   y0[2] := StrToFloat(frmMain.edtInitialInfected.Text);            // I
   y0[3] := 0;                                                      // R
   { Susceptible (y0[1]) = N - Maternally derived immunity - Infected - Recovered }
-  y0[1] := Length(frmMain.Nodes) - y0[0] - y0[2] - y0[3];          // S
+  y0[1] := frmMain.getN - y0[0] - y0[2] - y0[3];                   // S
 
   SetLength(extraArgs, 6);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
@@ -441,10 +441,10 @@ begin
   y0[3] := 0;                                                 // R
   y0[2] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[1] := 0;                                                 // E
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2] - y0[3];     // S
+  y0[0] := frmMain.getN - y0[1] - y0[2] - y0[3];              // S
 
   SetLength(extraArgs, 6);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
@@ -475,10 +475,10 @@ begin
   SetLength(y0, 3);
   y0[2] := StrToFloat(frmMain.edtInitialInfected.Text);       // I
   y0[1] := 0;                                                 // E
-  y0[0] := Length(frmMain.Nodes) - y0[1] - y0[2];             // S
+  y0[0] := frmMain.getN - y0[1] - y0[2];                      // S
 
   SetLength(extraArgs, 6);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu
@@ -509,10 +509,10 @@ begin
   y0[3] := StrToFloat(frmMain.edtInitialInfected.Text);            // I
   y0[2] := 0;                                                      // E
   { Susceptible (y0[1]) = N - Maternally derived immunity - Exposed - Infected - Recovered }
-  y0[1] := Length(frmMain.Nodes) - y0[0] - y0[2] - y0[3] - y0[4];  // S
+  y0[1] := frmMain.getN - y0[0] - y0[2] - y0[3] - y0[4];           // S
 
   SetLength(extraArgs, 7);
-  extraArgs[0] := Length(frmMain.Nodes);                      // N
+  extraArgs[0] := frmMain.getN;                               // N
   extraArgs[1] := StrToFloat(frmMain.edtBeta.Text);           // Beta
   extraArgs[2] := StrToFloat(frmMain.edtGamma.Text);          // Gamma
   extraArgs[3] := StrToFloat(frmMain.edtMu.Text);             // Mu

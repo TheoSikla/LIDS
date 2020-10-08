@@ -42,6 +42,7 @@ type
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
     cbxAvailableModels: TComboBox;
+    edtN: TEdit;
     edtDelta1: TEdit;
     edtEpsilon: TEdit;
     edtDays: TEdit;
@@ -56,6 +57,7 @@ type
     edtLambda: TEdit;
     edtDelta: TEdit;
     frmTimer: TTimer;
+    lblN: TLabel;
     lblDelta1: TLabel;
     lblEpsilon: TLabel;
     lblDays: TLabel;
@@ -69,11 +71,13 @@ type
     lblInitialInfected: TLabel;
     lblLambda: TLabel;
     lblDelta: TLabel;
+    mnuFileClose: TMenuItem;
     mnuMainMenu: TMainMenu;
     mnuFileOpen: TMenuItem;
     mnuFile: TMenuItem;
 
     procedure cbxAvailableModelsChange(Sender: TObject);
+    procedure mnuFileCloseClick(Sender: TObject);
     procedure RefreshGUI;
     procedure FormCreate(Sender: TObject);
     procedure btnSimulateClick(Sender: TObject);
@@ -84,6 +88,7 @@ type
     procedure preparePreSimulationChart;
     procedure registerAvailableModels;
     function validatePreSimulationChart: Boolean;
+    function getN: Integer;
   private
 
   public
@@ -120,9 +125,10 @@ begin
     if Length(Nodes) > 0 then frmSimulation.ResetShapes;
     Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
     frmSimulation.RenderShapes;
+    self.edtN.Enabled := False;
+    self.mnuFileClose.Enabled := True;
 
-    if self.validatePreSimulationChart AND (Length(Nodes) > 0)
-       then self.preparePreSimulationChart;
+    if self.validatePreSimulationChart then self.preparePreSimulationChart;
   end;
 
   if Length(Nodes) > 0 then self.btnSimulate.Enabled := True;
@@ -131,6 +137,8 @@ end;
 
 procedure TfrmMain.btnSimulateClick(Sender: TObject);
 begin
+  { Do not allow the close file function to be invokable while simulating }
+  self.mnuFileClose.Enabled := False;
   if self.btnSimulate.IsEnabled then begin
      frmSimulation.Show;
   end;
@@ -265,6 +273,15 @@ begin
   end;
 end;
 
+procedure TfrmMain.mnuFileCloseClick(Sender: TObject);
+begin
+  if frmSimulation.Visible then frmSimulation.Close;
+  if Length(Nodes) > 0 then frmSimulation.ResetShapes;
+  self.edtN.Enabled := True;
+  self.mnuFileClose.Enabled := False;
+  self.btnSimulate.Enabled := False;
+end;
+
 procedure TfrmMain.preparePreSimulationChart;
 begin
   frmPreSimulationChart.ClearPreSimulationChart;
@@ -298,83 +315,90 @@ procedure TfrmMain.edtKeyUpEnter(Sender: TObject; var Key: char);
 begin
   { Prepare the pre simulation chart if all conditions are met. }
   { Key #13 represents the Enter key }
-  if (Key = #13) AND self.validatePreSimulationChart AND
-     (Length(self.Nodes) > 0) then
-  begin
+  if (Key = #13) AND self.validatePreSimulationChart then
     self.preparePreSimulationChart;
-  end;
+end;
+
+function TfrmMain.getN: Integer;
+begin
+  Result := 0;
+  if self.edtN.Text <> '' then Result := StrToInt(self.edtN.Text);
+  if Length(frmMain.Nodes) > 0 then Result := Length(frmMain.Nodes);
 end;
 
 function TfrmMain.validatePreSimulationChart: Boolean;
 begin
   { If all the required TEdits contain a value then return True. }
   Result := False;
-  case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
-  SIR, SIS: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+  if self.getN <> 0.0 then
+  begin
+    case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+    SIR, SIS: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  SIQ: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtMu.Text <> '') AND (self.edtLambda.Text <> '') AND
-            (self.edtDelta.Text <> '') AND (self.edtKappa.Text <> '') AND
-            (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    SIQ: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtMu.Text <> '') AND (self.edtLambda.Text <> '') AND
+              (self.edtDelta.Text <> '') AND (self.edtKappa.Text <> '') AND
+              (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  SIQS, SIQR: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
-            (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
-            (self.edtDelta1.Text <> '') AND (self.edtKappa.Text <> '') AND
-            (self.edtZeta.Text <> '') AND (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    SIQS, SIQR: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+              (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
+              (self.edtDelta1.Text <> '') AND (self.edtKappa.Text <> '') AND
+              (self.edtZeta.Text <> '') AND (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  SIRD: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '')
-            AND (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    SIRD: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '')
+              AND (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  MSIR: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
-            (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
-            (self.edtMaternallyDerivedImmunity.Text <> '') AND
-            (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    MSIR: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+              (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND
+              (self.edtMaternallyDerivedImmunity.Text <> '') AND
+              (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  SEIR: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
-            (self.edtLambda.Text <> '') AND (self.edtAlpha.Text <> '') AND
-            (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    SEIR: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+              (self.edtLambda.Text <> '') AND (self.edtAlpha.Text <> '') AND
+              (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  SEIS: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
-            (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
-            (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    SEIS: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+              (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
+              (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
-  MSEIR: begin
-         if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
-            (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
-            (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
-            (self.edtDelta.Text <> '') AND
-            (self.edtMaternallyDerivedImmunity.Text <> '') AND
-            (self.edtInitialInfected.Text <> '')
-              then Result := True;
-       end;
+    MSEIR: begin
+           if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
+              (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
+              (self.edtLambda.Text <> '') AND (self.edtEpsilon.Text <> '') AND
+              (self.edtDelta.Text <> '') AND
+              (self.edtMaternallyDerivedImmunity.Text <> '') AND
+              (self.edtInitialInfected.Text <> '')
+                then Result := True;
+         end;
 
+    end;
   end;
 end;
 

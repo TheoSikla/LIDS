@@ -241,6 +241,9 @@ begin
 
   { If the exitedWhileSimulating is set to true invoke the FormClose action. }
   if exitedWhileSimulating then self.FormClose(self);
+
+  { Enable the file close functionality }
+  frmMain.mnuFileClose.Enabled := True;
 end;
 
 procedure TfrmSimulation.RestoreNodes;

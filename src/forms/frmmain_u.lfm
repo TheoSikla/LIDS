@@ -21,7 +21,7 @@ object frmMain: TfrmMain
     TabOrder = 0
   end
   object lblDays: TLabel
-    Left = 728
+    Left = 873
     Height = 30
     Top = 72
     Width = 50
@@ -63,14 +63,14 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtDays: TEdit
-    Left = 783
+    Left = 928
     Height = 33
     Top = 72
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 2
+    TabOrder = 8
   end
   object edtBeta: TEdit
     Left = 783
@@ -114,7 +114,7 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 12
+    TabOrder = 15
   end
   object cbxAvailableModels: TComboBox
     Left = 752
@@ -220,10 +220,10 @@ object frmMain: TfrmMain
     Alignment = taCenter
     OnKeyPress = edtIntegerKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 11
+    TabOrder = 14
   end
   object lblAlpha: TLabel
-    Left = 856
+    Left = 872
     Height = 30
     Top = 104
     Width = 50
@@ -237,17 +237,17 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtAlpha: TEdit
-    Left = 912
+    Left = 928
     Height = 33
     Top = 104
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 8
+    TabOrder = 9
   end
   object lblEpsilon: TLabel
-    Left = 856
+    Left = 872
     Height = 30
     Top = 136
     Width = 50
@@ -261,17 +261,17 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtEpsilon: TEdit
-    Left = 912
+    Left = 928
     Height = 33
     Top = 136
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 9
+    TabOrder = 10
   end
   object lblKappa: TLabel
-    Left = 856
+    Left = 872
     Height = 30
     Top = 168
     Width = 50
@@ -285,17 +285,17 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtKappa: TEdit
-    Left = 912
+    Left = 928
     Height = 33
     Top = 168
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 10
+    TabOrder = 11
   end
   object lblZeta: TLabel
-    Left = 856
+    Left = 872
     Height = 30
     Top = 200
     Width = 50
@@ -309,17 +309,17 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtZeta: TEdit
-    Left = 912
+    Left = 928
     Height = 33
     Top = 200
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 13
+    TabOrder = 12
   end
   object lblDelta1: TLabel
-    Left = 856
+    Left = 872
     Height = 30
     Top = 232
     Width = 50
@@ -333,14 +333,38 @@ object frmMain: TfrmMain
     ParentFont = False
   end
   object edtDelta1: TEdit
-    Left = 912
+    Left = 928
     Height = 33
     Top = 232
     Width = 80
     Alignment = taCenter
     OnKeyPress = edtFloatKeyPress
     OnKeyUp = edtKeyUpEnter
-    TabOrder = 14
+    TabOrder = 13
+  end
+  object lblN: TLabel
+    Left = 728
+    Height = 30
+    Top = 72
+    Width = 50
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = 'N :'
+    Font.Height = -16
+    Font.Name = 'Sans'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object edtN: TEdit
+    Left = 783
+    Height = 33
+    Top = 72
+    Width = 80
+    Alignment = taCenter
+    OnKeyPress = edtIntegerKeyPress
+    OnKeyUp = edtKeyUpEnter
+    TabOrder = 2
   end
   object btnImportDialog: TOpenDialog
     left = 32
@@ -360,6 +384,11 @@ object frmMain: TfrmMain
       object mnuFileOpen: TMenuItem
         Caption = 'Open'
         OnClick = mnuFileOpenClick
+      end
+      object mnuFileClose: TMenuItem
+        Caption = 'Close'
+        Enabled = False
+        OnClick = mnuFileCloseClick
       end
     end
   end
