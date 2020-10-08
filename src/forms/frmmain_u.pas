@@ -178,7 +178,7 @@ begin
        self.edtZeta.Enabled := False;
     end;
 
-    SIQS: begin
+    SIQS, SIQR: begin
        self.edtGamma.Enabled := True;
        self.edtMu.Enabled := True;
        self.edtLambda.Enabled := True;
@@ -324,7 +324,7 @@ begin
               then Result := True;
        end;
 
-  SIQS: begin
+  SIQS, SIQR: begin
          if (self.edtDays.Text <> '') AND (self.edtBeta.Text <> '') AND
             (self.edtGamma.Text <> '') AND (self.edtMu.Text <> '') AND
             (self.edtLambda.Text <> '') AND (self.edtDelta.Text <> '') AND

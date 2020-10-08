@@ -43,6 +43,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   utlSIS_u,
   utlSIQ_u,
   utlSIQS_u,
+  utlSIQR_u,
   utlSIRD_u,
   utlMSIR_u,
   utlSEIR_u,
