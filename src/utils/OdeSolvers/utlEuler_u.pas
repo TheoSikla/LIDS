@@ -34,6 +34,7 @@ uses
   utlSIS_u,
   utlSIQ_u,
   utlSIQS_u,
+  utlSIQR_u,
   utlSIRD_u,
   utlMSIR_u,
   utlSEIR_u,
@@ -102,6 +103,7 @@ implementation
         SIS: dXdts := SISDE(x, extraArgs);
         SIQ: dXdts := SIQDE(x, extraArgs);
         SIQS: dXdts := SIQSDE(x, extraArgs);
+        SIQR: dXdts := SIQRDE(x, extraArgs);
         SIRD: dXdts := SIRDDE(x, extraArgs);
         MSIR: dXdts := MSIRDE(x, extraArgs);
         SEIR: dXdts := SEIRDE(x, extraArgs);
