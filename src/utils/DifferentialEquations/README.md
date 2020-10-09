@@ -178,6 +178,58 @@ For more information on the SIQS epidemic model check: [here](https://www.resear
 
 <br>
 
+## SIQR
+
+The SIQR epidemic model is more like the SIQS only in the end, instead of becoming susceptible again to the decease, individuals are developing immunity to the decease, thus they are moved to the **Recovered** compartment.
+
+This model can be expressed by the following set of **ordinary differential equations**:
+
+<div>
+<span align="center">
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dS}{dt}}=\Lambda - {\frac {\beta SI}{N}} - \mu S\ ," width="320" style="background-color:white"  alt="SIQR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+ 
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dI}{dt}}={\frac {\beta SI}{N}} - (\gamma %2B \kappa %2B \mu %2B \delta)I\ ," width="450" style="background-color:white" alt="SIQR"/><br><br>
+
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dQ}{dt}}=\kappa I - (\zeta %2B \mu %2B \delta1)Q\ ," width="400" style="background-color:white" alt="SIQR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+<img src="https://render.githubusercontent.com/render/math?math={\frac {dR}{dt}}=\gamma I %2B  \zeta Q - \mu R" width="310" style="background-color:white" alt="SIQR"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+</span>
+</div>
+
+<!-- 
+For https://latex.codecogs.com/ :
+
+{\displaystyle 
+{\begin{aligned}
+{\frac {dS}{dt}}&=\Lambda - {\frac {\beta SI}{N}} - \mu S ,\\
+[6pt]{\frac {dI}{dt}}&={\frac {\beta SI}{N}} - (\gamma + \kappa + \mu + \delta)I ,\\
+[6pt]{\frac {dQ}{dt}}&=\kappa I - (\zeta + \mu + \delta1)Q ,\\
+[6pt]{\frac {dR}{dt}}&=\gamma I +  \zeta Q - \mu R
+\end{aligned}}}
+} -->
+
+Where:  
+
+N: The total population.  
+<span>&beta;</span>: The average number of contacts per person per time. (Infection rate)  
+<span>&gamma;</span>: The recovery rate.  
+<span>&mu;</span>: Natural mortality rate.  
+<span>&Lambda;</span>: Recruitment of the susceptible individuals (birth etc.)  
+<span>&delta;</span>: Disease mortality rate.  
+<span>&delta;1</span>: Disease mortality rate of quarantined individuals.  
+<span>&kappa;</span>: The rate where the infected individuals become quarantined.  
+<span>&zeta;</span>: The rate where quarantined individuals become susceptible again.  
+
+For more information on the SIQR epidemic model check: [here](https://www.hindawi.com/journals/ddns/2018/3693428/)
+
+<br>
+
+---
+
+<br>
+
 ## SIRD
 
 The Susceptible Infectious Recovered Deceased Model differentiates between <ins>Recovered</ins> (meaning specifically individuals having survived the disease and now immune) and <ins>Deceased</ins>.
