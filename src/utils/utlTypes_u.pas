@@ -24,12 +24,16 @@ unit utlTypes_u;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, fgl, clNode_u;
 
 { Globally available types }
 type
   ArrayOfDouble = Array of Double;
+  ArrayOfWord = Array of Word;
   ArrayOfArrayOfDouble = Array of ArrayOfDouble;
+  TListOfTNode = specialize TFPGList<TNode>;
+  TWordList = specialize TFPGList<Word>;
+  TArrayOfArrayOfWord = specialize TFPGList<ArrayOfWord>;
 
 implementation
 
