@@ -28,6 +28,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   { Forms }
   frmMain_u,
   frmSimulation_u,
+  frmSimulationChart_u,
   frmPreSimulationChart_u,
   { Classes }
   clNode_u,
@@ -59,6 +60,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmSimulation, frmSimulation);
   Application.CreateForm(Tfrmpresimulationchart, frmpresimulationchart);
+  Application.CreateForm(Tfrmsimulationchart, frmsimulationchart);
   Application.Run;
 end.
 

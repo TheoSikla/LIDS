@@ -1,14 +1,14 @@
 object frmSimulation: TfrmSimulation
   Left = 454
   Height = 1000
-  Top = 113
+  Top = 43
   Width = 1000
   Caption = 'Simulation'
   ClientHeight = 1000
   ClientWidth = 1000
   OnClose = FormClose
   OnCreate = FormCreate
-  Position = poScreenCenter
+  Position = poDesktopCenter
   LCLVersion = '2.0.6.0'
   object shp0: TShape
     Left = 10
