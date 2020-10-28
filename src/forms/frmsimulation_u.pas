@@ -206,7 +206,6 @@ begin
   begin
     if frmMain.Nodes[i].Id = AId then Result := frmMain.Nodes[i];
   end;
-  if not Assigned(Result) then writeln('TAIRARAM');
 end;
 
 procedure TfrmSimulation.InfectNeighbors(Sender: TObject);
@@ -284,9 +283,85 @@ var
   SamplingResult: TArrayOfArrayOfWord;
 
   beta, gamma: Double;
-  RandomNode, NodesInfectedByNodePerDay, NumberOfNodesInfectedPerDay, NumOfMaxNeighborsToTest, NumOfMaxNodesPerDay: Word;
+  NodesInfectedByNodePerDay, NumberOfNodesInfectedPerDay, NumOfMaxNeighborsToTest, NumOfMaxNodesPerDay: Word;
+
+  NodesToBeRecovered: TWordList;
 
 begin
+  {
+            <>======================================================<>
+            ||                                                      ||
+            ||   Simulation algorithm for the SIR epidemic model.   ||
+            ||                                                      ||
+            <>======================================================<>
+
+    [ Algorithm ]
+    [**************************************************************************]
+      The algorithm is constructed with the following steps:
+      1) (Pseudo) Randomize the system.
+
+      2) Initialize the Susceptible, Infected, Recovered and Sampling lists.
+
+      3) Add all nodes to the Susceptible list.
+
+      4) Infect an initial random node.
+
+      5) For each day of the simulation.
+
+      6) For each node pick a random number of neighbors and infect them with
+         probability pos. If the maximum number of nodes that can be infected
+         in one day is reached, go to the next day.
+
+      7) At the end of each day make sure that γ*I nodes recover from the
+         decease.
+
+    [**************************************************************************]
+
+    [ Variables ]
+    [**************************************************************************]
+        i, j, k, day: Counters.
+
+        days: Number of days that the simulation lasts.
+        firstInfected: Index of the first infected node.
+        TestingNode: Index of node to be tested.
+        NodeToBeRecovered: Index of node to be recovered.
+
+        ProbabilityOfInfection: The probability of infection specified
+                                by the user.
+        pos: Probability of Infection.
+
+        Neighbors: List with the contact indexes of each node.
+        Susceptible: List that holds the indexes of the susceptible nodes.
+        Infected: List that holds the indexes of the infected nodes.
+        Recovered: List that holds the indexes of the recovered nodes.
+
+        SamplingResult: List that holds the samplings taken from the Susceptible,
+                        Infected, Recovered lists, at the end of each day.
+
+        beta: The average number of contacts per person per time.
+              (Infection rate)
+        gamma: The recovery rate.
+
+        NodesInfectedByNodePerDay: Number of nodes that were infected by a node
+                                   in one day.
+        NumberOfNodesInfectedPerDay: Number of nodes that were infected
+                                     in one day.
+
+        NumOfMaxNeighborsToTest: Number of maximum neighbors to be tested
+                                 for each node.
+        NumOfMaxNodesPerDay: Number of maximum nodes that is allowed to
+                             be infected per day.
+
+    [**************************************************************************]
+
+    [ Notes ]
+    [**************************************************************************]
+      .
+      ..
+      ...
+    [**************************************************************************]
+  }
+
   frmSimulation.frmSmlInvoker.Enabled := False;
   exitedWhileSimulating := False;
 
@@ -349,10 +424,12 @@ begin
         //for k := 0 to Neighbors.Count - 1 do write(IntToStr(Neighbors[k]) + ' ,');
         //writeln();
 
-        { Number of maximum nodes that can be infected per day }
-        NumOfMaxNodesPerDay := Random(Round(frmMain.AvgNumberOfNeighbors * beta));
-        { Number of Neighbors to be tested }
+        //NumOfMaxNodesPerDay := Random(Round(frmMain.AvgNumberOfNeighbors * beta));
+        //NumOfMaxNeighborsToTest := NumOfMaxNodesPerDay div 2 div 2 div 2 div 2;
+
+        NumOfMaxNodesPerDay := Random(Round(Neighbors.Count * beta));
         NumOfMaxNeighborsToTest := NumOfMaxNodesPerDay div 2 div 2 div 2 div 2;
+        if NumOfMaxNeighborsToTest = 0 then NumOfMaxNeighborsToTest := 1;
 
         //writeln('Number of neighbors to be tested by node ' + IntToStr(i) + ' at day ' + IntToStr(day) + ' are ' + IntToStr(zz));
 
@@ -363,8 +440,7 @@ begin
               begin
 
                 { Pick a random Neighbor }
-                RandomNode := Random(Neighbors.Count);
-                TestingNode := Neighbors[RandomNode];
+                TestingNode := Neighbors[Random(Neighbors.Count)];
 
                 if not frmMain.Nodes[TestingNode].IsInfected and
                    not frmMain.Nodes[TestingNode].IsRecovered and
@@ -416,14 +492,39 @@ begin
 
     //writeln('At Day: ' + IntToStr(day) + ', { ' + IntToStr(NumberOfNodesInfectedPerDay) + ' } where infected.');
 
-    { Recover FIFO (First In First Out) Style }
-    for k := 0 to Round(Infected.Count * gamma) do begin
-      try
-         NodeToBeRecovered := Infected[0];
-         frmMain.Nodes[NodeToBeRecovered].Recover;
+    //{ Recover FIFO (First In First Out) Style }
+    //for k := 0 to Round(Infected.Count * gamma) do begin
+    //  try
+    //     NodeToBeRecovered := Infected[0];
+    //     frmMain.Nodes[NodeToBeRecovered].Recover;
+    //
+    //     Infected.Remove(NodeToBeRecovered);
+    //     Recovered.Add(NodeToBeRecovered);
+    //  except
+    //    on e: EListError do begin end;
+    //  end;
+    //end;
 
-         Infected.Remove(NodeToBeRecovered);
-         Recovered.Add(NodeToBeRecovered);
+    { Recover FIFO (First In First Out) Style }
+    NodesToBeRecovered := TWordList.Create;
+    for k := 0 to Round(Infected.Count * gamma * 75 / 100) do begin
+      try
+         NodeToBeRecovered := Infected[k];
+
+         if Random(100) <= 75 then begin
+           NodesToBeRecovered.Add(NodeToBeRecovered);
+         end;
+      except
+        on e: EListError do begin end;
+      end;
+    end;
+
+    for k := 0 to NodesToBeRecovered.Count do begin
+      try
+        frmMain.Nodes[NodesToBeRecovered[k]].Recover;
+
+        Infected.Remove(NodesToBeRecovered[k]);
+        Recovered.Add(NodesToBeRecovered[k]);
       except
         on e: EListError do begin end;
       end;
@@ -433,34 +534,43 @@ begin
 
   end; { End Day }
 
-  { Take missing samplings }
-  for i := 0 to days - SamplingResult.Count do
+  { Repeat the simulation if needed }
+  if (Recovered.Count = 1) and frmMain.ckbUseSystemSeed.Checked then begin
+    self.RestoreNodes; // Restore the Nodes
+    self.InfectNeighborsSIR(self);
+  end
+  else begin
+
+    { Take missing samplings }
+    for i := 0 to days - SamplingResult.Count do
+      SamplingResult.Add(ArrayOfWord.Create(Susceptible.Count, Infected.Count, Recovered.Count));
+
+    { Take a final sampling }
     SamplingResult.Add(ArrayOfWord.Create(Susceptible.Count, Infected.Count, Recovered.Count));
 
-  { Take a final sampling }
-  SamplingResult.Add(ArrayOfWord.Create(Susceptible.Count, Infected.Count, Recovered.Count));
+    //{ If the exitedWhileSimulating is set to true invoke the FormClose action. }
+    //if exitedWhileSimulating then self.FormClose(self);
 
-  //{ If the exitedWhileSimulating is set to true invoke the FormClose action. }
-  //if exitedWhileSimulating then self.FormClose(self);
+    { Enable the file close functionality }
+    frmMain.mnuFileClose.Enabled := True;
 
-  { Enable the file close functionality }
-  frmMain.mnuFileClose.Enabled := True;
-
-  { Print the calculated differential equations }
-  for i:=0 to SamplingResult.Count - 1 do begin
-    write(IntToStr(i) + ': ');
-    for j := 0 to 3 - 1 do begin
-      write(SamplingResult[i][j]:2);
-      write(', ');
+    { Print the calculated differential equations }
+    for i:=0 to SamplingResult.Count - 1 do begin
+      write(IntToStr(i) + ': ');
+      for j := 0 to 3 - 1 do begin
+        write(SamplingResult[i][j]:2);
+        write(', ');
+      end;
+      writeln();
     end;
-    writeln();
+
+    self.RestoreNodes; // Restore the Nodes
+
+    { Prepare Charts }
+    frmMain.preparePreSimulationChart;
+    frmMain.prepareSimulationChart(SamplingResult);
+
   end;
-
-  self.RestoreNodes; // Restore the Nodes
-
-  { Prepare Charts }
-  frmMain.preparePreSimulationChart;
-  frmMain.prepareSimulationChart(SamplingResult);
 end;
 
 procedure TfrmSimulation.RestoreNodes;
