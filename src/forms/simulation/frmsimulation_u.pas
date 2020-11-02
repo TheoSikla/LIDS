@@ -52,9 +52,7 @@ type
     procedure RestoreNodes;
     function InfectRandom: Integer;
     procedure InfectNode(NodeToBeInfected: TNode; InfectorNodeId: Word);
-    procedure InfectNeighbors(Sender: TObject);
     procedure InfectNeighborsSIR(Sender: TObject);
-    function GetNodeById(AId: Word): TNode;
   private
 
   public
@@ -63,9 +61,6 @@ type
     appenderTAppenderArrayOfWordType: TAppenderArrayOfWordType;
 
   end;
-
-const
-  InfectionProbability = 20;
 
 var
   frmSimulation: TfrmSimulation;
@@ -76,7 +71,8 @@ implementation
 
 uses
   { Forms }
-  frmMain_u;
+  frmMain_u,
+  frmSettings_u;
 
 { TfrmSimulation }
 
@@ -198,94 +194,19 @@ begin
   NodeToBeInfected.Infect(InfectorNodeId);
 end;
 
-function TfrmSimulation.GetNodeById(AId: Word): TNode;
-var
-  i: Integer;
-begin
-  for i := 0 to frmMain.Nodes.Count - 1 do
-  begin
-    if frmMain.Nodes[i].Id = AId then Result := frmMain.Nodes[i];
-  end;
-end;
-
-procedure TfrmSimulation.InfectNeighbors(Sender: TObject);
-var
-  i, j: Word;
-  pos: Integer;
-  Neighbors: TWordList;
-  temp: TNode;
-  firstInfected: Word;
-  numberOfInfected: Word;
-  exitedWhileSimulating: Boolean;
-
-begin
-  frmSimulation.frmSmlInvoker.Enabled := False;
-  exitedWhileSimulating := False;
-
-  firstInfected := self.InfectRandom;
-  temp := frmMain.Nodes[0];
-  frmMain.Nodes[0] := frmMain.Nodes[firstInfected];
-  frmMain.Nodes[firstInfected] := temp;
-  numberOfInfected := 1;
-
-  for i := 0 to frmMain.Nodes.Count - 1 do begin
-
-    if frmMain.Nodes[i].IsInfected then begin
-
-      Neighbors := frmMain.Nodes[i].Neighbors;
-      for j := 0 to Neighbors.Count - 1 do begin
-          pos := Random(100);
-          if (pos <= InfectionProbability) and
-            (not (frmMain.Nodes[j].IsInfected)) then
-          begin
-            //self.InfectNode(j, i);
-            Inc(numberOfInfected);
-          end;
-
-          if j mod (frmMain.Nodes.Count div 5) = 0 then begin
-            frmMain.RefreshGUI;
-            Application.Processmessages;
-          end;
-      end;
-    end;
-
-    { In case the simulation was forced closed before finishing set the
-      exitedWhileSimulating flag to true. }
-    if not frmSimulation.Showing then begin
-      exitedWhileSimulating := True;
-      break;
-    end;
-
-    { If all nodes are infected stop the simulation. }
-    if numberOfInfected = frmMain.Nodes.Count then break;
-  end;
-
-  { If the exitedWhileSimulating is set to true invoke the FormClose action. }
-  if exitedWhileSimulating then self.FormClose(self);
-
-  { Enable the file close functionality }
-  frmMain.mnuFileClose.Enabled := True;
-end;
-
 procedure TfrmSimulation.InfectNeighborsSIR(Sender: TObject);
 var
-  i, j, k, day, days, TestingNode, NodeToBeRecovered: Word;
+  i, j, k, day: Word;
   pos: Integer;
-  Neighbors: TWordList;
-  firstInfected: Word;
-  numberOfInfected: Word;
+  beta, gamma: Double;
   exitedWhileSimulating: Boolean;
-
   ProbabilityOfInfection: Byte;
-  Susceptible: TWordList;
-  Infected: TWordList;
-  Recovered: TWordList;
+
+  Neighbors, Susceptible, Infected, Recovered: TWordList;
   SamplingResult: TArrayOfArrayOfWord;
 
-  beta, gamma: Double;
-  NodesInfectedByNodePerDay, NumberOfNodesInfectedPerDay, NumOfMaxNeighborsToTest, NumOfMaxNodesPerDay: Word;
-
-  NodesToBeRecovered: TWordList;
+  firstInfected, days, TestingNode, NodeToBeRecovered, NodesInfectedByNodePerDay,
+  NumberOfNodesInfectedPerDay, NumOfMaxNeighborsToTest, NumOfMaxNodesPerDay: Word;
 
 begin
   {
@@ -399,7 +320,6 @@ begin
   //writeln('First Infected: ' + IntToStr(firstInfected));
   Susceptible.Remove(firstInfected);
   Infected.Add(firstInfected);
-  numberOfInfected := 1;
 
   Days := StrToInt(frmMain.edtDays.Text);
 
@@ -414,54 +334,38 @@ begin
       //writeln('Day: ' + IntToStr(Day));
 
       for i := 0 to frmMain.Nodes.Count - 1 do begin
-        //writeln('Node: ' + IntToStr(i));
-
         NodesInfectedByNodePerDay := 0;
-
         Neighbors := frmMain.Nodes[i].Neighbors;
-
-        { Print the Neighbors }
-        //for k := 0 to Neighbors.Count - 1 do write(IntToStr(Neighbors[k]) + ' ,');
-        //writeln();
-
-        //NumOfMaxNodesPerDay := Random(Round(frmMain.AvgNumberOfNeighbors * beta));
-        //NumOfMaxNeighborsToTest := NumOfMaxNodesPerDay div 2 div 2 div 2 div 2;
 
         NumOfMaxNodesPerDay := Random(Round(Neighbors.Count * beta));
         NumOfMaxNeighborsToTest := NumOfMaxNodesPerDay div 2 div 2 div 2 div 2;
         if NumOfMaxNeighborsToTest = 0 then NumOfMaxNeighborsToTest := 1;
 
-        //writeln('Number of neighbors to be tested by node ' + IntToStr(i) + ' at day ' + IntToStr(day) + ' are ' + IntToStr(zz));
+        //writeln('Number of neighbors to be tested by node ' + IntToStr(i) + ' at day ' + IntToStr(day) + ' are ' + IntToStr(NumOfMaxNeighborsToTest));
 
         for j := 0 to NumOfMaxNeighborsToTest do begin
-            if j <= Neighbors.Count - 1 then begin
-              pos := Random(100);
-              if pos <= ProbabilityOfInfection then
-              begin
+          pos := Random(100);
+          if pos <= ProbabilityOfInfection then
+          begin
 
-                { Pick a random Neighbor }
-                TestingNode := Neighbors[Random(Neighbors.Count)];
+            { Pick a random Neighbor }
+            TestingNode := Neighbors[Random(Neighbors.Count)];
 
-                if not frmMain.Nodes[TestingNode].IsInfected and
-                   not frmMain.Nodes[TestingNode].IsRecovered and
-                   frmMain.Nodes[i].IsInfected then begin
+            if not frmMain.Nodes[TestingNode].IsInfected and
+               not frmMain.Nodes[TestingNode].IsRecovered and
+               frmMain.Nodes[i].IsInfected then begin
 
-                  self.InfectNode(frmMain.Nodes[TestingNode], frmMain.Nodes[i].Id);
+              self.InfectNode(frmMain.Nodes[TestingNode], frmMain.Nodes[i].Id);
 
-                  Susceptible.Remove(TestingNode);
-                  Infected.Add(TestingNode);
+              Susceptible.Remove(TestingNode);
+              Infected.Add(TestingNode);
 
-                  Inc(NodesInfectedByNodePerDay);
-                  //writeln('Node ' + IntToStr(frmMain.Nodes[TestingNode].Id) + ' has been infected by node ' + IntToStr(frmMain.Nodes[i].Id));
+              Inc(NodesInfectedByNodePerDay);
+              //writeln('Node ' + IntToStr(frmMain.Nodes[TestingNode].Id) + ' has been infected by node ' + IntToStr(frmMain.Nodes[i].Id));
 
-                  //Inc(numberOfInfected);
+            end;
 
-                end;
-
-              end;
-
-            end
-            else break;
+          end;
 
         end; { End j }
 
@@ -472,14 +376,8 @@ begin
         //  break;
         //end;
 
-        //{ If all nodes are infected stop the simulation. }
-        //if numberOfInfected = frmMain.Nodes.Count then break;
-
-        { If all nodes are recovered stop the simulation. }
+        { If there are no infected nodes stop the simulation. }
         if Infected.Count = 0 then break;
-
-        //{ If the sampling is satisfied stop the simulation. }
-        //if SamplingResult.Count = 160 then break;
 
         NumberOfNodesInfectedPerDay += NodesInfectedByNodePerDay;
         //writeln('Node: ' + IntToStr(i) + ' infected: ' + IntToStr(NodesInfectedByNodePerDay) + ' nodes, at day: ' + IntToStr(day));
@@ -492,39 +390,14 @@ begin
 
     //writeln('At Day: ' + IntToStr(day) + ', { ' + IntToStr(NumberOfNodesInfectedPerDay) + ' } where infected.');
 
-    //{ Recover FIFO (First In First Out) Style }
-    //for k := 0 to Round(Infected.Count * gamma) do begin
-    //  try
-    //     NodeToBeRecovered := Infected[0];
-    //     frmMain.Nodes[NodeToBeRecovered].Recover;
-    //
-    //     Infected.Remove(NodeToBeRecovered);
-    //     Recovered.Add(NodeToBeRecovered);
-    //  except
-    //    on e: EListError do begin end;
-    //  end;
-    //end;
-
     { Recover FIFO (First In First Out) Style }
-    NodesToBeRecovered := TWordList.Create;
-    for k := 0 to Round(Infected.Count * gamma * 75 / 100) do begin
+    for k := 0 to Round(Infected.Count * gamma) do begin
       try
-         NodeToBeRecovered := Infected[k];
+         NodeToBeRecovered := Infected[0];
+         frmMain.Nodes[NodeToBeRecovered].Recover;
 
-         if Random(100) <= 75 then begin
-           NodesToBeRecovered.Add(NodeToBeRecovered);
-         end;
-      except
-        on e: EListError do begin end;
-      end;
-    end;
-
-    for k := 0 to NodesToBeRecovered.Count do begin
-      try
-        frmMain.Nodes[NodesToBeRecovered[k]].Recover;
-
-        Infected.Remove(NodesToBeRecovered[k]);
-        Recovered.Add(NodesToBeRecovered[k]);
+         Infected.Remove(NodeToBeRecovered);
+         Recovered.Add(NodeToBeRecovered);
       except
         on e: EListError do begin end;
       end;
@@ -535,9 +408,13 @@ begin
   end; { End Day }
 
   { Repeat the simulation if needed }
-  if (Recovered.Count = 1) and frmMain.ckbUseSystemSeed.Checked then begin
+  if (Recovered.Count = 1) and
+     frmMain.ckbUseSystemSeed.Checked and
+     frmSettings.cbxReSimulate.Checked then begin
+
     self.RestoreNodes; // Restore the Nodes
     self.InfectNeighborsSIR(self);
+
   end
   else begin
 
@@ -554,15 +431,15 @@ begin
     { Enable the file close functionality }
     frmMain.mnuFileClose.Enabled := True;
 
-    { Print the calculated differential equations }
-    for i:=0 to SamplingResult.Count - 1 do begin
-      write(IntToStr(i) + ': ');
-      for j := 0 to 3 - 1 do begin
-        write(SamplingResult[i][j]:2);
-        write(', ');
-      end;
-      writeln();
-    end;
+    { Print the samples }
+    //for i:=0 to SamplingResult.Count - 1 do begin
+    //  write(IntToStr(i) + ': ');
+    //  for j := 0 to 3 - 1 do begin
+    //    write(SamplingResult[i][j]:2);
+    //    write(', ');
+    //  end;
+    //  writeln();
+    //end;
 
     self.RestoreNodes; // Restore the Nodes
 
@@ -570,6 +447,8 @@ begin
     frmMain.preparePreSimulationChart;
     frmMain.prepareSimulationChart(SamplingResult);
 
+    { Enable Simulate Button }
+    frmMain.btnSimulate.Enabled := True;
   end;
 end;
 

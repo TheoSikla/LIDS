@@ -31,7 +31,6 @@ uses
   { Utilities }
   utlArray_u,
   utlTypes_u,
-  utlEuler_u,
   utlEnum_u,
   utlConstants_u;
 

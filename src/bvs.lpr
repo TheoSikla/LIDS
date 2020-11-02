@@ -27,6 +27,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   Forms, tachartlazaruspkg,
   { Forms }
   frmMain_u,
+  frmSettings_u,
   frmSimulation_u,
   frmSimulationChart_u,
   frmPreSimulationChart_u,
@@ -58,9 +59,10 @@ begin
   Application.Scaled := True;
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmSettings, frmSettings);
   Application.CreateForm(TfrmSimulation, frmSimulation);
-  Application.CreateForm(Tfrmpresimulationchart, frmpresimulationchart);
   Application.CreateForm(Tfrmsimulationchart, frmsimulationchart);
+  Application.CreateForm(Tfrmpresimulationchart, frmpresimulationchart);
   Application.Run;
 end.
 

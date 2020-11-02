@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 497
+  Left = 705
   Height = 488
-  Top = 232
+  Top = 251
   Width = 900
   Caption = 'BVS'
   ClientHeight = 463
@@ -122,6 +122,7 @@ object frmMain: TfrmMain
     Top = 56
     Width = 100
     ItemHeight = 0
+    OnChange = cbxAvailableModelsChange
     TabOrder = 1
     Text = 'cbxAvailableModels'
   end
@@ -444,6 +445,10 @@ object frmMain: TfrmMain
         Caption = 'Close'
         Enabled = False
         OnClick = mnuFileCloseClick
+      end
+      object mnuSettings: TMenuItem
+        Caption = 'Settings'
+        OnClick = mnuSettingsClick
       end
     end
   end
