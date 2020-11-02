@@ -24,11 +24,12 @@ unit clNode_u;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, Graphics;
+  Classes, SysUtils, ExtCtrls, Graphics, fgl;
 
 type
   ArrayOfWord = Array of Word;
   PtrOfTShape = ^TShape;
+  TWordList = specialize TFPGList<Word>;
 
 type
   TNode = class(TObject)
@@ -38,39 +39,33 @@ type
       FIsInfected: Boolean;
       FIsRecovered: Boolean;
       FInfectedByNode: Word;
-      FNeighbors: ArrayOfWord;
+      FNeighbors: TWordList;
       FPtrShape: PtrOfTShape;
     protected
       { protected declarations here }
     public
       constructor Create(
         AId: Word;
-        ANeighbors: String;
+        ANeighbors: TWordList = Nil;
         AIsSusceptible: Boolean = false;
         AIsInfected: Boolean = false;
         AIsRecovered: Boolean = false);
 
       destructor Destroy; override;
 
-      { Getters }
-      function GetId(): Word;
-      function GetNeighbors(): ArrayOfWord;
-      function GetIsSusceptible(): Boolean;
-      function GetIsInfected(): Boolean;
-      function GetIsRecovered(): Boolean;
-      function GetShape(): PtrOfTShape;
-      function GetInfectedByNode(): Word;
+      property Id: Word read FId write FId;
+      property IsSusceptible: Boolean read FIsSusceptible write FIsSusceptible;
+      property IsInfected: Boolean read FIsInfected write FIsInfected;
+      property IsRecovered: Boolean read FIsRecovered write FIsRecovered;
+      property InfectedByNode: Word read FInfectedByNode write FInfectedByNode;
+      property Neighbors: TWordList read FNeighbors;
+      property PtrShape: PtrOfTShape read FPtrShape write FPtrShape;
 
-      { Setters }
-      procedure SetIsSusceptible(AValue: Boolean);
-      procedure SetIsInfected(AValue: Boolean);
-      procedure SetIsRecovered(AValue: Boolean);
-      procedure SetShape(AShape: PtrOfTShape);
-      procedure SetInfectedByNode(AValue: Word);
+      function GetNumberOfNeighbors(): Word;
 
-      property InfectedByNode: Word read GetInfectedByNode write SetInfectedByNode;
-
+      procedure MakeSusceptible;
       procedure Infect(InfectorNode: Word);
+      procedure Recover;
       procedure Restore;
 
     published
@@ -80,30 +75,18 @@ type
 implementation
   constructor TNode.Create(
     AId: Word;
-    ANeighbors: String;
+    ANeighbors: TWordList = Nil;
     AIsSusceptible: Boolean = false;
     AIsInfected: Boolean = false;
     AIsRecovered: Boolean = false);
-  var
-    c: Char;
-    i: Word;
-    index: Word;
   begin
      Fid := AId;
      FIsSusceptible := AIsSusceptible;
      FIsInfected := AIsInfected;
      FIsRecovered := AIsRecovered;
-
-     SetLength(FNeighbors, Length(ANeighbors));
-     i := 0;
-     index := 0;
-     for c in ANeighbors do begin
-       if c = '1' then begin
-         FNeighbors[i] := index;
-         Inc(i);
-       end;
-       Inc(index);
-     end;
+     FNeighbors := TWordList.Create;
+     FNeighbors := ANeighbors;
+     FIsSusceptible := True;
   end;
 
   destructor TNode.Destroy;
@@ -111,80 +94,43 @@ implementation
      inherited; // Also call parent class destroyer
   end;
 
-  { Getters }
-  function TNode.GetId: Word;
-    begin
-       result := Fid;
-    end;
+  function TNode.GetNumberOfNeighbors(): Word;
+  begin
+    Result := self.Neighbors.Count;
+  end;
 
-  function TNode.GetIsSusceptible: Boolean;
-    begin
-      result := FIsSusceptible;
-    end;
-
-  function TNode.GetIsInfected: Boolean;
-    begin
-      result := FIsInfected;
-    end;
-
-  function TNode.GetIsRecovered: Boolean;
-    begin
-      result := FIsRecovered;
-    end;
-
-  function TNode.GetNeighbors: ArrayOfWord;
-    begin
-      result := FNeighbors;
-    end;
-
-  function TNode.GetShape: PtrOfTShape;
-    begin
-      result := FPtrShape;
-    end;
-
-  function TNode.GetInfectedByNode: Word;
-    begin
-      result := FInfectedByNode;
-    end;
-
-  { Setters }
-  procedure TNode.SetIsSusceptible(AValue: Boolean);
-    begin
-      FIsSusceptible := AValue;
-    end;
-
-  procedure TNode.SetIsInfected(AValue: Boolean);
-    begin
-      FIsInfected := AValue;
-    end;
-
-  procedure TNode.SetIsRecovered(AValue: Boolean);
-    begin
-      FIsRecovered := AValue;
-    end;
-
-  procedure TNode.SetShape(AShape: PtrOfTShape);
-    begin
-      FPtrShape := AShape;
-    end;
-
-  procedure TNode.SetInfectedByNode(AValue: Word);
-    begin
-      FInfectedByNode := AValue;
-    end;
+  procedure TNode.MakeSusceptible;
+  begin
+    self.IsSusceptible := True;
+    self.IsInfected := False;
+    self.IsRecovered := False;
+  end;
 
   procedure TNode.Infect(InfectorNode: Word);
   begin
-    self.SetIsInfected(True);
-    self.SetInfectedByNode(InfectorNode);
-    self.GetShape()^.Brush.Color := clRed;
+    self.IsSusceptible := False;
+    self.IsInfected := True;
+    self.IsRecovered := False;
+
+    self.InfectedByNode := InfectorNode;
+    self.PtrShape^.Brush.Color := clRed;
+  end;
+
+  procedure TNode.Recover;
+  begin
+    self.IsSusceptible := False;
+    self.IsInfected := False;
+    self.IsRecovered := True;
   end;
 
   procedure TNode.Restore;
   begin
-    self.SetIsInfected(False);
-    self.SetInfectedByNode(0);
-    self.GetShape()^.Brush.Color := clMedGray;
+    self.IsSusceptible := True;
+    self.IsInfected := False;
+    self.IsRecovered := False;
+
+    self.InfectedByNode := 0;
+    self.PtrShape^.Brush.Color := clMedGray;
   end;
 
 end.

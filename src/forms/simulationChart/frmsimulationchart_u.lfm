@@ -1,14 +1,15 @@
-object frmpresimulationchart: Tfrmpresimulationchart
-  Left = 1027
+object frmsimulationchart: Tfrmsimulationchart
+  Left = 46
   Height = 500
-  Top = 313
+  Top = 300
   Width = 613
-  Caption = 'Chart'
+  Caption = 'Simulation Chart'
   ClientHeight = 500
   ClientWidth = 613
   OnClose = FormClose
+  Position = poDefault
   LCLVersion = '2.0.6.0'
-  object chtPreSimulation: TChart
+  object chtSimulation: TChart
     Left = 10
     Height = 480
     Top = 10
@@ -36,38 +37,38 @@ object frmpresimulationchart: Tfrmpresimulationchart
       'TAChart'
     )
     Visible = False
-    object chtPreSimulationM: TLineSeries
+    object chtSimulationM: TLineSeries
       Active = False
       Title = 'Maternally derived immunity'
       LinePen.Width = 3
     end
-    object chtPreSimulationS: TLineSeries
+    object chtSimulationS: TLineSeries
       Active = False
       Title = 'Susceptible'
       LinePen.Color = clActiveCaption
       LinePen.Width = 3
     end
-    object chtPreSimulationE: TLineSeries
+    object chtSimulationE: TLineSeries
       Active = False
       LinePen.Width = 3
     end
-    object chtPreSimulationI: TLineSeries
+    object chtSimulationI: TLineSeries
       Active = False
       Title = 'Infectious'
       LinePen.Color = clGreen
       LinePen.Width = 3
     end
-    object chtPreSimulationQ: TLineSeries
+    object chtSimulationQ: TLineSeries
       Active = False
       LinePen.Width = 3
     end
-    object chtPreSimulationR: TLineSeries
+    object chtSimulationR: TLineSeries
       Active = False
       Title = 'Recovered'
       LinePen.Color = clGreen
       LinePen.Width = 3
     end
-    object chtPreSimulationD: TLineSeries
+    object chtSimulationD: TLineSeries
       Active = False
       Title = 'Deceased'
       LinePen.Width = 3

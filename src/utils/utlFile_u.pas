@@ -24,27 +24,44 @@ unit utlFile_u;
 interface
 
 uses
-  Classes, SysUtils, RegExpr, Dialogs, clNode_u, utlArray_u;
+  Classes, SysUtils, RegExpr, Dialogs, fpjson, jsonparser,
+  clNode_u, utlArray_u, utlTypes_u;
 
 type
   TAppenderType = specialize TAppender<TNode>;
   ArrayOfTNodeType = Array of TNode;
 
-{ Publicly accessible functions }
-Function LoadGRATISAdjacencyMaxtrixFile(filename: String): ArrayOfTNodeType;
+  TFileHandler = class(TObject)
+    public
+      function LoadAdjacencyMaxtrix(filename: String): TListOfTNode;
+      procedure WriteStringToFile(filename: string; data: String);
+      procedure WriteToJsonFile(filename: string; data: TJSONData);
+      function LoadJsonFile(filename: string): TJSONData;
+
+
+  end;
+
+var
+  FileHandler: TFileHandler;
 
 implementation
+  uses
+  { Forms }
+  frmMain_u;
 
-  Function LoadGRATISAdjacencyMaxtrixFile(filename: String): ArrayOfTNodeType;
+function TFileHandler.LoadAdjacencyMaxtrix(filename: String): TListOfTNode;
   var
     tfIn: TextFile;
     s: String;
     i: Integer;
     lineLength: Integer;
     RegexObj: TRegExpr;
-    Nodes: ArrayOfTNodeType;
+    Nodes: TListOfTNode;
     appender: TAppenderType;
     obj: TNode;
+    Neighbors: TWordList;
+    c: char;
+    RowIndex, ColumnIndex: Word;
   begin
     // Set the name of the file that will be read
     AssignFile(tfIn, filename);
@@ -53,10 +70,12 @@ implementation
     RegexObj := TRegExpr.Create;
     RegexObj.Expression := '^[0-1]*$';
 
-    SetLength(Nodes, 0);              // Initialize list
+    Nodes := TListOfTNode.Create;     // Initialize list
     appender := TAppenderType.Create; // Initialize instance
 
-    i := 0;
+    frmMain.NumberOfEdges := 0;
+    frmMain.AvgNumberOfNeighbors := 0;
+    i := 0; RowIndex := 0; ColumnIndex := 0;
     try
       {
         Embed the file handling in a try/except block to handle
@@ -71,9 +90,25 @@ implementation
            begin
              readln(tfIn, s);
              lineLength := Length(s);
-             obj := TNode.Create(i, s);
+
+             Neighbors := TWordList.Create;
+
+             for c in s do begin
+               if c = '1' then
+                  begin
+                    Neighbors.Add(ColumnIndex);
+                    if (ColumnIndex > RowIndex) then Inc(frmMain.NumberOfEdges);
+                  end;
+               Inc(ColumnIndex);
+             end;
+             ColumnIndex := 0;
+             Inc(RowIndex);
+
+             frmMain.AvgNumberOfNeighbors += Neighbors.Count;
+
+             obj := TNode.Create(i, Neighbors);
              Inc(i);
-             appender.Append(Nodes, obj);
+             Nodes.Add(obj);
            end;
 
         // Keep reading lines until the end of the file is reached
@@ -88,10 +123,27 @@ implementation
                Break; // Jump to the 'finally' block
              end;
 
-          obj := TNode.Create(i, s);
+          Neighbors := TWordList.Create;
+
+          for c in s do begin
+            if c = '1' then
+               begin
+                 Neighbors.Add(ColumnIndex);
+                 if (ColumnIndex > RowIndex) then Inc(frmMain.NumberOfEdges);
+               end;
+            Inc(ColumnIndex);
+          end;
+          ColumnIndex := 0;
+          Inc(RowIndex);
+
+          frmMain.AvgNumberOfNeighbors += Neighbors.Count;
+
+          obj := TNode.Create(i, Neighbors);
           Inc(i);
-          appender.Append(Nodes, obj);
+          Nodes.Add(obj);
         end;
+
+        frmMain.AvgNumberOfNeighbors := frmMain.AvgNumberOfNeighbors div Nodes.Count;
 
       except
         on E: EInOutError do
@@ -107,6 +159,54 @@ implementation
     end;
 
   end;
+
+procedure TFileHandler.WriteStringToFile(filename: string; data: String);
+var
+  tfOut: TextFile;
+begin
+  try
+    AssignFile(tfOut, filename);
+    Rewrite(tfOut);
+    writeln(tfOut, data);
+    closefile(tfOut);
+  except
+    on E:Exception do
+  end;
+end;
+
+procedure TFileHandler.WriteToJsonFile(filename: string; data: TJSONData);
+begin
+  self.WriteStringToFile(filename, data.FormatJSON);
+end;
+
+function TFileHandler.LoadJsonFile(filename: string): TJSONData;
+var
+  tfIn: TextFile;
+  s, JsonString: String;
+begin
+  s := '';
+  JsonString := '';
+
+  try
+    try
+      AssignFile(tfIn, filename);
+      reset(tfIn);
+
+      while not eof(tfIn) do begin
+        readln(tfIn, s);
+        JsonString += s;
+      end;
+
+      Result := GetJSON(JsonString);
+    except
+      on E: EInOutError do
+       writeln('File handling error occurred. Details: ', E.Message);
+    end;
+  finally
+      CloseFile(tfIn);
+  end;
+
+end;
 
 end.
 

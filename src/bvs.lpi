@@ -36,105 +36,89 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="20">
+    <Units Count="17">
       <Unit0>
         <Filename Value="bvs.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="forms/frmmain_u.pas"/>
+        <Filename Value="utils/utlArray_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="utils/OdeSolvers/utlEuler_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="utils/DifferentialEquations/utlSIR_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="utils/utlFile_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="utils/utlTypes_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="utils/utlValidation_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="utils/utlEnum_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="utils/DifferentialEquations/utlSIS_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="utils/DifferentialEquations/utlSIRD_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="utils/DifferentialEquations/utlMSIR_u.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="utils/utlconstants_u.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utlConstants_u"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="forms/main/frmmain_u.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmMain_u"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="utils/utlArray_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="forms/frmsimulation_u.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmSimulation"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="frmSimulation_u"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="forms/frmpresimulationchart_u.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmpresimulationchart"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="frmPreSimulationChart_u"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="utils/OdeSolvers/utlEuler_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="utils/DifferentialEquations/utlSIR_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="utils/utlFile_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="utils/utlTypes_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="utils/utlValidation_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="utils/utlEnum_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="utils/DifferentialEquations/utlSIS_u.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="utils/DifferentialEquations/utlSIRD_u.pas"/>
-        <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="utils/DifferentialEquations/utlMSIR_u.pas"/>
+        <Filename Value="forms/presimulation/frmpresimulationchart_u.pas"/>
         <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="utils/utlconstants_u.pas"/>
+        <Filename Value="forms/settings/frmsettings_u.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="utlConstants_u"/>
+        <ComponentName Value="frmSettings"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="frmSettings_u"/>
       </Unit14>
       <Unit15>
-        <Filename Value="utils/DifferentialEquations/utlseir_u.pas"/>
+        <Filename Value="forms/simulation/frmsimulation_u.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="utlSEIR_u"/>
+        <HasResources Value="True"/>
+        <UnitName Value="frmSimulation_u"/>
       </Unit15>
       <Unit16>
-        <Filename Value="utils/utlseis_u.pas"/>
+        <Filename Value="forms/simulationChart/frmsimulationchart_u.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="utlSEIS_u"/>
+        <HasResources Value="True"/>
+        <UnitName Value="frmSimulationChart_u"/>
       </Unit16>
-      <Unit17>
-        <Filename Value="utils/DifferentialEquations/utlmseir_u.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="utlMSEIR_u"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="utils/DifferentialEquations/utlsiq_u.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="utlSIQ_u"/>
-      </Unit18>
-      <Unit19>
-        <Filename Value="utils/DifferentialEquations/utlsiqs_u.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="utlSIQS_u"/>
-      </Unit19>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -144,7 +128,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="forms;classes;utils;utils/DifferentialEquations;utils/OdeSolvers"/>
+      <OtherUnitFiles Value="classes;utils;utils/DifferentialEquations;utils/OdeSolvers;forms;forms/main;forms/presimulation;forms/settings;forms/simulation;forms/simulationChart"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
@@ -156,16 +140,10 @@
     </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="3">
+    <Exceptions Count="1">
       <Item1>
-        <Name Value="EAbort"/>
+        <Name Value="EListError"/>
       </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="EFOpenError"/>
-      </Item3>
     </Exceptions>
   </Debugging>
 </CONFIG>

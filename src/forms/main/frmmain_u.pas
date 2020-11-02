@@ -25,14 +25,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, TAGraph, typinfo,
+  Menus, TAGraph, typinfo, fpjson,
   { Forms }
-  { Classes }
-  clNode_u,
+  frmSettings_u,
   { Utilities }
   utlFile_u,
   utlValidation_u,
-  utlEnum_u;
+  utlEnum_u,
+  utlTypes_u;
 
 type
 
@@ -42,6 +42,9 @@ type
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
     cbxAvailableModels: TComboBox;
+    ckbUseSystemSeed: TCheckBox;
+    edtSeed: TEdit;
+    edtProbabilityOfInfection: TEdit;
     edtN: TEdit;
     edtDelta1: TEdit;
     edtEpsilon: TEdit;
@@ -57,6 +60,8 @@ type
     edtLambda: TEdit;
     edtDelta: TEdit;
     frmTimer: TTimer;
+    lblSeed: TLabel;
+    lblProbabilityOfInfection: TLabel;
     lblN: TLabel;
     lblDelta1: TLabel;
     lblEpsilon: TLabel;
@@ -71,13 +76,16 @@ type
     lblInitialInfected: TLabel;
     lblLambda: TLabel;
     lblDelta: TLabel;
+    mnuSettings: TMenuItem;
     mnuFileClose: TMenuItem;
     mnuMainMenu: TMainMenu;
     mnuFileOpen: TMenuItem;
     mnuFile: TMenuItem;
 
+    procedure ckbUseSystemSeedChange(Sender: TObject);
     procedure cbxAvailableModelsChange(Sender: TObject);
     procedure mnuFileCloseClick(Sender: TObject);
+    procedure mnuSettingsClick(Sender: TObject);
     procedure RefreshGUI;
     procedure FormCreate(Sender: TObject);
     procedure btnSimulateClick(Sender: TObject);
@@ -86,13 +94,19 @@ type
     procedure edtIntegerKeyPress(Sender: TObject; var Key: char);
     procedure edtKeyUpEnter(Sender: TObject; var Key: char);
     procedure preparePreSimulationChart;
+    procedure prepareSimulationChart(SamplingResult: TArrayOfArrayOfWord);
     procedure registerAvailableModels;
+    procedure AvailableSimulationCheck;
     function validatePreSimulationChart: Boolean;
     function getN: Integer;
   private
 
   public
-    Nodes: Array of TNode;
+    Nodes: TListOfTNode;
+    NumberOfEdges: Longword;
+    AvgNumberOfNeighbors: Longword;
+
+    jData: TJSONData;
 
   end;
 
@@ -104,6 +118,7 @@ implementation
 uses
   { Forms }
   frmSimulation_u,
+  frmSimulationChart_u,
   frmPreSimulationChart_u;
 
 {$R *.lfm}
@@ -122,8 +137,8 @@ begin
   end;
 
   if filename <> '' then begin
-    if Length(Nodes) > 0 then frmSimulation.ResetShapes;
-    Nodes := LoadGRATISAdjacencyMaxtrixFile(filename);
+    if self.Nodes.Count > 0 then frmSimulation.ResetShapes;
+    Nodes := FileHandler.LoadAdjacencyMaxtrix(filename);
     frmSimulation.RenderShapes;
     self.edtN.Enabled := False;
     self.mnuFileClose.Enabled := True;
@@ -131,22 +146,31 @@ begin
     if self.validatePreSimulationChart then self.preparePreSimulationChart;
   end;
 
-  if Length(Nodes) > 0 then self.btnSimulate.Enabled := True;
+  self.cbxAvailableModelsChange(self);
 
 end;
 
 procedure TfrmMain.btnSimulateClick(Sender: TObject);
 begin
+  self.btnSimulate.Enabled := False;
+
   { Do not allow the close file function to be invokable while simulating }
   self.mnuFileClose.Enabled := False;
-  if self.btnSimulate.IsEnabled then begin
-     frmSimulation.Show;
+  //if self.btnSimulate.IsEnabled then begin
+  //   frmSimulation.Show;
+  //end;
+
+  case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+    SIR: frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIR;
+    //SIS: frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIS;
   end;
+
+  frmSimulation.frmSmlInvoker.Enabled := True;
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  SetLength(Nodes, 0);
+  Nodes := TListOfTNode.Create;
   self.registerAvailableModels;
 end;
 
@@ -158,7 +182,21 @@ end;
 procedure TfrmMain.cbxAvailableModelsChange(Sender: TObject);
 begin
   case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
-    SIR, SIS: begin
+    SIR: begin
+       self.edtGamma.Enabled := True;
+
+       self.edtMu.Enabled := False;
+       self.edtLambda.Enabled := False;
+       self.edtDelta.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
+       self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
+    end;
+
+    SIS: begin
        self.edtGamma.Enabled := True;
 
        self.edtMu.Enabled := False;
@@ -269,17 +307,44 @@ begin
        self.edtDelta1.Enabled := False;
        self.edtZeta.Enabled := False;
     end;
-
   end;
+
+  self.AvailableSimulationCheck;
+end;
+
+procedure TfrmMain.AvailableSimulationCheck;
+begin
+  if self.Nodes.Count > 0 then begin
+    case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+      SIR: self.btnSimulate.Enabled := True;
+    else
+      self.btnSimulate.Enabled := False;
+    end;
+  end
+  else
+    self.btnSimulate.Enabled := False;
 end;
 
 procedure TfrmMain.mnuFileCloseClick(Sender: TObject);
 begin
   if frmSimulation.Visible then frmSimulation.Close;
-  if Length(Nodes) > 0 then frmSimulation.ResetShapes;
+  if Nodes.Count > 0 then frmSimulation.ResetShapes;
   self.edtN.Enabled := True;
   self.mnuFileClose.Enabled := False;
   self.btnSimulate.Enabled := False;
+end;
+
+procedure TfrmMain.mnuSettingsClick(Sender: TObject);
+begin
+  frmSettings.Show;
+end;
+
+procedure TfrmMain.ckbUseSystemSeedChange(Sender: TObject);
+begin
+  if self.ckbUseSystemSeed.Checked then begin
+    self.edtSeed.Enabled := False;
+  end
+  else self.edtSeed.Enabled := True;
 end;
 
 procedure TfrmMain.preparePreSimulationChart;
@@ -287,6 +352,13 @@ begin
   frmPreSimulationChart.ClearPreSimulationChart;
   frmPreSimulationChart.CalculatePreSimulation;
   frmPreSimulationChart.Show;
+end;
+
+procedure TfrmMain.prepareSimulationChart(SamplingResult: TArrayOfArrayOfWord);
+begin
+  frmSimulationChart.ClearSimulationChart;
+  frmSimulationChart.CalculateSimulation(SamplingResult);
+  frmSimulationChart.Show;
 end;
 
 procedure TfrmMain.registerAvailableModels;
@@ -297,7 +369,7 @@ begin
   self.cbxAvailableModels.Items.Add(AvailableModels[i]);
 
   self.cbxAvailableModels.ItemIndex := 0;
-  cbxAvailableModelsChange(self.cbxAvailableModels);
+  self.cbxAvailableModelsChange(self);
   self.cbxAvailableModels.Style := csDropDownList;
 end;
 
@@ -323,7 +395,7 @@ function TfrmMain.getN: Integer;
 begin
   Result := 0;
   if self.edtN.Text <> '' then Result := StrToInt(self.edtN.Text);
-  if Length(frmMain.Nodes) > 0 then Result := Length(frmMain.Nodes);
+  if self.Nodes.Count > 0 then Result := self.Nodes.Count;
 end;
 
 function TfrmMain.validatePreSimulationChart: Boolean;
