@@ -63,6 +63,7 @@ type
 
       function GetNumberOfNeighbors(): Word;
 
+      procedure MakeSusceptible;
       procedure Infect(InfectorNode: Word);
       procedure Recover;
       procedure Restore;
@@ -85,6 +86,7 @@ implementation
      FIsRecovered := AIsRecovered;
      FNeighbors := TWordList.Create;
      FNeighbors := ANeighbors;
+     FIsSusceptible := True;
   end;
 
   destructor TNode.Destroy;
@@ -95,6 +97,13 @@ implementation
   function TNode.GetNumberOfNeighbors(): Word;
   begin
     Result := self.Neighbors.Count;
+  end;
+
+  procedure TNode.MakeSusceptible;
+  begin
+    self.IsSusceptible := True;
+    self.IsInfected := False;
+    self.IsRecovered := False;
   end;
 
   procedure TNode.Infect(InfectorNode: Word);
@@ -116,7 +125,7 @@ implementation
 
   procedure TNode.Restore;
   begin
-    self.IsSusceptible := False;
+    self.IsSusceptible := True;
     self.IsInfected := False;
     self.IsRecovered := False;
 

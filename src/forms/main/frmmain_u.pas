@@ -25,10 +25,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, TAGraph, typinfo,
+  Menus, TAGraph, typinfo, fpjson,
   { Forms }
-  { Classes }
-  clNode_u,
+  frmSettings_u,
   { Utilities }
   utlFile_u,
   utlValidation_u,
@@ -77,6 +76,7 @@ type
     lblInitialInfected: TLabel;
     lblLambda: TLabel;
     lblDelta: TLabel;
+    mnuSettings: TMenuItem;
     mnuFileClose: TMenuItem;
     mnuMainMenu: TMainMenu;
     mnuFileOpen: TMenuItem;
@@ -85,6 +85,7 @@ type
     procedure ckbUseSystemSeedChange(Sender: TObject);
     procedure cbxAvailableModelsChange(Sender: TObject);
     procedure mnuFileCloseClick(Sender: TObject);
+    procedure mnuSettingsClick(Sender: TObject);
     procedure RefreshGUI;
     procedure FormCreate(Sender: TObject);
     procedure btnSimulateClick(Sender: TObject);
@@ -95,6 +96,7 @@ type
     procedure preparePreSimulationChart;
     procedure prepareSimulationChart(SamplingResult: TArrayOfArrayOfWord);
     procedure registerAvailableModels;
+    procedure AvailableSimulationCheck;
     function validatePreSimulationChart: Boolean;
     function getN: Integer;
   private
@@ -103,7 +105,8 @@ type
     Nodes: TListOfTNode;
     NumberOfEdges: Longword;
     AvgNumberOfNeighbors: Longword;
-    FileLoader: TFileLoader;
+
+    jData: TJSONData;
 
   end;
 
@@ -135,39 +138,38 @@ begin
 
   if filename <> '' then begin
     if self.Nodes.Count > 0 then frmSimulation.ResetShapes;
-    Nodes := FileLoader.LoadGRATISAdjacencyMaxtrixFile(filename);
+    Nodes := FileHandler.LoadAdjacencyMaxtrix(filename);
     frmSimulation.RenderShapes;
     self.edtN.Enabled := False;
     self.mnuFileClose.Enabled := True;
 
-    frmMain.edtDays.Text:='160';
-    frmMain.edtBeta.Text:='0.2';
-    frmMain.edtGamma.Text:='0.1';
-    frmMain.edtInitialInfected.Text:='1';
-    frmMain.edtProbabilityOfInfection.Text := '100';
-
     if self.validatePreSimulationChart then self.preparePreSimulationChart;
   end;
 
-  if self.Nodes.Count > 0 then self.btnSimulate.Enabled := True;
+  self.cbxAvailableModelsChange(self);
 
 end;
 
 procedure TfrmMain.btnSimulateClick(Sender: TObject);
 begin
+  self.btnSimulate.Enabled := False;
+
   { Do not allow the close file function to be invokable while simulating }
   self.mnuFileClose.Enabled := False;
   //if self.btnSimulate.IsEnabled then begin
   //   frmSimulation.Show;
   //end;
 
-  frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIR;
+  case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+    SIR: frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIR;
+    //SIS: frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIS;
+  end;
+
   frmSimulation.frmSmlInvoker.Enabled := True;
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  FileLoader := TFileLoader.Create;
   Nodes := TListOfTNode.Create;
   self.registerAvailableModels;
 end;
@@ -180,7 +182,21 @@ end;
 procedure TfrmMain.cbxAvailableModelsChange(Sender: TObject);
 begin
   case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
-    SIR, SIS: begin
+    SIR: begin
+       self.edtGamma.Enabled := True;
+
+       self.edtMu.Enabled := False;
+       self.edtLambda.Enabled := False;
+       self.edtDelta.Enabled := False;
+       self.edtMaternallyDerivedImmunity.Enabled := False;
+       self.edtAlpha.Enabled := False;
+       self.edtEpsilon.Enabled := False;
+       self.edtKappa.Enabled := False;
+       self.edtDelta1.Enabled := False;
+       self.edtZeta.Enabled := False;
+    end;
+
+    SIS: begin
        self.edtGamma.Enabled := True;
 
        self.edtMu.Enabled := False;
@@ -291,8 +307,22 @@ begin
        self.edtDelta1.Enabled := False;
        self.edtZeta.Enabled := False;
     end;
-
   end;
+
+  self.AvailableSimulationCheck;
+end;
+
+procedure TfrmMain.AvailableSimulationCheck;
+begin
+  if self.Nodes.Count > 0 then begin
+    case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
+      SIR: self.btnSimulate.Enabled := True;
+    else
+      self.btnSimulate.Enabled := False;
+    end;
+  end
+  else
+    self.btnSimulate.Enabled := False;
 end;
 
 procedure TfrmMain.mnuFileCloseClick(Sender: TObject);
@@ -302,6 +332,11 @@ begin
   self.edtN.Enabled := True;
   self.mnuFileClose.Enabled := False;
   self.btnSimulate.Enabled := False;
+end;
+
+procedure TfrmMain.mnuSettingsClick(Sender: TObject);
+begin
+  frmSettings.Show;
 end;
 
 procedure TfrmMain.ckbUseSystemSeedChange(Sender: TObject);
@@ -334,7 +369,7 @@ begin
   self.cbxAvailableModels.Items.Add(AvailableModels[i]);
 
   self.cbxAvailableModels.ItemIndex := 0;
-  cbxAvailableModelsChange(self.cbxAvailableModels);
+  self.cbxAvailableModelsChange(self);
   self.cbxAvailableModels.Style := csDropDownList;
 end;
 

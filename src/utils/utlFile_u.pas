@@ -24,24 +24,32 @@ unit utlFile_u;
 interface
 
 uses
-  Classes, SysUtils, RegExpr, Dialogs, clNode_u, utlArray_u, utlTypes_u;
+  Classes, SysUtils, RegExpr, Dialogs, fpjson, jsonparser,
+  clNode_u, utlArray_u, utlTypes_u;
 
 type
   TAppenderType = specialize TAppender<TNode>;
   ArrayOfTNodeType = Array of TNode;
 
-  TFileLoader = class(TObject)
+  TFileHandler = class(TObject)
     public
-      function LoadGRATISAdjacencyMaxtrixFile(filename: String): TListOfTNode;
+      function LoadAdjacencyMaxtrix(filename: String): TListOfTNode;
+      procedure WriteStringToFile(filename: string; data: String);
+      procedure WriteToJsonFile(filename: string; data: TJSONData);
+      function LoadJsonFile(filename: string): TJSONData;
+
 
   end;
+
+var
+  FileHandler: TFileHandler;
 
 implementation
   uses
   { Forms }
   frmMain_u;
 
-  function TFileLoader.LoadGRATISAdjacencyMaxtrixFile(filename: String): TListOfTNode;
+function TFileHandler.LoadAdjacencyMaxtrix(filename: String): TListOfTNode;
   var
     tfIn: TextFile;
     s: String;
@@ -151,6 +159,54 @@ implementation
     end;
 
   end;
+
+procedure TFileHandler.WriteStringToFile(filename: string; data: String);
+var
+  tfOut: TextFile;
+begin
+  try
+    AssignFile(tfOut, filename);
+    Rewrite(tfOut);
+    writeln(tfOut, data);
+    closefile(tfOut);
+  except
+    on E:Exception do
+  end;
+end;
+
+procedure TFileHandler.WriteToJsonFile(filename: string; data: TJSONData);
+begin
+  self.WriteStringToFile(filename, data.FormatJSON);
+end;
+
+function TFileHandler.LoadJsonFile(filename: string): TJSONData;
+var
+  tfIn: TextFile;
+  s, JsonString: String;
+begin
+  s := '';
+  JsonString := '';
+
+  try
+    try
+      AssignFile(tfIn, filename);
+      reset(tfIn);
+
+      while not eof(tfIn) do begin
+        readln(tfIn, s);
+        JsonString += s;
+      end;
+
+      Result := GetJSON(JsonString);
+    except
+      on E: EInOutError do
+       writeln('File handling error occurred. Details: ', E.Message);
+    end;
+  finally
+      CloseFile(tfIn);
+  end;
+
+end;
 
 end.
 
