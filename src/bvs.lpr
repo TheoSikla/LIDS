@@ -40,7 +40,9 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   utlEnum_u,
   utlTypes_u,
   utlValidation_u,
+  utlMisc,
   utlEuler_u,
+  { Differential Equations }
   utlSIR_u,
   utlSIS_u,
   utlSIQ_u,
@@ -50,7 +52,10 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   utlMSIR_u,
   utlSEIR_u,
   utlSEIS_u,
-  utlMSEIR_u;
+  utlMSEIR_u,
+  { Epidemic Algorithms }
+  AlgSIR_u,
+  AlgSIS_u;
 
 {$R *.res}
 

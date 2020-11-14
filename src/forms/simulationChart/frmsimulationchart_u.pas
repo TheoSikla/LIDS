@@ -50,6 +50,7 @@ type
     procedure CalculateSimulation(SamplingResult: TArrayOfArrayOfWord);
     procedure FormClose(Sender: TObject);
     procedure ClearSimulationChart;
+    procedure FormResize(Sender: TObject);
     procedure PrepareSIR;
     procedure PrepareSIS;
     procedure PrepareSIQ;
@@ -110,77 +111,77 @@ begin
     SIS: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationS.AddXY(t[i], SamplingResult[0][i]); // S
-          self.chtSimulationI.AddXY(t[i], SamplingResult[1][i]); // I
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][0]); // S
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][1]); // I
         end;
       end;
 
     SIQ, SIQS: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationS.AddXY(t[i], SamplingResult[0][i]); // S
-          self.chtSimulationI.AddXY(t[i], SamplingResult[1][i]); // I
-          self.chtSimulationQ.AddXY(t[i], SamplingResult[2][i]); // Q
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][0]); // S
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][1]); // I
+          self.chtSimulationQ.AddXY(t[i], SamplingResult[i][2]); // Q
         end;
       end;
 
     SIQR: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationS.AddXY(t[i], SamplingResult[0][i]); // S
-          self.chtSimulationI.AddXY(t[i], SamplingResult[1][i]); // I
-          self.chtSimulationQ.AddXY(t[i], SamplingResult[2][i]); // Q
-          self.chtSimulationR.AddXY(t[i], SamplingResult[3][i]); // R
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][0]); // S
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][1]); // I
+          self.chtSimulationQ.AddXY(t[i], SamplingResult[i][2]); // Q
+          self.chtSimulationR.AddXY(t[i], SamplingResult[i][3]); // R
         end;
       end;
 
     SIRD: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationS.AddXY(t[i], SamplingResult[0][i]); // S
-          self.chtSimulationI.AddXY(t[i], SamplingResult[1][i]); // I
-          self.chtSimulationR.AddXY(t[i], SamplingResult[2][i]); // R
-          self.chtSimulationD.AddXY(t[i], SamplingResult[3][i]); // D
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][0]); // S
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][1]); // I
+          self.chtSimulationR.AddXY(t[i], SamplingResult[i][2]); // R
+          self.chtSimulationD.AddXY(t[i], SamplingResult[i][3]); // D
         end;
       end;
 
     MSIR: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationM.AddXY(t[i], SamplingResult[0][i]); // M
-          self.chtSimulationS.AddXY(t[i], SamplingResult[1][i]); // S
-          self.chtSimulationI.AddXY(t[i], SamplingResult[2][i]); // I
-          self.chtSimulationR.AddXY(t[i], SamplingResult[3][i]); // R
+          self.chtSimulationM.AddXY(t[i], SamplingResult[i][0]); // M
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][1]); // S
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][2]); // I
+          self.chtSimulationR.AddXY(t[i], SamplingResult[i][3]); // R
         end;
       end;
 
     SEIR: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationS.AddXY(t[i], SamplingResult[0][i]); // S
-          self.chtSimulationE.AddXY(t[i], SamplingResult[1][i]); // E
-          self.chtSimulationI.AddXY(t[i], SamplingResult[2][i]); // I
-          self.chtSimulationR.AddXY(t[i], SamplingResult[3][i]); // R
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][0]); // S
+          self.chtSimulationE.AddXY(t[i], SamplingResult[i][1]); // E
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][2]); // I
+          self.chtSimulationR.AddXY(t[i], SamplingResult[i][3]); // R
         end;
       end;
 
     SEIS: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationS.AddXY(t[i], SamplingResult[0][i]); // S
-          self.chtSimulationE.AddXY(t[i], SamplingResult[1][i]); // E
-          self.chtSimulationI.AddXY(t[i], SamplingResult[2][i]); // I
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][0]); // S
+          self.chtSimulationE.AddXY(t[i], SamplingResult[i][1]); // E
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][2]); // I
         end;
       end;
 
     MSEIR: begin
       for i := 0 to days - 1 do
         begin
-          self.chtSimulationM.AddXY(t[i], SamplingResult[0][i]); // M
-          self.chtSimulationS.AddXY(t[i], SamplingResult[1][i]); // S
-          self.chtSimulationE.AddXY(t[i], SamplingResult[2][i]); // E
-          self.chtSimulationI.AddXY(t[i], SamplingResult[3][i]); // I
-          self.chtSimulationR.AddXY(t[i], SamplingResult[4][i]); // R
+          self.chtSimulationM.AddXY(t[i], SamplingResult[i][0]); // M
+          self.chtSimulationS.AddXY(t[i], SamplingResult[i][1]); // S
+          self.chtSimulationE.AddXY(t[i], SamplingResult[i][2]); // E
+          self.chtSimulationI.AddXY(t[i], SamplingResult[i][3]); // I
+          self.chtSimulationR.AddXY(t[i], SamplingResult[i][4]); // R
         end;
       end;
 
@@ -201,6 +202,12 @@ begin
         (self.chtSimulation.Series[i] as TLineSeries).Active := False;
       end;
   end;
+end;
+
+procedure TfrmSimulationChart.FormResize(Sender: TObject);
+begin
+  self.chtSimulation.Height := self.Height * 99 div 100;
+  self.chtSimulation.Width := self.Width * 99 div 100;
 end;
 
 procedure TfrmSimulationChart.PrepareSIR;
