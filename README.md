@@ -1,7 +1,7 @@
 # BVS
 ## Biological Virus Simulator
 
-### Avalable Epidemic Models for Differential Equations calculation: [Here](./src/utils/DifferentialEquations/README.md)
+### Available Epidemic Models for Differential Equations calculation: [Here](./src/utils/DifferentialEquations/README.md)
 
 * [SIR](./src/utils/DifferentialEquations/README.md#sir)
 * [SIS](./src/utils/DifferentialEquations/README.md#sis)
@@ -14,6 +14,6 @@
 * [SEIS](./src/utils/DifferentialEquations/README.md#seis)
 * [MSEIR](./src/utils/DifferentialEquations/README.md#mseir)
 
-### Avalable Epidemic Models for Simulation:
+### Available Epidemic Models for Simulation:
 * SIR
 * SIS
