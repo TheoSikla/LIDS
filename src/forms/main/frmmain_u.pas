@@ -32,7 +32,11 @@ uses
   utlFile_u,
   utlValidation_u,
   utlEnum_u,
-  utlTypes_u;
+  utlTypes_u,
+  utlMisc,
+  { Epidemic Algorithms }
+  AlgSIR_u,
+  AlgSIS_u;
 
 type
 
@@ -41,6 +45,7 @@ type
   TfrmMain = class(TForm)
     btnImportDialog: TOpenDialog;
     btnSimulate: TButton;
+    btnCancel: TButton;
     cbxAvailableModels: TComboBox;
     ckbUseSystemSeed: TCheckBox;
     edtSeed: TEdit;
@@ -82,6 +87,7 @@ type
     mnuFileOpen: TMenuItem;
     mnuFile: TMenuItem;
 
+    procedure btnCancelClick(Sender: TObject);
     procedure ckbUseSystemSeedChange(Sender: TObject);
     procedure cbxAvailableModelsChange(Sender: TObject);
     procedure mnuFileCloseClick(Sender: TObject);
@@ -98,6 +104,7 @@ type
     procedure registerAvailableModels;
     procedure AvailableSimulationCheck;
     function validatePreSimulationChart: Boolean;
+    procedure InitiateSimulation(Sender: TObject);
     function getN: Integer;
   private
 
@@ -105,8 +112,7 @@ type
     Nodes: TListOfTNode;
     NumberOfEdges: Longword;
     AvgNumberOfNeighbors: Longword;
-
-    jData: TJSONData;
+    CancelTriggered: Boolean;
 
   end;
 
@@ -153,6 +159,10 @@ end;
 procedure TfrmMain.btnSimulateClick(Sender: TObject);
 begin
   self.btnSimulate.Enabled := False;
+  self.btnSimulate.Visible := False;
+  self.btnCancel.Enabled := True;
+  self.btnCancel.Visible := True;
+  self.CancelTriggered := False;
 
   { Do not allow the close file function to be invokable while simulating }
   self.mnuFileClose.Enabled := False;
@@ -160,12 +170,58 @@ begin
   //   frmSimulation.Show;
   //end;
 
+  { Randomize System }
+  RandomizeSystem;
+
+  frmSimulation.frmSmlInvoker.OnTimer := @self.InitiateSimulation;
+  frmSimulation.frmSmlInvoker.Enabled := True;
+end;
+
+procedure TfrmMain.InitiateSimulation(Sender: TObject);
+var
+  SamplingResult: TArrayOfArrayOfWord;
+begin
+  SamplingResult := TArrayOfArrayOfWord.Create;
   case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
-    SIR: frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIR;
-    //SIS: frmSimulation.frmSmlInvoker.OnTimer := @frmSimulation.InfectNeighborsSIS;
+    SIR: begin
+       SIRALG(
+          StrToInt(frmMain.edtDays.Text),
+          StrToFloat(frmMain.edtBeta.Text),
+          StrToFloat(frmMain.edtGamma.Text),
+          StrToInt(frmMain.edtProbabilityOfInfection.Text),
+          SamplingResult
+    );
+    end;
+
+    SIS: begin
+       SISALG(
+          StrToInt(frmMain.edtDays.Text),
+          StrToFloat(frmMain.edtBeta.Text),
+          StrToFloat(frmMain.edtGamma.Text),
+          StrToInt(frmMain.edtProbabilityOfInfection.Text),
+          SamplingResult
+    );
+    end;
   end;
 
-  frmSimulation.frmSmlInvoker.Enabled := True;
+  if self.CancelTriggered then begin
+    self.CancelTriggered := False;
+  end
+  else begin
+    { Prepare Charts }
+    frmMain.preparePreSimulationChart;
+    frmMain.prepareSimulationChart(SamplingResult);
+  end;
+
+  frmSimulation.RestoreNodes; // Restore the Nodes
+
+  { Enable Simulate Button - Disable Cancel Button }
+  self.btnCancel.Enabled := False;
+  self.btnCancel.Visible := False;
+  self.btnSimulate.Enabled := True;
+  self.btnSimulate.Visible := True;
+  { Enable the file close functionality }
+  frmMain.mnuFileClose.Enabled := True;
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -317,6 +373,7 @@ begin
   if self.Nodes.Count > 0 then begin
     case self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] of
       SIR: self.btnSimulate.Enabled := True;
+      SIS: self.btnSimulate.Enabled := True;
     else
       self.btnSimulate.Enabled := False;
     end;
@@ -345,6 +402,11 @@ begin
     self.edtSeed.Enabled := False;
   end
   else self.edtSeed.Enabled := True;
+end;
+
+procedure TfrmMain.btnCancelClick(Sender: TObject);
+begin
+  self.CancelTriggered := True;
 end;
 
 procedure TfrmMain.preparePreSimulationChart;

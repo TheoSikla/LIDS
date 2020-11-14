@@ -16,10 +16,12 @@ SETTINGS_FILE_NAME = 'settings.json';
 
 { Settings }
 SETTINGS_NAME = 'settings';
-RE_SIMULATE_SETTING_NAME = 'ReSimulate';
+RE_SIMULATE_SETTING_NAME = 'cbxReSimulate';
+RE_SIMULATE_MINIMUM_RECOVERED_NODE_COUNT_SETTING_NAME = 'edtReSimulateMinRecoveredNodeCount';
 DEFAULT_SETTINGS = '{' + sLineBreak +
                    '  "' + SETTINGS_NAME + '": {' + sLineBreak +
-                   '    "' + RE_SIMULATE_SETTING_NAME + '": False' +
+                   '    "' + RE_SIMULATE_SETTING_NAME + '": False,' +
+                   '    "' + RE_SIMULATE_MINIMUM_RECOVERED_NODE_COUNT_SETTING_NAME + '": 0' +
                    '  }' + sLineBreak +
                    '}';
 

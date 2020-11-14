@@ -141,9 +141,11 @@ function TFileHandler.LoadAdjacencyMaxtrix(filename: String): TListOfTNode;
           obj := TNode.Create(i, Neighbors);
           Inc(i);
           Nodes.Add(obj);
+          //writeln('Node: ' + IntToStr(i) + ' has {' + IntToStr(Neighbors.Count) + '} neighbors'); { Debug }
         end;
 
         frmMain.AvgNumberOfNeighbors := frmMain.AvgNumberOfNeighbors div Nodes.Count;
+        //writeln('Average number of neighbors: ' + IntToStr(frmMain.AvgNumberOfNeighbors)); { Debug }
 
       except
         on E: EInOutError do

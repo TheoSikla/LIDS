@@ -86,7 +86,9 @@ implementation
      FIsRecovered := AIsRecovered;
      FNeighbors := TWordList.Create;
      FNeighbors := ANeighbors;
-     FIsSusceptible := True;
+     FIsSusceptible := False;
+     FIsInfected := False;
+     FIsRecovered := False;
   end;
 
   destructor TNode.Destroy;

@@ -9,7 +9,7 @@ object frmSimulation: TfrmSimulation
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poDesktopCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.1.0.0'
   object shp0: TShape
     Left = 10
     Height = 5
@@ -90012,7 +90012,7 @@ object frmSimulation: TfrmSimulation
   end
   object frmSmlInvoker: TTimer
     Enabled = False
-    left = 16
-    top = 72
+    Left = 16
+    Top = 72
   end
 end

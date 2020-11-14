@@ -4,18 +4,19 @@ object frmMain: TfrmMain
   Top = 251
   Width = 900
   Caption = 'BVS'
-  ClientHeight = 463
+  ClientHeight = 488
   ClientWidth = 900
   Menu = mnuMainMenu
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.1.0.0'
   object btnSimulate: TButton
     Left = 392
     Height = 57
     Top = 152
     Width = 128
     Caption = 'Simulate'
+    Color = clBackground
     Enabled = False
     OnClick = btnSimulateClick
     TabOrder = 0
@@ -422,19 +423,31 @@ object frmMain: TfrmMain
     OnChange = ckbUseSystemSeedChange
     TabOrder = 18
   end
+  object btnCancel: TButton
+    Left = 392
+    Height = 57
+    Top = 152
+    Width = 128
+    Caption = 'Cancel'
+    Color = clBackground
+    Enabled = False
+    OnClick = btnCancelClick
+    TabOrder = 19
+    Visible = False
+  end
   object btnImportDialog: TOpenDialog
-    left = 32
-    top = 72
+    Left = 32
+    Top = 72
   end
   object frmTimer: TTimer
     Enabled = False
-    left = 32
-    top = 144
+    Left = 32
+    Top = 144
   end
   object mnuMainMenu: TMainMenu
     OwnerDraw = True
-    left = 32
-    top = 8
+    Left = 32
+    Top = 8
     object mnuFile: TMenuItem
       Caption = 'File'
       object mnuFileOpen: TMenuItem
