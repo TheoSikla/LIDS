@@ -1,15 +1,15 @@
 object frmsimulationchart: Tfrmsimulationchart
-  Left = 46
+  Left = 51
   Height = 500
-  Top = 300
+  Top = 299
   Width = 613
-  Caption = 'Simulation Chart'
+  Caption = 'Simulation'
   ClientHeight = 500
   ClientWidth = 613
   OnClose = FormClose
   OnResize = FormResize
   Position = poDefault
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.0.10.0'
   object chtSimulation: TChart
     Left = 10
     Height = 480

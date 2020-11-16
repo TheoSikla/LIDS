@@ -3,11 +3,11 @@ object frmpresimulationchart: Tfrmpresimulationchart
   Height = 500
   Top = 297
   Width = 613
-  Caption = 'Chart'
+  Caption = 'Differential Equations'
   ClientHeight = 500
   ClientWidth = 613
   OnClose = FormClose
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.10.0'
   object chtPreSimulation: TChart
     Left = 10
     Height = 480

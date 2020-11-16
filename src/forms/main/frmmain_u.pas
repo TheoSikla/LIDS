@@ -103,7 +103,7 @@ type
     procedure prepareSimulationChart(SamplingResult: TArrayOfArrayOfWord);
     procedure registerAvailableModels;
     procedure AvailableSimulationCheck;
-    function validatePreSimulationChart: Boolean;
+    function validateSimulationFields: Boolean;
     procedure InitiateSimulation(Sender: TObject);
     function getN: Integer;
   private
@@ -149,7 +149,7 @@ begin
     self.edtN.Enabled := False;
     self.mnuFileClose.Enabled := True;
 
-    if self.validatePreSimulationChart then self.preparePreSimulationChart;
+    if self.validateSimulationFields then self.preparePreSimulationChart;
   end;
 
   self.cbxAvailableModelsChange(self);
@@ -158,23 +158,27 @@ end;
 
 procedure TfrmMain.btnSimulateClick(Sender: TObject);
 begin
-  self.btnSimulate.Enabled := False;
-  self.btnSimulate.Visible := False;
-  self.btnCancel.Enabled := True;
-  self.btnCancel.Visible := True;
-  self.CancelTriggered := False;
+  if self.validateSimulationFields and
+     (self.edtProbabilityOfInfection.Text <> '') then begin
+    self.btnSimulate.Enabled := False;
+    self.btnSimulate.Visible := False;
+    self.btnCancel.Enabled := True;
+    self.btnCancel.Visible := True;
+    self.CancelTriggered := False;
 
-  { Do not allow the close file function to be invokable while simulating }
-  self.mnuFileClose.Enabled := False;
-  //if self.btnSimulate.IsEnabled then begin
-  //   frmSimulation.Show;
-  //end;
+    { Do not allow the close file function to be invokable while simulating }
+    self.mnuFileClose.Enabled := False;
+    //if self.btnSimulate.IsEnabled then begin
+    //   frmSimulation.Show;
+    //end;
 
-  { Randomize System }
-  RandomizeSystem;
+    { Randomize System }
+    RandomizeSystem;
 
-  frmSimulation.frmSmlInvoker.OnTimer := @self.InitiateSimulation;
-  frmSimulation.frmSmlInvoker.Enabled := True;
+    frmSimulation.frmSmlInvoker.OnTimer := @self.InitiateSimulation;
+    frmSimulation.frmSmlInvoker.Enabled := True;
+
+  end;
 end;
 
 procedure TfrmMain.InitiateSimulation(Sender: TObject);
@@ -186,6 +190,7 @@ begin
     SIR: begin
        SIRALG(
           StrToInt(frmMain.edtDays.Text),
+          StrToInt(frmMain.edtInitialInfected.Text),
           StrToFloat(frmMain.edtBeta.Text),
           StrToFloat(frmMain.edtGamma.Text),
           StrToInt(frmMain.edtProbabilityOfInfection.Text),
@@ -196,6 +201,7 @@ begin
     SIS: begin
        SISALG(
           StrToInt(frmMain.edtDays.Text),
+          StrToInt(frmMain.edtInitialInfected.Text),
           StrToFloat(frmMain.edtBeta.Text),
           StrToFloat(frmMain.edtGamma.Text),
           StrToInt(frmMain.edtProbabilityOfInfection.Text),
@@ -411,6 +417,7 @@ end;
 
 procedure TfrmMain.preparePreSimulationChart;
 begin
+  frmPreSimulationChart.Caption := 'Differential Equations (' + self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] + ')';
   frmPreSimulationChart.ClearPreSimulationChart;
   frmPreSimulationChart.CalculatePreSimulation;
   frmPreSimulationChart.Show;
@@ -418,6 +425,7 @@ end;
 
 procedure TfrmMain.prepareSimulationChart(SamplingResult: TArrayOfArrayOfWord);
 begin
+  frmSimulationChart.Caption := 'Simulation (' + self.cbxAvailableModels.Items[self.cbxAvailableModels.ItemIndex] + ')';
   frmSimulationChart.ClearSimulationChart;
   frmSimulationChart.CalculateSimulation(SamplingResult);
   frmSimulationChart.Show;
@@ -449,7 +457,7 @@ procedure TfrmMain.edtKeyUpEnter(Sender: TObject; var Key: char);
 begin
   { Prepare the pre simulation chart if all conditions are met. }
   { Key #13 represents the Enter key }
-  if (Key = #13) AND self.validatePreSimulationChart then
+  if (Key = #13) AND self.validateSimulationFields then
     self.preparePreSimulationChart;
 end;
 
@@ -460,7 +468,7 @@ begin
   if self.Nodes.Count > 0 then Result := self.Nodes.Count;
 end;
 
-function TfrmMain.validatePreSimulationChart: Boolean;
+function TfrmMain.validateSimulationFields: Boolean;
 begin
   { If all the required TEdits contain a value then return True. }
   Result := False;

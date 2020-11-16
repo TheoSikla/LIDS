@@ -30,7 +30,7 @@ uses
   utlTypes_u,
   utlMisc;
 
-procedure SIRALG(days: Word;
+procedure SIRALG(days, NumberOfInitialInfectedNodes: Word;
                 beta, gamma: Double;
                 ProbabilityOfInfection: Byte;
                 var SamplingResult: TArrayOfArrayOfWord);
@@ -42,7 +42,7 @@ uses
   frmSimulation_u,
   frmSettings_u;
 
-procedure SIRALG(days: Word;
+procedure SIRALG(days, NumberOfInitialInfectedNodes: Word;
                 beta, gamma: Double;
                 ProbabilityOfInfection: Byte;
                 var SamplingResult: TArrayOfArrayOfWord);
@@ -51,9 +51,9 @@ var
   pos: Integer;
   exitedWhileSimulating: Boolean;
 
-  Neighbors, Susceptible, Infected, Recovered: TWordList;
+  InitialInfectedNodes, Neighbors, Susceptible, Infected, Recovered: TWordList;
 
-  firstInfected, TestingNode, NodeToBeRecovered, NodesInfectedByNodePerDay,
+  TestingNode, NodeToBeRecovered, NodesInfectedByNodePerDay,
   NumberOfNodesInfectedPerDay, NumOfMaxNeighborsToTest, NumOfMaxNodesPerDay: Word;
 
 begin
@@ -126,6 +126,7 @@ begin
   exitedWhileSimulating := False;
 
   { Initialize Variable Lists }
+  InitialInfectedNodes := TWordList.Create;
   Neighbors := TWordList.Create;
   Susceptible := TWordList.Create;
   Infected := TWordList.Create;
@@ -137,17 +138,12 @@ begin
     Susceptible.Add(i);
   end;
 
-  { Infect the first node/s }
-  firstInfected := frmSimulation.InfectRandom;
+  InitialInfectedNodes := frmSimulation.InfectRandomNodes(NumberOfInitialInfectedNodes);
 
-  while frmMain.Nodes[firstInfected].Neighbors.Count = 0 do begin
-    frmMain.Nodes[firstInfected].MakeSusceptible;
-    firstInfected := frmSimulation.InfectRandom;
+  for i := 0 to NumberOfInitialInfectedNodes - 1 do begin
+    Susceptible.Remove(InitialInfectedNodes[i]);
+    Infected.Add(InitialInfectedNodes[i]);
   end;
-  //writeln('First Infected: ' + IntToStr(firstInfected)); { Debug }
-
-  Susceptible.Remove(firstInfected);
-  Infected.Add(firstInfected);
 
   { Take an initial sampling }
   SamplingResult.Add(ArrayOfWord.Create(Susceptible.Count, Infected.Count, Recovered.Count));
@@ -241,7 +237,7 @@ begin
        SamplingResult.Clear;
        frmSimulation.RestoreNodes; // Restore the Nodes
        RandomizeSystem; // Randomize System
-       SIRALG(days, beta, gamma, ProbabilityOfInfection, SamplingResult); // Repeat the simulation
+       SIRALG(days, NumberOfInitialInfectedNodes, beta, gamma, ProbabilityOfInfection, SamplingResult); // Repeat the simulation
   end
   else if not frmMain.CancelTriggered then begin
     { Take missing samplings }

@@ -30,7 +30,7 @@ uses
   utlTypes_u,
   utlMisc;
 
-procedure SISALG(days: Word;
+procedure SISALG(days, NumberOfInitialInfectedNodes: Word;
                 beta, gamma: Double;
                 ProbabilityOfInfection: Byte;
                 var SamplingResult: TArrayOfArrayOfWord);
@@ -42,20 +42,18 @@ uses
   frmSimulation_u,
   frmSettings_u;
 
-procedure SISALG(days: Word;
+procedure SISALG(days, NumberOfInitialInfectedNodes: Word;
                 beta, gamma: Double;
                 ProbabilityOfInfection: Byte;
                 var SamplingResult: TArrayOfArrayOfWord);
 var
   i, j, k, day: Word;
   pos: Integer;
-  Neighbors: TWordList;
   exitedWhileSimulating: Boolean;
 
-  Susceptible: TWordList;
-  Infected: TWordList;
+  InitialInfectedNodes, Neighbors, Susceptible, Infected: TWordList;
 
-  firstInfected, NodesInfectedByNodePerDay, NumberOfNodesInfectedPerDay,
+  NodesInfectedByNodePerDay, NumberOfNodesInfectedPerDay,
     NumOfMaxNeighborsToTest, NumOfMaxNodesPerDay, TestingNode,
     NodesToBecomeSusceptible, NodeToBecomeSusceptible: Word;
 
@@ -137,17 +135,12 @@ begin
     Susceptible.Add(i);
   end;
 
-  { Infect the first node/s }
-  firstInfected := frmSimulation.InfectRandom;
+  InitialInfectedNodes := frmSimulation.InfectRandomNodes(NumberOfInitialInfectedNodes);
 
-  while frmMain.Nodes[firstInfected].Neighbors.Count = 0 do begin
-    frmMain.Nodes[firstInfected].MakeSusceptible;
-    firstInfected := frmSimulation.InfectRandom;
+  for i := 0 to NumberOfInitialInfectedNodes - 1 do begin
+    Susceptible.Remove(InitialInfectedNodes[i]);
+    Infected.Add(InitialInfectedNodes[i]);
   end;
-  //writeln('First Infected: ' + IntToStr(firstInfected)); { Debug }
-
-  Susceptible.Remove(firstInfected);
-  Infected.Add(firstInfected);
 
   { Take an initial sampling }
   SamplingResult.Add(ArrayOfWord.Create(Susceptible.Count, Infected.Count));
@@ -240,7 +233,7 @@ begin
        SamplingResult.Clear;
        frmSimulation.RestoreNodes; // Restore the Nodes
        RandomizeSystem; // Randomize System
-       SISALG(days, beta, gamma, ProbabilityOfInfection, SamplingResult); // Repeat the simulation
+       SISALG(days, NumberOfInitialInfectedNodes, beta, gamma, ProbabilityOfInfection, SamplingResult); // Repeat the simulation
   end
   else if not frmMain.CancelTriggered then begin
     { Take missing samplings }

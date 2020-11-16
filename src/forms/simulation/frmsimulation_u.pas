@@ -50,7 +50,7 @@ type
     procedure RenderShapes;
     procedure ResetShapes;
     procedure RestoreNodes;
-    function InfectRandom: Integer;
+    function InfectRandomNodes(NumberOfNodesToInfect: Word): TWordList;
     procedure InfectNode(NodeToBeInfected: TNode; InfectorNodeId: Word);
   private
 
@@ -177,14 +177,25 @@ begin
   frmMain.Nodes.Clear;
 end;
 
-function TfrmSimulation.InfectRandom: Integer;
+function TfrmSimulation.InfectRandomNodes(NumberOfNodesToInfect: Word): TWordList;
 var
+  i: Integer;
   NodeToBeInfected: Word;
 
 begin
-  NodeToBeInfected := Random(frmMain.Nodes.Count);
-  frmMain.Nodes[NodeToBeInfected].Infect(NodeToBeInfected);
-  result := NodeToBeInfected;
+  Result := TWordList.Create;
+
+  for i := 0 to NumberOfNodesToInfect - 1 do begin;
+    { Infect the first node/s }
+    NodeToBeInfected := Random(frmMain.Nodes.Count);
+
+    while frmMain.Nodes[NodeToBeInfected].Neighbors.Count = 0 do begin
+      NodeToBeInfected := Random(frmMain.Nodes.Count);
+    end;
+
+    frmMain.Nodes[NodeToBeInfected].Infect(NodeToBeInfected);
+    Result.Add(NodeToBeInfected);
+  end;
 end;
 
 procedure TfrmSimulation.InfectNode(NodeToBeInfected: TNode; InfectorNodeId: Word);
