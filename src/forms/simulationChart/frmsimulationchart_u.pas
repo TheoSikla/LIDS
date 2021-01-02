@@ -206,7 +206,7 @@ end;
 
 procedure TfrmSimulationChart.FormResize(Sender: TObject);
 begin
-  self.chtSimulation.Height := self.Height * 99 div 100;
+  self.chtSimulation.Height := self.Height * 97 div 100;
   self.chtSimulation.Width := self.Width * 99 div 100;
 end;
 

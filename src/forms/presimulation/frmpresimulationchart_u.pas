@@ -382,9 +382,9 @@ begin
 
   { Arrange Line Series Color }
   self.chtPreSimulationS.SeriesColor := clNavy;
-  self.chtPreSimulationI.SeriesColor := clOlive;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
   self.chtPreSimulationR.SeriesColor := clGreen;
-  self.chtPreSimulationD.SeriesColor := clMaroon;
+  self.chtPreSimulationD.SeriesColor := clDkGray;
 
   { Define Line Series Titles }
   self.chtPreSimulationS.Title := 'Susceptible';
@@ -419,7 +419,7 @@ begin
   { Arrange Line Series Color }
   self.chtPreSimulationM.SeriesColor := clFuchsia;
   self.chtPreSimulationS.SeriesColor := clNavy;
-  self.chtPreSimulationI.SeriesColor := clOlive;
+  self.chtPreSimulationI.SeriesColor := clMaroon;
   self.chtPreSimulationR.SeriesColor := clGreen;
 
   { Define Line Series Titles }

@@ -25,6 +25,10 @@ DEFAULT_SETTINGS = '{' + sLineBreak +
                    '  }' + sLineBreak +
                    '}';
 
+{ Regex }
+ADJACENCY_MATRIX_REGEX = '^[0-1]*$';
+ADJACENCY_LIST_REGEX = '(^\d+:\d+(,\d+)*$)|(^\d+:$)';
+
 implementation
 
 end.

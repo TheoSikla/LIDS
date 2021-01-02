@@ -144,10 +144,19 @@ begin
 
   if filename <> '' then begin
     if self.Nodes.Count > 0 then frmSimulation.ResetShapes;
-    Nodes := FileHandler.LoadAdjacencyMaxtrix(filename);
-    frmSimulation.RenderShapes;
-    self.edtN.Enabled := False;
-    self.mnuFileClose.Enabled := True;
+    if FileHandler.IsAdjacencyMaxtrixOrListFile(filename, 'matrix') then begin
+      Nodes := FileHandler.LoadAdjacencyMaxtrix(filename);
+    end
+    else if FileHandler.IsAdjacencyMaxtrixOrListFile(filename, 'list') then begin
+      Nodes := FileHandler.LoadAdjacencyList(filename);
+    end
+    else MessageDlg('Error', 'Unsupported file type', mtError, [mbOK], 0);
+
+    if self.Nodes.Count > 0 then begin
+      frmSimulation.RenderShapes;
+      self.edtN.Enabled := False;
+      self.mnuFileClose.Enabled := True;
+    end;
 
     if self.validateSimulationFields then self.preparePreSimulationChart;
   end;
