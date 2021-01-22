@@ -115,7 +115,7 @@ implementation
     self.IsRecovered := False;
 
     self.InfectedByNode := InfectorNode;
-    self.PtrShape^.Brush.Color := clRed;
+    //self.PtrShape^.Brush.Color := clRed;
   end;
 
   procedure TNode.Recover;
@@ -132,7 +132,7 @@ implementation
     self.IsRecovered := False;
 
     self.InfectedByNode := 0;
-    self.PtrShape^.Brush.Color := clMedGray;
+    //self.PtrShape^.Brush.Color := clMedGray;
   end;
 
 end.

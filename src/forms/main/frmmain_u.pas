@@ -153,7 +153,7 @@ begin
     else MessageDlg('Error', 'Unsupported file type', mtError, [mbOK], 0);
 
     if self.Nodes.Count > 0 then begin
-      frmSimulation.RenderShapes;
+      //frmSimulation.RenderShapes;
       self.edtN.Enabled := False;
       self.mnuFileClose.Enabled := True;
     end;
