@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Height = 488
   Top = 251
   Width = 900
-  Caption = 'BVS'
+  Caption = 'LIDS'
   ClientHeight = 463
   ClientWidth = 900
   Menu = mnuMainMenu

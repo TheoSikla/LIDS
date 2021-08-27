@@ -40,5 +40,5 @@ lib/
 *.app/
 
 # custom
-bvs
+lids
 settings.json
