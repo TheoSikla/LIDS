@@ -1,5 +1,5 @@
-# BVS
-## Biological Virus Simulator
+# LIDS
+## Lightweight Infectious Disease Simulator
 
 ### Available Epidemic Models for Differential Equations calculation: [Here](./src/utils/DifferentialEquations/README.md)
 
